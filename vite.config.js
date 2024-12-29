@@ -6,6 +6,10 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     rollupOptions: {
+      input: {
+        main: 'index.html',
+        about: 'about.html'
+      },
       output: {
         manualChunks: {
           firebase: ['firebase/app', 'firebase/database']

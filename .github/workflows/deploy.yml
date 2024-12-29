@@ -20,12 +20,13 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Create Directory Structure
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build CSS
         run: |
-          mkdir -p dist
-          mkdir -p dist/js
           mkdir -p dist/css
-          mkdir -p dist/data
+          npx tailwindcss -i ./src/style.css -o ./dist/css/styles.css
 
       - name: Create Firebase Config
         run: |
@@ -51,28 +52,12 @@ jobs:
       - name: Create resources.json
         run: |
           mkdir -p dist/data
-          cp -r public/data/resources.json dist/data/ || echo "Creating default resources.json"
-          if [ ! -f dist/data/resources.json ]; then
-            echo '{
-              "sources": []
-            }' > dist/data/resources.json
-          fi
-
-      - name: Install Dependencies
-        run: npm install
+          echo '{
+            "sources": []
+          }' > dist/data/resources.json
 
       - name: Build
         run: npm run build
-
-      - name: Copy Static Files
-        run: |
-          cp index.html dist/
-          cp about.html dist/ || echo "No about.html found"
-          cp -r public/* dist/ || true
-          cp -r css dist/ || true
-          cp -r js dist/ || true
-          cp -r assets dist/ || true
-          cp -r images dist/ || true
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
