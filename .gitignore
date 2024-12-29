@@ -1,23 +1,5 @@
-# Dependencies
-node_modules/
+node_modules
+dist
 .env
-
-# Build output
-dist/
-build/
-
-# Firebase
-.firebase/
-firebase-debug.log
-firebase.json
-.firebaserc
-
-# IDE/Editor
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db 
+.env.local
+.DS_Store 
