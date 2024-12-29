@@ -35,6 +35,10 @@ yarn-error.log*
 .firebase/
 firebase-debug.log
 firebase-debug.*.log
+firebase.js
+firebase.cjs
+firebase.config.js
+firebase.config.cjs
 
 # Vite
 .vite/
