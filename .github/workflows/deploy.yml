@@ -33,15 +33,28 @@ jobs:
 
           export { db };" > js/firebase.js
 
+      - name: Create Directory Structure
+        run: |
+          mkdir -p public/data
+          mkdir -p dist
+
+      - name: Copy resources.json
+        run: |
+          echo '{
+            "sources": [
+              {
+                "title": "SteamRip [SOFTWARE ONLY]",
+                "description": "Smaller version of SteamRip that only includes software such as Lossless Scaling, Wallpaper...",
+                "url": "https://hydralinks.cloud/sources/steamrip-software.json",
+                "gamesCount": "7",
+                "status": ["New", "Safe For Use"],
+                "addedDate": "2024-03-18"
+              }
+            ]
+          }' > public/data/resources.json
+
       - name: Install Dependencies
         run: npm install
-
-      - name: Copy Static Files
-        run: |
-          mkdir -p dist
-          cp -r data dist/
-          cp -r assets dist/ || true
-          cp -r images dist/ || true
 
       - name: Build
         run: npm run build
@@ -51,4 +64,4 @@ jobs:
         with:
           folder: dist
           branch: gh-pages
-          clean: true # Automatically remove deleted files from the deploy branch 
+          clean: true 
