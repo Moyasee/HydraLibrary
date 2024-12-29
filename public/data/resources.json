@@ -101,7 +101,7 @@
             "description": "Source that was created by the russian guy called HydraSources, updating almost daily. If you are a russian user, this is the source you should use.",
             "url": "https://hydrasources.su/hydra.json",
             "gamesCount": "400",
-            "status": ["Safe For Use, New"],
+            "status": ["Safe For Use"],
             "addedDate": "2024-12-30"
         },
         {
@@ -110,6 +110,14 @@
             "url": "https://raw.githubusercontent.com/Shisuiicaro/source/refs/heads/main/shisuyssource.json",
             "gamesCount": "11799",
             "status": ["Use At Your Own Risk"],
+            "addedDate": "2024-12-30"
+        },
+        {
+            "title": "CrackStatus",
+            "description": "",
+            "url": "https://crackstatus.net/downloads.json",
+            "gamesCount": "11703",
+            "status": ["Safe For Use"],
             "addedDate": "2024-12-30"
         }
     ]
