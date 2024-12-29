@@ -1,6 +1,5 @@
 import { ref, update, get } from 'firebase/database';
 import { db } from './firebase.js';
-import { initializeApp, getDatabase } from 'firebase/app';
 
 document.body.classList.add('preloading');
 
@@ -128,22 +127,6 @@ const RATE_LIMIT = {
 
 // Add these constants at the top of your file
 const ACTIVITY_WINDOW = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-// Initialize Firebase with error handling
-let db;
-try {
-    const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG || '{}');
-    const app = initializeApp(firebaseConfig);
-    db = getDatabase(app);
-} catch (error) {
-    console.error('Firebase initialization error:', error);
-    // Provide a fallback db object that won't break the site
-    db = {
-        ref: () => ({}),
-        get: async () => ({ val: () => null }),
-        update: async () => {}
-    };
-}
 
 async function fetchSources() {
     try {
