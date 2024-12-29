@@ -1,5 +1,4 @@
-import { ref, update, get } from 'firebase/database';
-import { db } from './firebase.js';
+import { db, ref, get, update } from '../js/firebase.js';
 
 document.body.classList.add('preloading');
 
@@ -130,7 +129,7 @@ const ACTIVITY_WINDOW = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 async function fetchSources() {
     try {
-        const response = await fetch('./data/resources.json');
+        const response = await fetch('/HydraLibrary/data/resources.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
