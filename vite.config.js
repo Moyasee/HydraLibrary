@@ -8,7 +8,13 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    assetsDir: 'assets'
+    assetsDir: 'assets',
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        about: 'about.html'
+      }
+    }
   },
   css: {
     postcss: './postcss.config.cjs',
