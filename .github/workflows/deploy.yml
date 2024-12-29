@@ -30,7 +30,7 @@ jobs:
 
       - name: Create Firebase Config
         run: |
-          mkdir -p dist/js
+          mkdir -p src/js
           echo "import { initializeApp } from 'firebase/app';
           import { getDatabase, ref, get, update } from 'firebase/database';
 
@@ -47,7 +47,7 @@ jobs:
           const app = initializeApp(firebaseConfig);
           const db = getDatabase(app);
 
-          export { db, ref, get, update };" > dist/js/firebase.js
+          export { db, ref, get, update };" > src/js/firebase.js
 
       - name: Create resources.json
         run: |

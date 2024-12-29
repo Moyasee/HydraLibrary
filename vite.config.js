@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
 export default defineConfig({
   base: '/HydraLibrary/',
@@ -7,8 +8,8 @@ export default defineConfig({
     assetsDir: 'assets',
     rollupOptions: {
       input: {
-        main: 'index.html',
-        about: 'about.html'
+        main: resolve(__dirname, 'index.html'),
+        about: resolve(__dirname, 'about.html')
       },
       output: {
         manualChunks: {
