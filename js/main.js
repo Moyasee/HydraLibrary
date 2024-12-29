@@ -133,7 +133,7 @@ const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
 
 async function fetchSources() {
     try {
-        const response = await fetch('data/resources.json');
+        const response = await fetch('./data/resources.json');
         const data = await response.json();
         sources = data.sources;
         
