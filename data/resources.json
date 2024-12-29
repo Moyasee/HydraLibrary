@@ -1,0 +1,84 @@
+{
+    "sources": [
+        {
+            "title": "AtopGames",
+            "description": "Unaltered pre-installed games sourced from multiple trustworthy names in the community.",
+            "url": "https://hydralinks.cloud/sources/atop-games.json",
+            "gamesCount": "584",
+            "status": ["Trusted"],
+            "addedDate": "2024-03-15"
+        },
+        {
+            "title": "SteamRip [SOFTWARE ONLY]",
+            "description": "Smaller version of SteamRip that only includes software such as Lossless Scaling, Wallpaper Engine and more.",
+            "url": "https://hydralinks.cloud/sources/steamrip-software.json",
+            "gamesCount": "7",
+            "status": ["New", "Safe For Use"],
+            "addedDate": "2024-03-18"
+        },
+        {
+            "title": "SteamRip [DIRECT DOWNLOAD / NO TORRENT]",
+            "description": "Pre-installed games with original content, uncompressed, and sourced reliably.",
+            "url": "https://hydralinks.cloud/sources/steamrip.json",
+            "gamesCount": "1031",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2024-03-19"
+        },
+        {
+            "title": "DODI",
+            "description": "Renowned brand in pirated video games, this repacker is among the finest in the field",
+            "url": "https://hydralinks.cloud/sources/dodi.json",
+            "gamesCount": "2595",
+            "status": ["Trusted", "Safe For Use"],
+            "addedDate": "2024-03-20"
+        },
+        {
+            "title": "Empress",
+            "description": "For games cracked by EMPRESS.",
+            "url": "https://hydralinks.cloud/sources/empress.json",
+            "gamesCount": "40",
+            "status": ["New", "Use At Your Own Risk"],
+            "addedDate": "2024-03-21"
+        },
+        {
+            "title": "FitGirl",
+            "description": "Delivering DRM-free games that have undergone thorough vetting before their release.",
+            "url": "https://hydralinks.cloud/sources/gog.json",
+            "gamesCount": "5575",
+            "status": ["Safe For Use"],
+            "addedDate": "2024-03-22"
+        },
+        {
+            "title": "KaOsKrew",
+            "description": "Veteran rippers who, over the past two decades, have consistently created rips and repacks.",
+            "url": "https://hydralinks.cloud/sources/kaoskrew.json",
+            "gamesCount": "2812",
+            "status": ["Trusted"],
+            "addedDate": "2024-03-23"
+        },
+        {
+            "title": "Online-Fix",
+            "description": "Grants online solutions to play multiplayer in specific games with others.",
+            "url": "https://hydralinks.cloud/sources/onlinefix.json",
+            "gamesCount": "1571",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2024-03-24"
+        },
+        {
+            "title": "Tiny-Repacks",
+            "description": "",
+            "url": "https://hydralinks.cloud/sources/tinyrepacks.json",
+            "gamesCount": "75",
+            "status": ["Safe For Use", "New"],
+            "addedDate": "2024-03-25"
+        },
+        {
+            "title": "ByXatab",
+            "description": "Esteemed within the realm of pirated video games, this site stands out as a prominent figure.",
+            "url": "https://hydralinks.cloud/sources/xatab.json",
+            "gamesCount": "6886",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2024-03-26"
+        }
+    ]
+} 
