@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Hydra Library</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex flex-col text-gray-100">
+    <!-- Particles Background -->
+    <div id="particles-js" class="fixed inset-0 -z-10"></div>
+
+    <!-- Header -->
+    <header class="border-b border-white/5 backdrop-blur-sm bg-black/30 sticky top-0 z-50">
+        <div class="max-w-[1920px] mx-auto px-4 py-3">
+            <nav class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <i class="fas fa-book text-emerald-500 text-2xl"></i>
+                    <h1 class="text-lg md:text-xl font-medium">Hydra Library</h1>
+                </a>
+                <div class="flex items-center gap-2">
+                    <a href="index.html" 
+                       class="px-3 md:px-4 py-2 rounded-lg bg-white/5 border border-white/10 
+                              text-white/70 hover:bg-white/10 transition-all duration-200
+                              flex items-center gap-1.5 text-sm">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto space-y-16">
+            <!-- Hero Section -->
+            <div class="relative mb-16">
+                <!-- Background gradient -->
+                <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-transparent to-emerald-500/5 
+                            rounded-2xl opacity-60 blur-3xl -z-10 gradient-animate"></div>
+                
+                <!-- Content -->
+                <div class="text-center space-y-8 max-w-3xl mx-auto px-4">
+                    <!-- Badge -->
+                    <div class="inline-flex items-center justify-center gap-3 px-4 py-2 rounded-full 
+                                bg-emerald-500/10 border border-emerald-500/20">
+                        <i class="fas fa-book text-emerald-500"></i>
+                        <span class="text-white/70 text-sm">Game Source Management System</span>
+                    </div>
+                    
+                    <!-- Title -->
+                    <div class="space-y-4">
+                        <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">
+                            About Hydra Library
+                        </h1>
+                        
+                        <p class="text-lg md:text-xl text-white/70 leading-relaxed max-w-2xl mx-auto">
+                            A comprehensive platform designed to streamline access to game repositories, 
+                            ensuring safety and efficiency for the gaming community.
+                        </p>
+                    </div>
+                    
+                    <!-- Key Features -->
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-black/20 border border-white/5
+                                    text-white/60 text-sm">
+                            <i class="fas fa-shield text-emerald-500 text-xs"></i>
+                            Secure Sources
+                        </div>
+                        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-black/20 border border-white/5
+                                    text-white/60 text-sm">
+                            <i class="fas fa-bolt text-emerald-500 text-xs"></i>
+                            Fast Access
+                        </div>
+                        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-black/20 border border-white/5
+                                    text-white/60 text-sm">
+                            <i class="fas fa-users text-emerald-500 text-xs"></i>
+                            Community Driven
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Decorative dots -->
+                <div class="absolute -bottom-8 left-1/2 -translate-x-1/2">
+                    <div class="flex items-center gap-2">
+                        <span class="w-1 h-1 rounded-full bg-emerald-500/50"></span>
+                        <span class="w-1 h-1 rounded-full bg-emerald-500/30"></span>
+                        <span class="w-1 h-1 rounded-full bg-emerald-500/20"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Section -->
+            <div class="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Total Sources - Left -->
+                    <div class="flex items-center justify-center">
+                        <div class="flex items-center gap-4 rounded-xl p-4 w-full
+                                    transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20 
+                                    hover:border-emerald-500/30 hover:-translate-y-1 
+                                    hover:bg-black/30 border border-white/5">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 
+                                        flex items-center justify-center shrink-0">
+                                <i class="fas fa-database text-emerald-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white" id="sourcesCount">0</h3>
+                                <p class="text-white/50 text-sm">Total Sources</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Games - Center -->
+                    <div class="flex items-center justify-center">
+                        <div class="flex items-center gap-4 rounded-xl p-4 w-full
+                                    transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20 
+                                    hover:border-emerald-500/30 hover:-translate-y-1 
+                                    hover:bg-black/30 border border-white/5">
+                            <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 
+                                        flex items-center justify-center shrink-0">
+                                <i class="fas fa-gamepad text-blue-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white" id="gamesCount">0</h3>
+                                <p class="text-white/50 text-sm">Total Games</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Actions - Right -->
+                    <div class="flex items-center justify-center">
+                        <div class="flex items-center gap-4 rounded-xl p-4 w-full
+                                    transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20 
+                                    hover:border-emerald-500/30 hover:-translate-y-1 
+                                    hover:bg-black/30 border border-white/5">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 
+                                        flex items-center justify-center shrink-0">
+                                <i class="fas fa-download text-amber-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white" id="actionsCount">0</h3>
+                                <p class="text-white/50 text-sm">Total Installs & Copies</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Source Status Types -->
+            <div class="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+                <h2 class="text-xl font-semibold text-white mb-6 glow-text-hover">Source Status Types</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start gap-3 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                  flex items-center justify-center shrink-0">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-medium mb-1">Trusted</h3>
+                            <p class="text-white/60 text-sm">Verified sources that have been thoroughly checked for safety and reliability.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
+                        <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 
+                                  flex items-center justify-center shrink-0">
+                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-medium mb-1">Safe For Use</h3>
+                            <p class="text-white/60 text-sm">Community-verified sources that are generally considered safe but should be used with normal precautions.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
+                        <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 
+                                  flex items-center justify-center shrink-0">
+                            <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-medium mb-1">Use At Your Own Risk</h3>
+                            <p class="text-white/60 text-sm">Unverified sources that haven't been thoroughly checked. Exercise caution when using these sources.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 
+                                  flex items-center justify-center shrink-0">
+                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-medium mb-1">New</h3>
+                            <p class="text-white/60 text-sm">Recently added sources that are still being evaluated by the community.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section (Add this before Developer Info section) -->
+            <div class="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+                <h2 class="text-xl font-semibold text-white mb-6 glow-text-hover">Features</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Game Management -->
+                    <div class="flex items-start gap-4 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                  flex items-center justify-center shrink-0">
+                            <i class="fas fa-gamepad text-emerald-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-medium mb-2">Game Management</h3>
+                            <p class="text-white/60 text-sm leading-relaxed">
+                                Efficiently organize and manage your game collection with advanced filtering, 
+                                sorting, and search capabilities.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Source Verification -->
+                    <div class="flex items-start gap-4 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                  flex items-center justify-center shrink-0">
+                            <i class="fas fa-shield-alt text-emerald-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-medium mb-2">Source Verification</h3>
+                            <p class="text-white/60 text-sm leading-relaxed">
+                                Community-driven verification system ensuring safe and reliable game sources 
+                                with multiple security levels.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Fast Downloads -->
+                    <div class="flex items-start gap-4 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                  flex items-center justify-center shrink-0">
+                            <i class="fas fa-bolt text-emerald-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-medium mb-2">Fast Downloads</h3>
+                            <p class="text-white/60 text-sm leading-relaxed">
+                                Optimized download speeds with multi-source support and automatic 
+                                server selection for the best performance.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Community Integration -->
+                    <div class="flex items-start gap-4 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                  flex items-center justify-center shrink-0">
+                            <i class="fas fa-users text-emerald-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-medium mb-2">Community Integration</h3>
+                            <p class="text-white/60 text-sm leading-relaxed">
+                                Active community participation in source verification, ratings, and reviews 
+                                to maintain high-quality standards.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Automated Updates -->
+                    <div class="flex items-start gap-4 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                  flex items-center justify-center shrink-0">
+                            <i class="fas fa-sync text-emerald-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-medium mb-2">Automated Updates</h3>
+                            <p class="text-white/60 text-sm leading-relaxed">
+                                Stay up-to-date with automatic source updates and notifications for 
+                                new game releases and patches.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Security First -->
+                    <div class="flex items-start gap-4 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                  flex items-center justify-center shrink-0">
+                            <i class="fas fa-lock text-emerald-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-medium mb-2">Security First</h3>
+                            <p class="text-white/60 text-sm leading-relaxed">
+                                Built with security in mind, featuring source verification, malware scanning, 
+                                and encrypted connections.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Developer Info -->
+            <div class="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+                <h2 class="text-xl font-semibold text-white mb-6 glow-text-hover">About the Developer</h2>
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                    <!-- Developer Card -->
+                    <div class="w-full md:w-64 bg-black/20 rounded-xl border border-white/5 p-6 text-center mb-6 glow-on-hover">
+                        <div class="w-24 h-24 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 
+                                    border border-emerald-500/20 flex items-center justify-center mx-auto mb-4
+                                    transform hover:scale-105 transition-transform duration-300">
+                            <i class="fas fa-code text-emerald-500 text-4xl"></i>
+                        </div>
+                        <h3 class="text-white font-medium text-lg mb-1">
+                            <span class="text-emerald-500">&lt;</span>
+                            Moyase
+                            <span class="text-emerald-500">/&gt;</span>
+                        </h3>
+                        <p class="text-white/50 text-sm mb-3">Developer & Designer</p>
+                        
+                        <!-- Social Links -->
+                        <div class="flex justify-center gap-4 mt-4">
+                            <a href="https://github.com/zxcsix-zxc" target="_blank" rel="noopener noreferrer"
+                               class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 
+                                      flex items-center justify-center text-white/70 hover:text-white 
+                                      transition-all duration-200 group pulse-on-hover">
+                                <i class="fab fa-github text-lg group-hover:scale-110 transition-transform"></i>
+                            </a>
+                            <a href="https://linktr.ee/moyase" target="_blank" rel="noopener noreferrer"
+                               class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 
+                                      flex items-center justify-center text-white/70 hover:text-white 
+                                      transition-all duration-200 group pulse-on-hover">
+                                <i class="fas fa-link text-lg group-hover:scale-110 transition-transform"></i>
+                            </a>
+                            <a href="https://discord.gg/hydralaunchercommunity" target="_blank" rel="noopener noreferrer"
+                               class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 
+                                      flex items-center justify-center text-white/70 hover:text-white 
+                                      transition-all duration-200 group pulse-on-hover">
+                                <i class="fab fa-discord text-lg group-hover:scale-110 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Developer Info -->
+                    <div class="flex-1 space-y-6">
+                        <!-- About -->
+                        <div class="bg-black/20 rounded-xl border border-white/5 p-6 mb-6">
+                            <h4 class="text-white font-medium mb-3 flex items-center gap-2">
+                                <i class="fas fa-user-circle text-emerald-500"></i>
+                                About
+                            </h4>
+                            <p class="text-white/70 leading-relaxed">
+                                Developer and designer of Hydra Library, focused on creating safe and efficient 
+                                tools for the gaming community. Passionate about building user-friendly interfaces 
+                                and maintaining high security standards.
+                            </p>
+                        </div>
+
+                        <!-- Projects -->
+                        <div class="bg-black/20 rounded-xl border border-white/5 p-6">
+                            <h4 class="text-white font-medium mb-3 flex items-center gap-2">
+                                <i class="fas fa-code-branch text-emerald-500"></i>
+                                Projects
+                            </h4>
+                            <div class="space-y-3">
+                                <!-- Hydra Library Project -->
+                                <div class="flex items-center gap-3 p-3 rounded-lg bg-black/20 border border-white/5
+                                           hover:border-emerald-500/20 transition-colors duration-200 mb-3
+                                           border-glow gradient-animate">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                              flex items-center justify-center shrink-0">
+                                        <i class="fas fa-book text-emerald-500"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <h5 class="text-white font-medium">Hydra Library</h5>
+                                                <p class="text-emerald-400/70 text-sm">You are currently here</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Is It On Hydra Project -->
+                                <div class="flex items-center gap-3 p-3 rounded-lg bg-black/20 border border-white/5
+                                           hover:border-emerald-500/20 transition-colors duration-200
+                                           border-glow gradient-animate">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                              flex items-center justify-center shrink-0">
+                                        <i class="fas fa-rocket text-emerald-500"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <h5 class="text-white font-medium">Is It On Hydra</h5>
+                                                <p class="text-white/50 text-sm">Check if a game is available on Hydra Launcher</p>
+                                            </div>
+                                            <a href="https://isitonhydra.xyz" target="_blank" rel="noopener noreferrer"
+                                               class="px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20
+                                                      text-emerald-400 text-sm hover:bg-emerald-500/20 
+                                                      transition-all duration-200 flex items-center gap-2">
+                                                Visit
+                                                <i class="fas fa-external-link-alt text-xs"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/about.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            particles: {
+                number: {
+                    value: 100,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#10b981" // Emerald color to match your theme
+                },
+                shape: {
+                    type: "circle"
+                },
+                opacity: {
+                    value: 0.1,
+                    random: true,
+                    animation: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.05,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    animation: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#10b981",
+                    opacity: 0.1,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.3
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html> 
