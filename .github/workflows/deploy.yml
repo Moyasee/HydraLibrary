@@ -36,6 +36,13 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Copy Static Files
+        run: |
+          mkdir -p dist
+          cp -r data dist/
+          cp -r assets dist/ || true
+          cp -r images dist/ || true
+
       - name: Build
         run: npm run build
 
@@ -43,4 +50,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
-          branch: gh-pages 
+          branch: gh-pages
+          clean: true # Automatically remove deleted files from the deploy branch 

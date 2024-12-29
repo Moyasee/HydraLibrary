@@ -15,7 +15,8 @@ export default defineConfig({
           firebase: ['firebase/app', 'firebase/database']
         }
       }
-    }
+    },
+    copyPublicDir: true
   },
   css: {
     postcss: './postcss.config.cjs',
@@ -24,5 +25,6 @@ export default defineConfig({
         additionalData: `@import "./src/style.css";`
       }
     }
-  }
+  },
+  publicDir: 'public'
 }); 
