@@ -128,6 +128,9 @@ const RATE_LIMIT = {
 // Add these constants at the top of your file
 const ACTIVITY_WINDOW = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
+// Get Firebase config from environment variable
+const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
+
 async function fetchSources() {
     try {
         const response = await fetch('data/resources.json');
