@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "css": "tailwindcss -i ./src/style.css -o ./css/styles.css --watch"
+    "css": "tailwindcss -i ./src/style.css -o ./dist/css/styles.css --watch"
   },
   "keywords": [],
   "author": "",
