@@ -64,6 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         fetchSources();
     }, 300);
+    
+    // Initialize modals
+    initializeModals();
 });
 
 // Add this new function to handle sort options
@@ -1319,5 +1322,34 @@ async function cleanupOldActivity(sourceId) {
         }
     } catch (error) {
         console.error('Error cleaning up old activity:', error);
+    }
+}
+
+// Modal functionality
+function initializeModals() {
+    // Suggest Modal
+    const suggestModal = document.getElementById('suggest-modal');
+    const suggestBtn = document.getElementById('suggest-btn');
+    const closeSuggestBtn = document.getElementById('close-suggest');
+
+    if (suggestBtn) {
+        suggestBtn.addEventListener('click', () => {
+            suggestModal.classList.remove('hidden');
+        });
+    }
+
+    if (closeSuggestBtn) {
+        closeSuggestBtn.addEventListener('click', () => {
+            suggestModal.classList.add('hidden');
+        });
+    }
+
+    // Close modal when clicking outside
+    if (suggestModal) {
+        suggestModal.addEventListener('click', (e) => {
+            if (e.target === suggestModal) {
+                suggestModal.classList.add('hidden');
+            }
+        });
     }
 }
