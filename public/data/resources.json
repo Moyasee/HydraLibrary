@@ -6,7 +6,7 @@
             "url": "https://hydralinks.cloud/sources/atop-games.json",
             "gamesCount": "584",
             "status": ["Trusted"],
-            "addedDate": "2024-03-15"
+            "addedDate": "2024-12-29"
         },
         {
             "title": "SteamRip [SOFTWARE ONLY]",
@@ -14,7 +14,7 @@
             "url": "https://hydralinks.cloud/sources/steamrip-software.json",
             "gamesCount": "7",
             "status": ["Trusted"],
-            "addedDate": "2024-03-18"
+            "addedDate": "2024-12-29"
         },
         {
             "title": "SteamRip [DIRECT DOWNLOAD / NO TORRENT]",
@@ -22,7 +22,7 @@
             "url": "https://hydralinks.cloud/sources/steamrip.json",
             "gamesCount": "1031",
             "status": ["Trusted"],
-            "addedDate": "2024-03-19"
+            "addedDate": "2024-12-29"
         },
         {
             "title": "DODI",
@@ -30,7 +30,7 @@
             "url": "https://hydralinks.cloud/sources/dodi.json",
             "gamesCount": "2595",
             "status": ["Trusted"],
-            "addedDate": "2024-03-20"
+            "addedDate": "2024-12-29"
         },
         {
             "title": "Empress",
@@ -38,7 +38,7 @@
             "url": "https://hydralinks.cloud/sources/empress.json",
             "gamesCount": "40",
             "status": ["Trusted"],
-            "addedDate": "2024-03-21"
+            "addedDate": "2024-12-29"
         },
         {
             "title": "FitGirl",
@@ -46,7 +46,7 @@
             "url": "https://hydralinks.cloud/sources/gog.json",
             "gamesCount": "5575",
             "status": ["Trusted"],
-            "addedDate": "2024-03-22"
+            "addedDate": "2024-12-29"
         },
         {
             "title": "KaOsKrew",
@@ -54,7 +54,7 @@
             "url": "https://hydralinks.cloud/sources/kaoskrew.json",
             "gamesCount": "2812",
             "status": ["Trusted"],
-            "addedDate": "2024-03-23"
+            "addedDate": "2024-12-29"
         },
         {
             "title": "Online-Fix",
@@ -62,7 +62,7 @@
             "url": "https://hydralinks.cloud/sources/onlinefix.json",
             "gamesCount": "1571",
             "status": ["Trusted"],
-            "addedDate": "2024-03-24"
+            "addedDate": "2024-12-29"
         },
         {
             "title": "Tiny-Repacks",
@@ -70,7 +70,7 @@
             "url": "https://hydralinks.cloud/sources/tinyrepacks.json",
             "gamesCount": "75",
             "status": ["Trusted"],
-            "addedDate": "2024-03-25"
+            "addedDate": "2024-12-29"
         },
         {
             "title": "ByXatab",
@@ -78,7 +78,39 @@
             "url": "https://hydralinks.cloud/sources/xatab.json",
             "gamesCount": "6886",
             "status": ["Trusted"],
-            "addedDate": "2024-03-26"
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "RuTracker | All Categories",
+            "description": "The source created by Kekitu, for Hydra Launcher.",
+            "url": "https://raw.githubusercontent.com/KekitU/rutracker-hydra-links/main/all_categories.json",
+            "gamesCount": "39098",
+            "status": ["Safe For Use"],
+            "addedDate": "2024-12-30"
+        },
+        {
+            "title": "David Kazumi",
+            "description": "David Kazumi's source, for Hydra Launcher. Well known across the Hydra Launcher community server.",
+            "url": "https://davidkazumi.github.io/fontekazumi.json",
+            "gamesCount": "745",
+            "status": ["Safe For Use"],
+            "addedDate": "2024-12-30"
+        },
+        {
+            "title": "HydraSources(RUSSIAN)",
+            "description": "Source that was created by the russian guy called HydraSources, updating almost daily. If you are a russian user, this is the source you should use.",
+            "url": "https://hydrasources.su/hydra.json",
+            "gamesCount": "400",
+            "status": ["Safe For Use, New"],
+            "addedDate": "2024-12-30"
+        },
+        {
+            "title": "Shisuy's Source",
+            "description": "The source are getting games from the Repack-Games.com. Ensures fast and reliable downloads.",
+            "url": "https://raw.githubusercontent.com/Shisuiicaro/source/refs/heads/main/shisuyssource.json",
+            "gamesCount": "11799",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2024-12-30"
         }
     ]
 } 
