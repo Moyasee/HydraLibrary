@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/your-repo-name/',
+  base: '/HydraLibrary/',
   server: {
     port: 3000,
     open: true
