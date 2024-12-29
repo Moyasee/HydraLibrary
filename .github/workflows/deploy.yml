@@ -22,10 +22,11 @@ jobs:
 
       - name: Create Firebase Config
         run: |
+          mkdir -p js
           echo "import { initializeApp } from 'firebase/app';
           import { getDatabase } from 'firebase/database';
 
-          const firebaseConfig = ${{ secrets.VITE_FIREBASE_CONFIG }};
+          const firebaseConfig = JSON.parse('${{ secrets.VITE_FIREBASE_CONFIG }}');
 
           const app = initializeApp(firebaseConfig);
           const db = getDatabase(app);

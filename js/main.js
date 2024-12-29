@@ -1,5 +1,5 @@
-import { db } from '../firebase.js';
-import { ref, update, get, set } from 'firebase/database';
+import { ref, update, get } from 'firebase/database';
+import { db } from './firebase.js';
 
 document.body.classList.add('preloading');
 
