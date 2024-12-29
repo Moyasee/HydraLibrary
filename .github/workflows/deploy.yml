@@ -47,6 +47,15 @@ jobs:
           mkdir -p public/data
           mkdir -p dist
 
+      - name: Copy Static Files
+        run: |
+          cp about.html dist/
+          cp -r public/* dist/
+          cp -r css dist/ || true
+          cp -r js dist/
+          cp -r assets dist/ || true
+          cp -r images dist/ || true
+
       - name: Copy resources.json
         run: |
           echo '{
