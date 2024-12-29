@@ -25,8 +25,8 @@ jobs:
 
       - name: Build CSS
         run: |
-          mkdir -p dist/css
-          npx tailwindcss -i ./src/style.css -o ./dist/css/styles.css
+          mkdir -p dist/assets
+          npx tailwindcss -i ./src/style.css -o ./dist/assets/styles.css
 
       - name: Create Firebase Config
         run: |
@@ -45,7 +45,15 @@ jobs:
         run: |
           mkdir -p dist/data
           echo '{
-            "sources": []
+            "sources": [
+              {
+                "title": "Example Source",
+                "description": "Example description",
+                "url": "https://example.com",
+                "status": ["Safe For Use"],
+                "addedDate": "2024-03-27"
+              }
+            ]
           }' > dist/data/resources.json
 
       - name: Build
