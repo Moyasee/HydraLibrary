@@ -14,7 +14,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "firebase": "^10.8.0"
+    "firebase": "^10.8.0",
+    "@firebase/app": "^0.9.29",
+    "@firebase/database": "^1.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
