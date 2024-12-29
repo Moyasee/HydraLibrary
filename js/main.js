@@ -1,5 +1,6 @@
 import { ref, update, get } from 'firebase/database';
 import { db } from './firebase.js';
+import { initializeApp, getDatabase } from 'firebase/app';
 
 document.body.classList.add('preloading');
 
@@ -128,26 +129,55 @@ const RATE_LIMIT = {
 // Add these constants at the top of your file
 const ACTIVITY_WINDOW = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-// Get Firebase config from environment variable
-const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
+// Initialize Firebase with error handling
+let db;
+try {
+    const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG || '{}');
+    const app = initializeApp(firebaseConfig);
+    db = getDatabase(app);
+} catch (error) {
+    console.error('Firebase initialization error:', error);
+    // Provide a fallback db object that won't break the site
+    db = {
+        ref: () => ({}),
+        get: async () => ({ val: () => null }),
+        update: async () => {}
+    };
+}
 
 async function fetchSources() {
     try {
         const response = await fetch('./data/resources.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         sources = data.sources;
         
-        console.log('Sources loaded:', sources); // Debug log
+        console.log('Sources loaded:', sources);
         
         // Fetch stats for all sources from Firebase
         await loadSourceStats();
         
-        console.log('Sources after loading stats:', sources); // Debug log
-        
+        // Display sources and update counts
         displaySources(sources);
         updateFilterCounts();
+        
     } catch (error) {
         console.error('Error loading sources:', error);
+        // Remove preloader even if there's an error
+        document.getElementById('preloader')?.remove();
+        document.body.classList.remove('preloading');
+        
+        // Show error message to user
+        const container = document.getElementById('sources-container');
+        if (container) {
+            container.innerHTML = `
+                <div class="text-center p-8">
+                    <p class="text-red-400">Failed to load sources. Please try again later.</p>
+                </div>
+            `;
+        }
     }
 }
 
@@ -160,7 +190,7 @@ async function loadSourceStats() {
         
         console.log('Raw Firebase stats:', stats); // Debug log
         
-        if (stats) {
+        if (stats && typeof stats === 'object') {
             // Update local sources with Firebase stats
             sources = sources.map(source => {
                 const sourceId = source.url.replace(/[^a-zA-Z0-9]/g, '_');
@@ -196,9 +226,14 @@ async function loadSourceStats() {
             sources.forEach(source => {
                 updateSourceStats(source.url, source.stats);
             });
+        } else {
+            console.log('No Firebase stats available, continuing with default values');
+            displaySources(sources);
         }
     } catch (error) {
         console.error('Error loading stats from Firebase:', error);
+        // Continue with default values if Firebase fails
+        displaySources(sources);
     }
 }
 
