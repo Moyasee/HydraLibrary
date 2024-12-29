@@ -3,7 +3,10 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # or master, depending on your default branch name
+      - master  # Change this to match your default branch name (master or main)
+
+permissions:
+  contents: write # Add this line to give write permissions
 
 jobs:
   build-and-deploy:
@@ -22,9 +25,11 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_FIREBASE_CONFIG: ${{ secrets.VITE_FIREBASE_CONFIG }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist # The folder the action should deploy
-          branch: gh-pages # The branch the action should deploy to 
+          folder: dist
+          branch: gh-pages 
