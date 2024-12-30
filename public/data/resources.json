@@ -42,9 +42,9 @@
         },
         {
             "title": "FitGirl",
-            "description": "Delivering DRM-free games that have undergone thorough vetting before their release.",
-            "url": "https://hydralinks.cloud/sources/gog.json",
-            "gamesCount": "5575",
+            "description": "Home archivist to web's top game repacker: the ultimate source for trustworthy games.",
+            "url": "https://hydralinks.cloud/sources/fitgirl.json",
+            "gamesCount": "5592",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
         },
@@ -119,6 +119,14 @@
             "gamesCount": "11703",
             "status": ["Safe For Use"],
             "addedDate": "2024-12-30"
+        },
+        {
+            "title": "Free GOG",
+            "description": "Delivering DRM-free games that have undergone thorough vetting before their release.",
+            "url": "https://hydralinks.cloud/sources/gog.json",
+            "gamesCount": "5575",
+            "status": ["Trusted"],
+            "addedDate": "2024-12-29"
         }
     ]
 } 
