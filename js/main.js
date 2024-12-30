@@ -46,17 +46,31 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add event listener for accept button
     const acceptButton = document.getElementById('accept-cookies');
+    const rejectButton = document.getElementById('reject-cookies');
+    const cookieConsent = document.getElementById('cookie-consent');
+
     if (acceptButton) {
         acceptButton.addEventListener('click', () => {
-            const cookieConsent = document.getElementById('cookie-consent');
-            cookieConsent.classList.add('translate-y-full');
-            cookieConsent.addEventListener('transitionend', () => {
-                cookieConsent.style.display = 'none';
-            }, { once: true });
+            hideCookieConsent();
             setCookie('cookie-consent', 'accepted', 365);
         });
     }
-    
+
+    if (rejectButton) {
+        rejectButton.addEventListener('click', () => {
+            hideCookieConsent();
+            setCookie('cookie-consent', 'rejected', 365);
+        });
+    }
+
+    // Function to hide cookie consent banner
+    function hideCookieConsent() {
+        cookieConsent.classList.add('translate-y-full');
+        cookieConsent.addEventListener('transitionend', () => {
+            cookieConsent.style.display = 'none';
+        }, { once: true });
+    }
+
     // Initialize sorting functionality
     initializeSorting();
     
@@ -1231,7 +1245,7 @@ function filterSources() {
 function showCookieConsent() {
     const cookieConsent = document.getElementById('cookie-consent');
     
-    // Check if user has already accepted cookies
+    // Check if user has already made a cookie choice
     if (!getCookie('cookie-consent')) {
         // Make sure the element is visible before animating
         cookieConsent.style.display = 'block';
@@ -1241,7 +1255,7 @@ function showCookieConsent() {
             cookieConsent.classList.remove('translate-y-full');
         }, 500); // Show after preloader starts fading
     } else {
-        // If cookies are already accepted, hide the banner completely
+        // If cookies choice is already made, hide the banner completely
         cookieConsent.style.display = 'none';
     }
 }

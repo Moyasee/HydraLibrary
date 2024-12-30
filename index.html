@@ -41,25 +41,25 @@
     </div>
 
     <!-- Cookie Consent -->
-    <div id="cookie-consent" class="fixed bottom-0 left-0 right-0 bg-[#111]/95 backdrop-blur-sm border-t border-white/5 
-                                  transform translate-y-full transition-all duration-300 ease-in-out z-50">
-        <div class="max-w-[1920px] mx-auto px-4 py-4">
-            <div class="flex items-center justify-between gap-4 flex-wrap">
+    <div id="cookie-consent" 
+         class="fixed bottom-0 left-0 right-0 bg-black/95 border-t border-white/5 
+                transform translate-y-full transition-transform duration-300 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <p class="text-white/70 text-sm">
+                    We use cookies to track source usage and improve your experience.
+                </p>
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
-                                flex items-center justify-center shrink-0">
-                        <i class="fas fa-cookie-bite text-emerald-500"></i>
-                    </div>
-                    <p class="text-sm text-white/70">
-                        We use cookies to store installation and copy statistics. No personal data is collected.
-                    </p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button id="accept-cookies" 
-                            class="px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 
-                                   text-emerald-400 hover:bg-emerald-500/30 transition-all duration-200
-                                   text-sm font-medium">
-                        Accept
+                    <button id="reject-cookies"
+                            class="px-4 py-2 text-sm text-white/50 hover:text-white/70 
+                                   transition-colors duration-200">
+                        Reject All
+                    </button>
+                    <button id="accept-cookies"
+                            class="px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                   text-emerald-400 hover:bg-emerald-500/20 transition-all duration-200 
+                                   text-sm">
+                        Accept All
                     </button>
                 </div>
             </div>
@@ -248,7 +248,7 @@
     <!-- Main Content -->
     <main class="flex-1 px-4 pb-4 pt-8">
         <!-- Status Filters -->
-        <div class="fixed lg:right-4 top-32 right-0 transition-transform duration-300 
+        <div class="fixed lg:right-4 right-0 transition-transform duration-300 
                     translate-x-full lg:translate-x-0">
             <div class="bg-[#111]/40 backdrop-blur-sm rounded-lg border border-white/5 p-5 w-[280px] 
                        max-h-[calc(100vh-180px)] overflow-y-auto custom-scrollbar">
