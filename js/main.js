@@ -67,6 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize modals
     initializeModals();
+    
+    // Initialize search placeholder
+    updateSearchPlaceholder();
 });
 
 // Add this new function to handle sort options
@@ -1351,5 +1354,21 @@ function initializeModals() {
                 suggestModal.classList.add('hidden');
             }
         });
+    }
+}
+
+// Add this function to handle responsive placeholder text
+function updateSearchPlaceholder() {
+    const searchInput = document.getElementById('search');
+    if (searchInput) {
+        const updatePlaceholder = () => {
+            searchInput.placeholder = window.innerWidth < 640 ? 'Search' : 'Search sources...';
+        };
+        
+        // Initial update
+        updatePlaceholder();
+        
+        // Update on resize
+        window.addEventListener('resize', updatePlaceholder);
     }
 }
