@@ -729,6 +729,10 @@ video {
   right: 0.75rem;
 }
 
+.right-4 {
+  right: 1rem;
+}
+
 .top-0 {
   top: 0px;
 }
@@ -739,10 +743,6 @@ video {
 
 .top-32 {
   top: 8rem;
-}
-
-.right-4 {
-  right: 1rem;
 }
 
 .isolate {
@@ -1157,6 +1157,10 @@ video {
   max-width: 56rem;
 }
 
+.max-w-7xl {
+  max-width: 80rem;
+}
+
 .max-w-\[1500px\] {
   max-width: 1500px;
 }
@@ -1175,10 +1179,6 @@ video {
 
 .max-w-md {
   max-width: 28rem;
-}
-
-.max-w-7xl {
-  max-width: 80rem;
 }
 
 .flex-1 {
@@ -2455,6 +2455,10 @@ video {
   background-color: rgb(0 0 0 / 0.9);
 }
 
+.bg-black\/95 {
+  background-color: rgb(0 0 0 / 0.95);
+}
+
 .bg-blue-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1));
@@ -2512,10 +2516,6 @@ video {
 
 .bg-white\/5 {
   background-color: rgb(255 255 255 / 0.05);
-}
-
-.bg-black\/95 {
-  background-color: rgb(0 0 0 / 0.95);
 }
 
 .bg-gradient-to-b {
@@ -3160,20 +3160,20 @@ video {
   -moz-osx-font-smoothing: auto;
 }
 
-.placeholder-white\/50::-moz-placeholder {
-  color: rgb(255 255 255 / 0.5);
-}
-
-.placeholder-white\/50::placeholder {
-  color: rgb(255 255 255 / 0.5);
-}
-
 .placeholder-white\/40::-moz-placeholder {
   color: rgb(255 255 255 / 0.4);
 }
 
 .placeholder-white\/40::placeholder {
   color: rgb(255 255 255 / 0.4);
+}
+
+.placeholder-white\/50::-moz-placeholder {
+  color: rgb(255 255 255 / 0.5);
+}
+
+.placeholder-white\/50::placeholder {
+  color: rgb(255 255 255 / 0.5);
 }
 
 .opacity-0 {
@@ -3876,12 +3876,12 @@ video {
   text-align: center;
 }
 
-.focus\:border-emerald-500\/50:focus {
-  border-color: rgb(16 185 129 / 0.5);
-}
-
 .focus\:border-emerald-500\/20:focus {
   border-color: rgb(16 185 129 / 0.2);
+}
+
+.focus\:border-emerald-500\/50:focus {
+  border-color: rgb(16 185 129 / 0.5);
 }
 
 .focus\:bg-black\/30:focus {
@@ -3946,10 +3946,6 @@ video {
     display: inline;
   }
 
-  .sm\:hidden {
-    display: none;
-  }
-
   .sm\:h-auto {
     height: auto;
   }
@@ -3962,12 +3958,12 @@ video {
     width: auto;
   }
 
-  .sm\:max-w-none {
-    max-width: none;
-  }
-
   .sm\:max-w-\[320px\] {
     max-width: 320px;
+  }
+
+  .sm\:max-w-none {
+    max-width: none;
   }
 
   .sm\:grid-cols-2 {

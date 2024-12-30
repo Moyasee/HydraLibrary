@@ -120,7 +120,7 @@ function initializeSorting() {
 }
 
 let sources = [];
-let activeStatuses = new Set();
+let activeStatus = ''; // Instead of: let activeStatuses = new Set();
 let activeGamesRange = null; // Will store {min: number, max: number} or null
 let currentPage = 1;
 const CARDS_PER_PAGE = {
@@ -597,6 +597,10 @@ function sortSources(sourcesToSort, sortType) {
                 const bActivity = b.stats?.recentActivity || 0;
                 return bActivity - aActivity;
                 
+            case 'new':
+                // Sort by addedDate in descending order (newest first)
+                return new Date(b.addedDate) - new Date(a.addedDate);
+                
             case 'most-copies':
                 const aCopies = a.stats?.copies || 0;
                 const bCopies = b.stats?.copies || 0;
@@ -743,21 +747,24 @@ window.changePage = function(newPage) {
 document.querySelectorAll('.status-filter-btn').forEach(button => {
     button.addEventListener('click', () => {
         const status = button.dataset.status;
-        const buttonDiv = button.querySelector('div');
         
-        if (activeStatuses.has(status)) {
-            activeStatuses.delete(status);
-            buttonDiv.classList.remove('border-emerald-500/20', 'bg-black/40');
-            buttonDiv.classList.add('border-white/5', 'bg-black/20');
+        // Remove active state from all buttons
+        document.querySelectorAll('.status-filter-btn').forEach(btn => {
+            btn.querySelector('div').classList.remove('bg-black/40');
+        });
+        
+        if (activeStatus === status) {
+            // If clicking the active status, deselect it
+            activeStatus = '';
         } else {
-            activeStatuses.add(status);
-            buttonDiv.classList.remove('border-white/5', 'bg-black/20');
-            buttonDiv.classList.add('border-emerald-500/20', 'bg-black/40');
+            // Set new active status and highlight the button
+            activeStatus = status;
+            button.querySelector('div').classList.add('bg-black/40');
         }
         
-        currentPage = 1; // Reset to first page when filtering
+        // Update display
         displaySources();
-        updateFilterCounts(); // Add this new function to update the counts
+        updateFilterCounts();
     });
 });
 
@@ -1002,6 +1009,7 @@ function installSource(sourceUrl) {
         // Check if this is a new installation
         const isNewInstall = !getCookie(`install_${sourceUrl.replace(/[^a-zA-Z0-9]/g, '_')}`);
         
+        // Start loading animation
         animateInstallButton(button, 'loading');
         
         const encodedUrl = encodeURIComponent(sourceUrl);
@@ -1014,9 +1022,10 @@ function installSource(sourceUrl) {
             trackSourceUsage(sourceUrl, 'install');
         }
         
+        // Set a 10-second timer for the loading animation
         setTimeout(() => {
             animateInstallButton(button, 'success');
-        }, 1000);
+        }, 10000); // 10 seconds
     }
 }
 
@@ -1171,7 +1180,10 @@ function animateInstallButton(button, state) {
         case 'loading':
             button.disabled = true;
             button.innerHTML = `
-                <div class="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
+                <div class="flex items-center gap-1.5">
+                    <div class="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
+                    <span>Installing...</span>
+                </div>
             `;
             break;
             
@@ -1182,6 +1194,7 @@ function animateInstallButton(button, state) {
                     Installed
                 </div>
             `;
+            // Reset button after 2 seconds
             setTimeout(() => {
                 button.disabled = false;
                 button.innerHTML = originalHTML;
@@ -1226,11 +1239,8 @@ function changePage(newPage) {
 // Add this function to filter sources (was missing)
 function filterSources() {
     return sources.filter(source => {
-        // Check if source has ALL selected statuses
-        const statusMatch = activeStatuses.size === 0 || 
-            Array.from(activeStatuses).every(status => 
-                source.status.includes(status)
-            );
+        // Check if source matches the selected status
+        const statusMatch = !activeStatus || source.status.includes(activeStatus);
             
         // Check if source is within the selected games range
         const gamesCount = parseInt(source.gamesCount);
