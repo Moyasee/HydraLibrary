@@ -1040,24 +1040,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Add this function to sort the games count filters
-function sortGamesFilters(ascending) {
-    const container = document.querySelector('.games-filter-btn').parentNode;
-    const buttons = Array.from(container.querySelectorAll('.games-filter-btn'));
-    
-    buttons.sort((a, b) => {
-        const aMin = parseInt(a.dataset.min);
-        const bMin = parseInt(b.dataset.min);
-        return ascending ? aMin - bMin : bMin - aMin;
-    });
-    
-    // Remove existing buttons
-    buttons.forEach(button => button.remove());
-    
-    // Add sorted buttons back
-    buttons.forEach(button => container.appendChild(button));
-}
-
 // Add this function to handle cookies
 function setCookie(name, value, days) {
     const expires = new Date();
