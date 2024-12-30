@@ -127,6 +127,14 @@
             "gamesCount": "5575",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
+        },
+        {
+            "title": "Wkeynhk Source",
+            "description": "Source created by wkeynhk for Hydra Launcher which parses the site rutor.info",
+            "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/rutor.json",
+            "gamesCount": "1031",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2024-12-30"
         }
     ]
 } 
