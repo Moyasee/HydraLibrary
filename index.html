@@ -70,19 +70,22 @@
     <header class="border-b border-white/5 backdrop-blur-sm bg-black/30 sticky top-0 z-50">
         <div class="max-w-[1920px] mx-auto px-4 py-3">
             <nav class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
+                <a href="./" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
                     <i class="fas fa-book text-emerald-500 text-2xl"></i>
-                    <h1 class="text-lg md:text-xl font-medium">Hydra Library</h1>
-                </div>
+                    <h1 class="hidden sm:block text-lg md:text-xl font-medium">Hydra Library</h1>
+                </a>
                 <div class="flex items-center gap-2 md:gap-4 justify-end flex-1 max-w-[600px] ml-4">
-                    <div class="relative w-full sm:w-96 max-w-[280px] sm:max-w-none">
-                        <input type="text" id="search" 
-                            class="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 
-                                   text-white placeholder-white/50 text-sm focus:outline-none 
-                                   focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30
-                                   transition-all duration-200"
-                            placeholder="Search sources...">
-                        <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-white/40"></i>
+                    <div class="relative w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px]">
+                        <input type="text" 
+                               id="search" 
+                               placeholder="Search" 
+                               class="w-full bg-black/20 border border-white/5 rounded-lg 
+                                      px-3 sm:px-4 py-1.5 sm:py-2 
+                                      text-sm sm:text-base text-white/70 placeholder-white/40 
+                                      focus:outline-none focus:border-emerald-500/20 
+                                      focus:bg-black/30 transition-colors">
+                        <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 
+                                 text-white/40 pointer-events-none text-sm"></i>
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
                         <a href="./about.html"
@@ -93,10 +96,12 @@
                             <span class="hidden sm:inline">About</span>
                         </a>
                         <button id="suggest-btn" 
-                            class="px-3 md:px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 
-                                   text-emerald-400 hover:bg-emerald-500/30 transition-all duration-200
-                                   flex items-center gap-1.5 text-sm font-medium whitespace-nowrap shrink-0">
-                            <i class="fas fa-plus"></i>
+                            class="w-8 h-8 sm:w-auto sm:h-auto sm:px-4 sm:py-2 rounded-lg 
+                                   bg-emerald-500/10 border border-emerald-500/20 
+                                   text-emerald-400 hover:bg-emerald-500/20 
+                                   transition-all duration-200 
+                                   flex items-center justify-center sm:gap-2 text-xs sm:text-sm whitespace-nowrap">
+                            <i class="fas fa-plus text-[10px] sm:text-xs"></i>
                             <span class="hidden sm:inline">Suggest Source</span>
                         </button>
                     </div>
