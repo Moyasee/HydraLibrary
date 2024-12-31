@@ -347,9 +347,17 @@ function createSourceCard(source) {
             'russian': 'bg-purple-500'
         }[className];
 
+        const icon = {
+            'trusted': 'fa-shield',
+            'safe-for-use': 'fa-check-circle',
+            'use-at-your-own-risk': 'fa-exclamation-triangle',
+            'new': 'fa-star',
+            'russian': 'fa-globe'
+        }[className];
+
         return `
             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-black/20 border border-white/10 text-xs backdrop-blur-sm">
-                <span class="w-1.5 h-1.5 rounded-full ${bgColor}"></span>
+                <i class="fas ${icon} text-[10px] ${bgColor.replace('bg-', 'text-')}"></i>
                 ${status}
             </span>
         `;
@@ -802,49 +810,24 @@ document.querySelectorAll('.games-filter-btn').forEach(button => {
 
 // Add new function to update filter counts
 function updateFilterCounts() {
-    const gameRanges = [
-        { min: 0, max: 499 },
-        { min: 500, max: 999 },
-        { min: 1000, max: 1999 },
-        { min: 2000, max: 4999 },
-        { min: 5000, max: 6999 },
-        { min: 7000, max: 14999 },    // Added new range
-        { min: 15000, max: 29999 },   // Added new range
-        { min: 30000, max: 50000 }    // Added new range
-    ];
+    // Update status filter counts
+    const statusCounts = {};
+    sources.forEach(source => {
+        source.status.forEach(status => {
+            statusCounts[status] = (statusCounts[status] || 0) + 1;
+        });
+    });
 
-    // Get all filter buttons
-    const buttons = document.querySelectorAll('.games-filter-btn');
-    
-    // Calculate max count for percentage calculation
-    const maxCount = Math.max(...gameRanges.map(range => {
-        return sources.filter(source => {
-            const gamesCount = parseInt(source.gamesCount);
-            return gamesCount >= range.min && gamesCount <= range.max;
-        }).length;
-    }));
-
-    // Update each button
-    buttons.forEach((button, index) => {
-        const range = gameRanges[index];
-        const count = sources.filter(source => {
-            const gamesCount = parseInt(source.gamesCount);
-            return gamesCount >= range.min && gamesCount <= range.max;
-        }).length;
-
-        // Update count display
+    // Update the count display for each status button
+    document.querySelectorAll('.status-filter-btn').forEach(button => {
+        const status = button.dataset.status;
         const countElement = button.querySelector('.text-white\\/40');
         if (countElement) {
-            countElement.textContent = count;
-        }
-
-        // Update progress bar
-        const progressBar = button.querySelector('.bg-emerald-500\\/50');
-        if (progressBar) {
-            const percentage = maxCount > 0 ? (count / maxCount) * 100 : 0;
-            progressBar.style.width = `${percentage}%`;
+            countElement.textContent = statusCounts[status] || 0;
         }
     });
+
+    // Rest of the function...
 }
 
 // Search functionality
