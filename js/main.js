@@ -343,7 +343,8 @@ function createSourceCard(source) {
             'trusted': 'bg-emerald-500',
             'safe-for-use': 'bg-blue-500',
             'use-at-your-own-risk': 'bg-red-500',
-            'new': 'bg-amber-500'
+            'new': 'bg-amber-500',
+            'russian': 'bg-purple-500'
         }[className];
 
         return `

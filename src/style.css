@@ -33,6 +33,12 @@
         @apply border-amber-500/20 text-amber-400/90
                hover:bg-amber-500/10;
     }
+
+    /* Russian status */
+    .status-btn[data-status="Russian"] {
+        @apply border-purple-500/20 text-purple-400/90
+               hover:bg-purple-500/10;
+    }
 }
 
 /* Animations and effects */
