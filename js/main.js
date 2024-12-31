@@ -228,7 +228,7 @@ function showRiskAlert(callback) {
     alertModal.className = 'fixed inset-0 flex items-center justify-center z-50 animate-fade-in p-4';
     alertModal.innerHTML = `
         <div class="fixed inset-0 bg-black/90 backdrop-blur-sm"></div>
-        <div class="relative bg-[#111] rounded-xl overflow-hidden animate-scale-in max-w-md w-full">
+        <div class="relative bg-[#111] rounded-xl overflow-hidden animate-scale-in max-w-md w-full mx-4">
             <!-- Animated background effects -->
             <div class="absolute inset-0 overflow-hidden">
                 <!-- Diagonal stripes -->
@@ -258,15 +258,15 @@ function showRiskAlert(callback) {
             </div>
 
             <!-- Content -->
-            <div class="relative p-6">
-                <div class="flex items-start gap-4">
-                    <div class="w-10 h-10 rounded-lg bg-red-500/10 border border-red-500/20 
+            <div class="relative p-4 sm:p-6">
+                <div class="flex items-start gap-3 sm:gap-4">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-red-500/10 border border-red-500/20 
                               flex items-center justify-center shrink-0">
-                        <i class="fas fa-exclamation-triangle text-red-500"></i>
+                        <i class="fas fa-exclamation-triangle text-red-500 text-sm sm:text-base"></i>
                     </div>
                     <div>
-                        <h3 class="text-lg font-medium text-white mb-2">Warning</h3>
-                        <p class="text-white/70 text-sm">
+                        <h3 class="text-base sm:text-lg font-medium text-white mb-2">Warning</h3>
+                        <p class="text-white/70 text-xs sm:text-sm">
                             This source is marked as "Use At Your Own Risk". It may contain untested or potentially harmful content. 
                             Are you sure you want to proceed?
                         </p>
@@ -274,11 +274,13 @@ function showRiskAlert(callback) {
                 </div>
 
                 <!-- Buttons -->
-                <div class="flex items-center justify-end gap-3 mt-6">
-                    <button class="cancel-btn px-4 py-2 text-sm text-white/70 hover:text-white transition-colors">
+                <div class="flex items-center justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
+                    <button class="cancel-btn px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm 
+                                 text-white/70 hover:text-white transition-colors">
                         Cancel
                     </button>
-                    <button class="proceed-btn px-4 py-2 text-sm bg-red-500/10 hover:bg-red-500/20 
+                    <button class="proceed-btn px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm 
+                                 bg-red-500/10 hover:bg-red-500/20 
                                  border border-red-500/20 text-red-400 hover:text-red-300
                                  rounded-lg transition-colors">
                         Proceed Anyway
