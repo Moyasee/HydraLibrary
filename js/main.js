@@ -84,6 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize search placeholder
     updateSearchPlaceholder();
+
+    startActivityCleanup();
 });
 
 // Add this new function to handle sort options
@@ -1098,15 +1100,17 @@ async function trackSourceUsage(sourceUrl, action) {
         const snapshot = await get(statsRef);
         const currentStats = snapshot.val() || { installs: 0, copies: 0, activity: [] };
         
-        // Ensure activity is an array and add new timestamp
+        // Get current timestamp
         const now = Date.now();
-        const activity = Array.isArray(currentStats.activity) ? currentStats.activity : [];
-        activity.push(now);
         
-        // Keep only last 24 hours of activity
+        // Clean up old activity (older than 24 hours)
+        const activity = Array.isArray(currentStats.activity) ? currentStats.activity : [];
         const recentActivity = activity.filter(timestamp => 
             now - timestamp < ACTIVITY_WINDOW
         );
+        
+        // Add new activity timestamp
+        recentActivity.push(now);
 
         // Create new stats object
         const newStats = {
@@ -1122,7 +1126,7 @@ async function trackSourceUsage(sourceUrl, action) {
         // Set cookie to prevent rapid repeated actions
         setCookie(actionId, 'true', action === 'install' ? 0.003472222 : 0.000347222);
 
-        // Update UI and local data with recentActivity count
+        // Update UI with correct recent activity count
         newStats.recentActivity = recentActivity.length;
         updateSourceStats(sourceUrl, newStats);
         
@@ -1379,4 +1383,14 @@ function updateSearchPlaceholder() {
         // Update on resize
         window.addEventListener('resize', updatePlaceholder);
     }
+}
+
+// Add a function to periodically clean up old activity
+function startActivityCleanup() {
+    setInterval(() => {
+        sources.forEach(source => {
+            const sourceId = source.url.replace(/[^a-zA-Z0-9]/g, '_');
+            cleanupOldActivity(sourceId);
+        });
+    }, 60 * 60 * 1000); // Run every hour
 }
