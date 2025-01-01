@@ -18,13 +18,20 @@ const app = initializeApp(getFirebaseConfig());
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-// Sign in anonymously when the app starts
-signInAnonymously(auth)
-  .then(() => {
+// Initialize auth state
+const initializeAuth = async () => {
+  try {
+    await signInAnonymously(auth);
     console.log('Signed in anonymously');
-  })
-  .catch((error) => {
+  } catch (error) {
     console.error('Error signing in:', error);
-  });
+    // Retry after 1 second if config wasn't loaded yet
+    if (error.code === 'auth/invalid-api-key') {
+      setTimeout(initializeAuth, 1000);
+    }
+  }
+};
+
+initializeAuth();
 
 export { db, auth }; 

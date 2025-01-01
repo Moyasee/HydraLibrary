@@ -20,16 +20,19 @@ jobs:
           npm install
           npm install -g firebase-tools
         
-      - name: Build
-        run: npm run build
-        
       - name: Create config file
         run: |
           echo "window.__FIREBASE_CONFIG__ = {
             apiKey: '${{ secrets.FIREBASE_API_KEY }}',
             authDomain: '${{ secrets.FIREBASE_AUTH_DOMAIN }}',
             databaseURL: '${{ secrets.FIREBASE_DATABASE_URL }}'
-          };" > dist/config.js
+          };" > public/config.js
+
+      - name: Build
+        run: npm run build
+
+      - name: Copy config to dist
+        run: cp public/config.js dist/
 
       - name: List dist contents
         run: ls -la dist
