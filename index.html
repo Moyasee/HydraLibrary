@@ -252,216 +252,220 @@
         <!-- Status Filters -->
         <div class="fixed lg:right-4 right-0 transition-transform duration-300 
                     translate-x-full lg:translate-x-0">
-            <div class="bg-[#111]/40 backdrop-blur-sm rounded-lg border border-white/5 p-5 w-[280px] 
-                       max-h-[calc(100vh-100px)] overflow-y-auto custom-scrollbar">
-                <div class="flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-6rem)] hide-scrollbar">
+            <div class="bg-[#111]/40 backdrop-blur-sm rounded-lg border border-white/5 p-5 w-[280px]">
+                <div class="max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar pr-1">
                     <!-- Source Status section -->
-                    <div>
-                        <h3 class="text-sm font-medium text-white mb-4">Source Status</h3>
-                        <div class="flex flex-col gap-2">
-                            <button class="status-filter-btn single-select" data-status="Trusted">
-                                <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 
-                                        bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                        <i class="fas fa-shield text-emerald-500"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-white/90 text-sm">Trusted</span>
-                                            <span class="text-white/40 text-xs">3</span>
+                    <div class="flex flex-col gap-6">
+                        <!-- Status section -->
+                        <div>
+                            <h3 class="text-sm font-medium text-white mb-4">Source Status</h3>
+                            <div class="flex flex-col gap-2">
+                                <button class="status-filter-btn single-select" data-status="Trusted">
+                                    <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 
+                                            bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                                            <i class="fas fa-shield text-emerald-500"></i>
                                         </div>
-                                        <div class="mt-1 h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                        <div class="flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-white/90 text-sm">Trusted</span>
+                                                <span class="text-white/40 text-xs">3</span>
+                                            </div>
+                                            <div class="mt-1 h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                                <div class="h-full w-[30%] bg-emerald-500/50 rounded-full"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                <button class="status-filter-btn single-select" data-status="Safe For Use">
+                                    <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 
+                                            bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                                            <i class="fas fa-circle-check text-blue-500"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-white/90 text-sm">Safe For Use</span>
+                                                <span class="text-white/40 text-xs">4</span>
+                                            </div>
+                                            <div class="mt-1 h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                                <div class="h-full w-[40%] bg-blue-500/50 rounded-full"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                <button class="status-filter-btn single-select" data-status="Use At Your Own Risk">
+                                    <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 
+                                            bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                                            <i class="fas fa-triangle-exclamation text-red-500"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-white/90 text-sm">Use At Your Own Risk</span>
+                                                <span class="text-white/40 text-xs">4</span>
+                                            </div>
+                                            <div class="mt-1 h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                                <div class="h-full w-[40%] bg-red-500/50 rounded-full"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                <button class="status-filter-btn" data-status="Russian">
+                                    <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 
+                                                bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <div class="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20
+                                                    flex items-center justify-center shrink-0">
+                                            <i class="fas fa-globe text-purple-500 text-sm"></i>
+                                        </div>
+                                        <div class="flex items-center justify-between flex-1">
+                                            <span class="text-white/70 text-sm">Russian</span>
+                                            <span class="text-white/40">0</span>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sort Options -->
+                        <div>
+                            <h3 class="text-sm font-medium text-white mb-4">Sort Sources</h3>
+                            <div class="flex flex-col gap-2">
+                                <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
+                                            hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
+                                            rounded-lg border border-white/5 bg-black/20"
+                                        data-sort="hot">
+                                    <i class="fas fa-fire text-[10px] text-red-500"></i>
+                                    Hot (24h)
+                                </button>
+                                <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
+                                            hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
+                                            rounded-lg border border-white/5 bg-black/20"
+                                        data-sort="new">
+                                    <i class="fas fa-star text-[10px] text-amber-500"></i>
+                                    New
+                                </button>
+                                <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
+                                            hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
+                                            rounded-lg border border-white/5 bg-black/20"
+                                        data-sort="most-copies">
+                                    <i class="fas fa-copy text-[10px] text-blue-500"></i>
+                                    Most Copies
+                                </button>
+                                <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
+                                            hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
+                                            rounded-lg border border-white/5 bg-black/20"
+                                        data-sort="most-installs">
+                                    <i class="fas fa-download text-[10px] text-emerald-500"></i>
+                                    Most Installs
+                                </button>
+                                <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
+                                            hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
+                                            rounded-lg border border-white/5 bg-black/20"
+                                        data-sort="name-asc">
+                                    <i class="fas fa-sort-alpha-down text-[10px]"></i>
+                                    Name (A-Z)
+                                </button>
+                                <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
+                                            hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
+                                            rounded-lg border border-white/5 bg-black/20"
+                                        data-sort="name-desc">
+                                    <i class="fas fa-sort-alpha-up text-[10px]"></i>
+                                    Name (Z-A)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Games Count section -->
+                        <div>
+                            <h3 class="text-sm font-medium text-white mb-4">Games Count</h3>
+                            <div class="flex flex-col gap-2">
+                                <button class="games-filter-btn" data-min="0" data-max="499">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm">0-499</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full w-[80%] bg-emerald-500/50 rounded-full"></div>
+                                        </div>
+                                        <span class="text-white/40 text-xs">8</span>
+                                    </div>
+                                </button>
+
+                                <button class="games-filter-btn" data-min="500" data-max="999">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm">500-999</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full w-[70%] bg-emerald-500/50 rounded-full"></div>
+                                        </div>
+                                        <span class="text-white/40 text-xs">7</span>
+                                    </div>
+                                </button>
+
+                                <button class="games-filter-btn" data-min="1000" data-max="1999">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm">1000-1999</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full w-[50%] bg-emerald-500/50 rounded-full"></div>
+                                        </div>
+                                        <span class="text-white/40 text-xs">5</span>
+                                    </div>
+                                </button>
+
+                                <button class="games-filter-btn" data-min="2000" data-max="4999">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm">2000-4999</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
                                             <div class="h-full w-[30%] bg-emerald-500/50 rounded-full"></div>
                                         </div>
+                                        <span class="text-white/40 text-xs">3</span>
                                     </div>
-                                </div>
-                            </button>
+                                </button>
 
-                            <button class="status-filter-btn single-select" data-status="Safe For Use">
-                                <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 
-                                        bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                                        <i class="fas fa-circle-check text-blue-500"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-white/90 text-sm">Safe For Use</span>
-                                            <span class="text-white/40 text-xs">4</span>
+                                <button class="games-filter-btn" data-min="5000" data-max="6999">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm">5000-6999</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full w-[20%] bg-emerald-500/50 rounded-full"></div>
                                         </div>
-                                        <div class="mt-1 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                            <div class="h-full w-[40%] bg-blue-500/50 rounded-full"></div>
+                                        <span class="text-white/40 text-xs">2</span>
+                                    </div>
+                                </button>
+
+                                <button class="games-filter-btn" data-min="7000" data-max="14999">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 
+                                                bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm">7000-14999</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
                                         </div>
+                                        <span class="text-white/40 text-xs">0</span>
                                     </div>
-                                </div>
-                            </button>
+                                </button>
 
-                            <button class="status-filter-btn single-select" data-status="Use At Your Own Risk">
-                                <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 
-                                        bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                                        <i class="fas fa-triangle-exclamation text-red-500"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-white/90 text-sm">Use At Your Own Risk</span>
-                                            <span class="text-white/40 text-xs">4</span>
+                                <button class="games-filter-btn" data-min="15000" data-max="29999">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 
+                                                bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm">15000-29999</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
                                         </div>
-                                        <div class="mt-1 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                            <div class="h-full w-[40%] bg-red-500/50 rounded-full"></div>
+                                        <span class="text-white/40 text-xs">0</span>
+                                    </div>
+                                </button>
+
+                                <button class="games-filter-btn" data-min="30000" data-max="50000">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 
+                                                bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm">30000-50000</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
                                         </div>
+                                        <span class="text-white/40 text-xs">0</span>
                                     </div>
-                                </div>
-                            </button>
-
-                            <button class="status-filter-btn" data-status="Russian">
-                                <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 
-                                            bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20
-                                                flex items-center justify-center shrink-0">
-                                        <i class="fas fa-globe text-purple-500 text-sm"></i>
-                                    </div>
-                                    <div class="flex items-center justify-between flex-1">
-                                        <span class="text-white/70 text-sm">Russian</span>
-                                        <span class="text-white/40">0</span>
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Sort Options -->
-                    <div class="flex flex-col gap-2">
-                        <h3 class="text-sm font-medium text-white mb-4">Sort Sources</h3>
-                        <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
-                                    hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
-                                    rounded-lg border border-white/5 bg-black/20"
-                                data-sort="hot">
-                            <i class="fas fa-fire text-[10px] text-red-500"></i>
-                            Hot (24h)
-                        </button>
-                        <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
-                                    hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
-                                    rounded-lg border border-white/5 bg-black/20"
-                                data-sort="new">
-                            <i class="fas fa-star text-[10px] text-amber-500"></i>
-                            New
-                        </button>
-                        <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
-                                    hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
-                                    rounded-lg border border-white/5 bg-black/20"
-                                data-sort="most-copies">
-                            <i class="fas fa-copy text-[10px] text-blue-500"></i>
-                            Most Copies
-                        </button>
-                        <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
-                                    hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
-                                    rounded-lg border border-white/5 bg-black/20"
-                                data-sort="most-installs">
-                            <i class="fas fa-download text-[10px] text-emerald-500"></i>
-                            Most Installs
-                        </button>
-                        <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
-                                    hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
-                                    rounded-lg border border-white/5 bg-black/20"
-                                data-sort="name-asc">
-                            <i class="fas fa-sort-alpha-down text-[10px]"></i>
-                            Name (A-Z)
-                        </button>
-                        <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 
-                                    hover:bg-white/10 transition-colors duration-200 flex items-center gap-2
-                                    rounded-lg border border-white/5 bg-black/20"
-                                data-sort="name-desc">
-                            <i class="fas fa-sort-alpha-up text-[10px]"></i>
-                            Name (Z-A)
-                        </button>
-                    </div>
-
-                    <!-- Games Count section -->
-                    <div class="flex flex-col gap-2 pb-4">
-                        <h3 class="text-sm font-medium text-white mb-4">Games Count</h3>
-                        <div class="flex flex-col gap-2">
-                            <button class="games-filter-btn" data-min="0" data-max="499">
-                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <span class="text-white/90 text-sm">0-499</span>
-                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                        <div class="h-full w-[80%] bg-emerald-500/50 rounded-full"></div>
-                                    </div>
-                                    <span class="text-white/40 text-xs">8</span>
-                                </div>
-                            </button>
-
-                            <button class="games-filter-btn" data-min="500" data-max="999">
-                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <span class="text-white/90 text-sm">500-999</span>
-                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                        <div class="h-full w-[70%] bg-emerald-500/50 rounded-full"></div>
-                                    </div>
-                                    <span class="text-white/40 text-xs">7</span>
-                                </div>
-                            </button>
-
-                            <button class="games-filter-btn" data-min="1000" data-max="1999">
-                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <span class="text-white/90 text-sm">1000-1999</span>
-                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                        <div class="h-full w-[50%] bg-emerald-500/50 rounded-full"></div>
-                                    </div>
-                                    <span class="text-white/40 text-xs">5</span>
-                                </div>
-                            </button>
-
-                            <button class="games-filter-btn" data-min="2000" data-max="4999">
-                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <span class="text-white/90 text-sm">2000-4999</span>
-                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                        <div class="h-full w-[30%] bg-emerald-500/50 rounded-full"></div>
-                                    </div>
-                                    <span class="text-white/40 text-xs">3</span>
-                                </div>
-                            </button>
-
-                            <button class="games-filter-btn" data-min="5000" data-max="6999">
-                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <span class="text-white/90 text-sm">5000-6999</span>
-                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                        <div class="h-full w-[20%] bg-emerald-500/50 rounded-full"></div>
-                                    </div>
-                                    <span class="text-white/40 text-xs">2</span>
-                                </div>
-                            </button>
-
-                            <button class="games-filter-btn" data-min="7000" data-max="14999">
-                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 
-                                            bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <span class="text-white/90 text-sm">7000-14999</span>
-                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                        <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                    </div>
-                                    <span class="text-white/40 text-xs">0</span>
-                                </div>
-                            </button>
-
-                            <button class="games-filter-btn" data-min="15000" data-max="29999">
-                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 
-                                            bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <span class="text-white/90 text-sm">15000-29999</span>
-                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                        <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                    </div>
-                                    <span class="text-white/40 text-xs">0</span>
-                                </div>
-                            </button>
-
-                            <button class="games-filter-btn" data-min="30000" data-max="50000">
-                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 
-                                            bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                    <span class="text-white/90 text-sm">30000-50000</span>
-                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                        <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                    </div>
-                                    <span class="text-white/40 text-xs">0</span>
-                                </div>
-                            </button>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
