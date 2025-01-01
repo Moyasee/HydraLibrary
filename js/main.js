@@ -827,7 +827,36 @@ function updateFilterCounts() {
         }
     });
 
-    // Rest of the function...
+    // Update games count filter counts
+    document.querySelectorAll('.games-filter-btn').forEach(button => {
+        const min = parseInt(button.dataset.min);
+        const max = parseInt(button.dataset.max);
+        
+        // Count sources within this range
+        const count = sources.filter(source => {
+            const gamesCount = parseInt(source.gamesCount);
+            return gamesCount >= min && gamesCount <= max;
+        }).length;
+        
+        // Update count display
+        const countElement = button.querySelector('.text-white\\/40');
+        if (countElement) {
+            countElement.textContent = count;
+        }
+        
+        // Update progress bar width
+        const progressBar = button.querySelector('.bg-emerald-500\\/50');
+        if (progressBar) {
+            // Find the maximum count across all ranges for percentage calculation
+            const maxCount = Math.max(...Array.from(document.querySelectorAll('.games-filter-btn')).map(btn => {
+                const btnCount = parseInt(btn.querySelector('.text-white\\/40').textContent);
+                return isNaN(btnCount) ? 0 : btnCount;
+            }));
+            
+            const percentage = maxCount > 0 ? (count / maxCount) * 100 : 0;
+            progressBar.style.width = `${percentage}%`;
+        }
+    });
 }
 
 // Search functionality
