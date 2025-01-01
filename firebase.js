@@ -1,37 +1,15 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
-import { getAuth, signInAnonymously } from 'firebase/auth';
 
-// Wait for config to be available
-const waitForConfig = () => {
-  return new Promise((resolve) => {
-    const check = () => {
-      if (window.__FIREBASE_CONFIG__) {
-        resolve(window.__FIREBASE_CONFIG__);
-      } else {
-        setTimeout(check, 100);
-      }
-    };
-    check();
-  });
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-// Initialize Firebase
-const initializeFirebase = async () => {
-  const config = await waitForConfig();
-  const app = initializeApp(config);
-  const auth = getAuth(app);
-  const db = getDatabase(app);
-
-  try {
-    await signInAnonymously(auth);
-    console.log('Signed in anonymously');
-  } catch (error) {
-    console.error('Error signing in:', error);
-  }
-
-  return { auth, db };
-};
-
-// Export a promise that resolves with Firebase instances
-export default initializeFirebase(); 
+const app = initializeApp(firebaseConfig);
+export const db = getDatabase(app); 
