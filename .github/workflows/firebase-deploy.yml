@@ -18,6 +18,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
         
+      - name: Create dist directory
+        run: mkdir -p dist
+        
       - name: Build
         run: npm run build
         
@@ -29,6 +32,9 @@ jobs:
             databaseURL: '${{ secrets.FIREBASE_DATABASE_URL }}'
           };" > dist/config.js
 
+      - name: List dist contents
+        run: ls -la dist
+        
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
