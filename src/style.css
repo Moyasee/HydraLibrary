@@ -130,41 +130,33 @@
 /* Custom scrollbar styles */
 .visible-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: rgba(16, 185, 129, 0.3) rgba(0, 0, 0, 0.2);
+    scrollbar-color: rgba(16, 185, 129, 0.2) rgba(0, 0, 0, 0.2);
     -webkit-overflow-scrolling: touch;
 }
 
 .visible-scrollbar::-webkit-scrollbar {
-    width: 8px;
-    height: 6px;
+    width: 4px;
 }
 
 .visible-scrollbar::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    margin: 4px;
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: 4px;
 }
 
 .visible-scrollbar::-webkit-scrollbar-thumb {
-    background: linear-gradient(
-        to bottom,
-        rgba(16, 185, 129, 0.4),
-        rgba(16, 185, 129, 0.5)
-    );
-    border-radius: 8px;
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    background: rgba(16, 185, 129, 0.2);
+    border-radius: 4px;
+    transition: all 0.2s ease;
 }
 
 .visible-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(
-        to bottom,
-        rgba(16, 185, 129, 0.5),
-        rgba(16, 185, 129, 0.6)
-    );
+    background: rgba(16, 185, 129, 0.3);
 }
 
-.visible-scrollbar::-webkit-scrollbar-corner {
-    background: transparent;
+/* For Firefox */
+.visible-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(16, 185, 129, 0.2) rgba(255, 255, 255, 0.01);
 }
 
 /* Hide scrollbar but keep functionality */
