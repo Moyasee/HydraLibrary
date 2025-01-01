@@ -129,34 +129,37 @@
 
 /* Custom scrollbar styles */
 .visible-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(16, 185, 129, 0.2) rgba(0, 0, 0, 0.2);
-    -webkit-overflow-scrolling: touch;
+    /* Firefox */
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(16, 185, 129, 0.3) rgba(0, 0, 0, 0.1) !important;
 }
 
+/* Chrome, Edge, Safari */
 .visible-scrollbar::-webkit-scrollbar {
-    width: 4px;
+    width: 6px !important;
+    background: transparent !important;
 }
 
 .visible-scrollbar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.01);
-    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.1) !important;
+    margin: 3px !important;
 }
 
 .visible-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(16, 185, 129, 0.2);
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    background: rgba(16, 185, 129, 0.3) !important;
+    border-radius: 3px !important;
+    border: 1px solid rgba(16, 185, 129, 0.1) !important;
+    transition: background-color 0.2s ease !important;
 }
 
 .visible-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.5) !important;
 }
 
-/* For Firefox */
+/* Remove any conflicting styles */
 .visible-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(16, 185, 129, 0.2) rgba(255, 255, 255, 0.01);
+    -ms-overflow-style: auto !important;
+    overflow-y: overlay !important;
 }
 
 /* Hide scrollbar but keep functionality */
