@@ -85,7 +85,7 @@
             "description": "The source created by Kekitu, for Hydra Launcher.",
             "url": "https://raw.githubusercontent.com/KekitU/rutracker-hydra-links/main/all_categories.json",
             "gamesCount": "39098",
-            "status": ["Safe For Use"],
+            "status": ["Safe For Use", "Russian"],
             "addedDate": "2024-12-30"
         },
         {
@@ -101,7 +101,7 @@
             "description": "Source that was created by the russian guy called HydraSources, updating almost daily. If you are a russian user, this is the source you should use.",
             "url": "https://hydrasources.su/hydra.json",
             "gamesCount": "661",
-            "status": ["Safe For Use"],
+            "status": ["Safe For Use", "Russian"],
             "addedDate": "2024-12-30"
         },
         {
