@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to hide cookie consent banner
     function hideCookieConsent() {
         cookieConsent.classList.add('translate-y-full');
-        cookieConsent.addEventListener('transitionend', () => {
-            cookieConsent.style.display = 'none';
-        }, { once: true });
+            cookieConsent.addEventListener('transitionend', () => {
+                cookieConsent.style.display = 'none';
+            }, { once: true });
     }
 
     // Initialize sorting functionality
@@ -258,7 +258,7 @@ function showRiskAlert(callback) {
                 <!-- Pulsing border -->
                 <div class="absolute inset-0 border border-red-500/20 rounded-xl animate-pulse-border"></div>
             </div>
-
+            
             <!-- Content -->
             <div class="relative p-4 sm:p-6">
                 <div class="flex items-start gap-3 sm:gap-4">
@@ -336,7 +336,7 @@ function createSourceCard(source) {
 
     // Debug log
     console.log('Creating card for source:', source.title, 'with stats:', stats);
-
+    
     const statusHTML = source.status.map(status => {
         const className = status.toLowerCase().replace(/\s+/g, '-');
         const bgColor = {
@@ -477,13 +477,13 @@ function createSourceCard(source) {
                 }
             };
 
-            if (isRisky) {
+        if (isRisky) {
                 showRiskAlert((shouldInstall) => {
                     if (shouldInstall) {
                         proceedWithInstall();
-                    }
-                });
-            } else {
+                }
+            });
+        } else {
                 proceedWithInstall();
             }
         });
@@ -501,17 +501,17 @@ function createSourceCard(source) {
                     }, 2000);
                 }
             };
-
-            if (isRisky) {
+        
+        if (isRisky) {
                 showRiskAlert((shouldCopy) => {
                     if (shouldCopy) {
                         proceedWithCopy();
-                    }
-                });
-            } else {
+                }
+            });
+        } else {
                 proceedWithCopy();
-            }
-        });
+        }
+    });
     }
 
     // Initialize stats display with current values
@@ -686,7 +686,7 @@ function getCardsPerPage() {
 function updatePagination(totalItems, itemsPerPage) {
     const paginationContainer = document.getElementById('pagination');
     if (!paginationContainer) return;
-
+    
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     
     // Don't show pagination if there's only one page
@@ -694,7 +694,7 @@ function updatePagination(totalItems, itemsPerPage) {
         paginationContainer.innerHTML = '';
         return;
     }
-
+    
     let paginationHTML = `
         <div class="flex items-center justify-center gap-2">
             <button onclick="changePage(${currentPage - 1})" 
@@ -705,10 +705,10 @@ function updatePagination(totalItems, itemsPerPage) {
                 <i class="fas fa-chevron-left text-xs"></i>
             </button>
     `;
-
+    
     for (let i = 1; i <= totalPages; i++) {
         if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
-            paginationHTML += `
+        paginationHTML += `
                 <button onclick="changePage(${i})" 
                         class="pagination-btn w-9 h-9 flex items-center justify-center rounded-lg
                                text-sm font-medium transition-colors
@@ -716,16 +716,16 @@ function updatePagination(totalItems, itemsPerPage) {
                                    ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' 
                                    : 'bg-black/20 border-white/5 text-white/70 hover:text-white hover:bg-black/40'} 
                                border">
-                    ${i}
-                </button>
-            `;
+                ${i}
+            </button>
+        `;
         } else if (i === currentPage - 3 || i === currentPage + 3) {
             paginationHTML += `
                 <span class="w-9 h-9 flex items-center justify-center text-white/40">...</span>
-            `;
+        `;
         }
     }
-
+    
     paginationHTML += `
             <button onclick="changePage(${currentPage + 1})" 
                     class="pagination-btn w-9 h-9 flex items-center justify-center rounded-lg
@@ -733,10 +733,10 @@ function updatePagination(totalItems, itemsPerPage) {
                            hover:bg-black/40 transition-colors ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}"
                     ${currentPage === totalPages ? 'disabled' : ''}>
                 <i class="fas fa-chevron-right text-xs"></i>
-            </button>
-        </div>
+        </button>
+    </div>
     `;
-
+    
     paginationContainer.innerHTML = paginationHTML;
 }
 
@@ -837,7 +837,7 @@ function updateFilterCounts() {
             const gamesCount = parseInt(source.gamesCount);
             return gamesCount >= min && gamesCount <= max;
         }).length;
-        
+
         // Update count display
         const countElement = button.querySelector('.text-white\\/40');
         if (countElement) {
@@ -1114,7 +1114,7 @@ async function trackSourceUsage(sourceUrl, action) {
             activity: recentActivity,
             lastUpdated: now
         };
-
+        
         // Update database
         await update(statsRef, newStats);
 
@@ -1182,7 +1182,7 @@ function animateInstallButton(button, state) {
             button.disabled = true;
             button.innerHTML = `
                 <div class="flex items-center gap-1.5">
-                    <div class="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
+                <div class="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
                     <span>Installing...</span>
                 </div>
             `;
