@@ -3694,54 +3694,23 @@ video {
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
-  -webkit-overflow-scrolling: touch;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
-  height: 6px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  margin: 2px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-        to bottom,
-        rgba(16, 185, 129, 0.2),  /* emerald-500/20 */
-        rgba(16, 185, 129, 0.3)   /* emerald-500/30 */
-    );
-  border-radius: 8px;
-  border: 1px solid rgba(16, 185, 129, 0.1);
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-        to bottom,
-        rgba(16, 185, 129, 0.3),  /* emerald-500/30 */
-        rgba(16, 185, 129, 0.4)   /* emerald-500/40 */
-    );
-}
-
-.custom-scrollbar::-webkit-scrollbar-corner {
   background: transparent;
 }
 
-/* Hide scrollbar but keep functionality */
-
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  /* For Internet Explorer and Edge */
-  scrollbar-width: none;
-  /* For Firefox */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
 }
 
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-  /* For Chrome, Safari and Opera */
+body.overflow-hidden {
+  overflow: hidden;
 }
 
 @media (min-width: 640px) {

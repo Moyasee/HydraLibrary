@@ -1,5 +1,6 @@
 import { db } from '../firebase.js';
 import { ref, update, get, set } from 'firebase/database';
+import { i18n } from '../i18n/index.js';
 
 document.body.classList.add('preloading');
 
@@ -28,12 +29,118 @@ function initPreloader() {
                 setTimeout(() => {
                     preloader.remove();
                     document.body.classList.remove('preloading');
+                    // Initialize i18n and language switcher after preloader
+                    i18n.updatePageContent();
+                    initializeLanguageSwitcher();
                 }, 500);
             }, 500);
         } else {
             progressBar.style.width = `${progress}%`;
         }
     }, 100);
+}
+
+// Add this function to initialize the language switcher
+function initializeLanguageSwitcher() {
+    console.log('Starting language switcher initialization');
+    const languageSwitcher = document.getElementById('language-switcher');
+    const languageDropdown = document.getElementById('language-dropdown');
+    
+    console.log('Initializing language switcher:', { languageSwitcher, languageDropdown });
+    
+    if (!languageSwitcher || !languageDropdown) {
+        console.error('Language switcher elements not found:', { languageSwitcher, languageDropdown });
+        return;
+    }
+    
+    // Remove any existing event listeners
+    const newLanguageSwitcher = languageSwitcher.cloneNode(true);
+    languageSwitcher.parentNode.replaceChild(newLanguageSwitcher, languageSwitcher);
+    
+    // Set initial language text
+    const currentLang = i18n.getCurrentLocale();
+    const langSpan = newLanguageSwitcher.querySelector('span');
+    console.log('Initial language setup:', { currentLang, langSpan });
+    
+    if (langSpan) {
+        const languageNames = {
+            'en': 'English',
+            'ru': 'Русский',
+            'pt-br': 'Português'
+        };
+        langSpan.textContent = languageNames[currentLang] || 'English';
+    }
+    
+    // Toggle dropdown
+    newLanguageSwitcher.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Language switcher clicked');
+        // Check if dropdown is currently hidden
+        const isHidden = languageDropdown.classList.contains('hidden');
+        
+        // Show/hide dropdown
+        if (isHidden) {
+            languageDropdown.classList.remove('hidden');
+            // Add active state to button
+            newLanguageSwitcher.classList.add('bg-white/10');
+        } else {
+            languageDropdown.classList.add('hidden');
+            // Remove active state from button
+            newLanguageSwitcher.classList.remove('bg-white/10');
+        }
+        console.log('Dropdown toggled, hidden:', !isHidden);
+    });
+    
+    // Handle language selection
+    const langButtons = languageDropdown.querySelectorAll('button');
+    console.log('Language buttons found:', langButtons.length);
+    
+    langButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const lang = button.dataset.lang;
+            console.log('Language button clicked:', lang);
+            i18n.setLocale(lang);
+            languageDropdown.classList.add('hidden');
+            newLanguageSwitcher.classList.remove('bg-white/10');
+            
+            if (langSpan) {
+                const languageNames = {
+                    'en': 'English',
+                    'ru': 'Русский',
+                    'pt-br': 'Português'
+                };
+                langSpan.textContent = languageNames[lang] || 'English';
+            }
+            // Refresh source cards with new language
+            displaySources();
+        });
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!newLanguageSwitcher.contains(e.target)) {
+            console.log('Clicking outside, closing dropdown');
+            languageDropdown.classList.add('hidden');
+            newLanguageSwitcher.classList.remove('bg-white/10');
+        }
+    });
+
+    // Update language switcher text
+    const updateLanguageSwitcherText = () => {
+        const text = languageSwitcher.querySelector('span');
+        const languageNames = {
+            'en': 'English',
+            'ru': 'Русский',
+            'pt-br': 'Português'
+        };
+        text.textContent = languageNames[i18n.currentLocale] || 'English';
+    };
+
+    // Listen for language changes
+    document.addEventListener('languageChanged', updateLanguageSwitcherText);
 }
 
 // Update your DOMContentLoaded event listener
@@ -86,6 +193,28 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSearchPlaceholder();
 
     startActivityCleanup();
+
+    // Initialize filter visibility first
+    handleFilterVisibility();
+    
+    // Then set up the mobile filters
+    setupMobileFilters();
+    
+    // Initialize the mobile filters content
+    initializeMobileFilters();
+    
+    // Add resize listener for filter visibility
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            handleFilterVisibility();
+        }, 100);
+    });
+
+    // Initialize i18n and language switcher
+    i18n.updatePageContent();
+    initializeLanguageSwitcher();
 });
 
 // Add this new function to handle sort options
@@ -128,8 +257,8 @@ let currentPage = 1;
 const CARDS_PER_PAGE = {
     mobile: 4,     // 1 column × 4 rows
     tablet: 6,     // 2 columns × 3 rows
-    desktop: 9,    // 3 columns × 3 rows
-    wide: 12       // 4 columns × 3 rows
+    desktop: 9,    // 3 columns × 3 rows (1080p)
+    wide: 15       // 3 columns × 5 rows (for 1440p)
 };
 
 const aboutModal = document.getElementById('about-modal');
@@ -149,6 +278,174 @@ const RATE_LIMIT = {
 
 // Add these constants at the top of your file
 const ACTIVITY_WINDOW = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+// Add these constants at the top with your other constants
+const mobileFiltersBtn = document.getElementById('mobile-filters-btn');
+const mobileFiltersModal = document.getElementById('mobile-filters-modal');
+const closeMobileFilters = document.getElementById('close-mobile-filters');
+const mobileFiltersContent = document.getElementById('mobile-filters-content');
+const resetFiltersBtn = document.getElementById('reset-filters');
+const applyFiltersBtn = document.getElementById('apply-filters');
+const activeFiltersCount = document.getElementById('active-filters-count');
+
+// Add these constants at the top with your other constants
+const BREAKPOINTS = {
+    tablet: 768  // Changed from 1024 to match md breakpoint
+};
+
+// Handle filter visibility
+function handleFilterVisibility() {
+    const filtersSidebar = document.getElementById('filters-sidebar');
+    const mobileFiltersBtn = document.getElementById('mobile-filters-btn')?.parentElement;
+    
+    if (!filtersSidebar || !mobileFiltersBtn) {
+        console.error('Filter elements not found:', { filtersSidebar, mobileFiltersBtn });
+        return;
+    }
+    
+    const isMobile = window.innerWidth < BREAKPOINTS.tablet;
+    console.log('Visibility check:', { isMobile, width: window.innerWidth, breakpoint: BREAKPOINTS.tablet });
+    
+    // Set initial states
+    filtersSidebar.classList.toggle('hidden', isMobile);
+    mobileFiltersBtn.classList.toggle('hidden', !isMobile);
+}
+
+// Update the setupMobileFilters function
+function setupMobileFilters() {
+    const mobileFiltersBtn = document.getElementById('mobile-filters-btn');
+    const mobileFiltersModal = document.getElementById('mobile-filters-modal');
+    const mobileFiltersContent = mobileFiltersModal?.querySelector('.flex.flex-col.bg-\\[\\#111\\]');
+    const modalBackdrop = mobileFiltersModal?.querySelector('.bg-\\[\\#0A0A0A\\]');
+    
+    if (!mobileFiltersBtn || !mobileFiltersModal || !mobileFiltersContent || !modalBackdrop) {
+        console.error('Required mobile filter elements not found');
+        return;
+    }
+
+    function openModal() {
+        // First show the modal container
+        mobileFiltersModal.classList.remove('hidden');
+        
+        // Force a reflow to ensure the transitions work
+        mobileFiltersModal.offsetHeight;
+        
+        // Then animate in the backdrop and content
+        modalBackdrop.classList.add('opacity-100');
+        mobileFiltersContent.classList.remove('translate-y-full');
+        document.body.classList.add('overflow-hidden');
+    }
+
+    function closeModal() {
+        // First animate out
+        modalBackdrop.classList.remove('opacity-100');
+        mobileFiltersContent.classList.add('translate-y-full');
+        
+        // Wait for animation to finish before hiding
+        setTimeout(() => {
+            mobileFiltersModal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }, 300); // Match this with the duration in the CSS (300ms)
+    }
+
+    // Show modal when clicking the filters button
+    mobileFiltersBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+    });
+
+    // Close modal when clicking the close button
+    const closeMobileFilters = document.getElementById('close-mobile-filters');
+    if (closeMobileFilters) {
+        closeMobileFilters.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal();
+        });
+    }
+
+    // Close modal when clicking outside
+    mobileFiltersModal.addEventListener('click', (e) => {
+        if (e.target === mobileFiltersModal) {
+            closeModal();
+        }
+    });
+
+    // Add escape key handler
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !mobileFiltersModal.classList.contains('hidden')) {
+            closeModal();
+        }
+    });
+
+    // Handle reset filters
+    const resetFiltersBtn = document.getElementById('reset-filters');
+    if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            resetAllFilters();
+            updateActiveFiltersCount();
+        });
+    }
+
+    // Handle apply filters
+    const applyFiltersBtn = document.getElementById('apply-filters');
+    if (applyFiltersBtn) {
+        applyFiltersBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal();
+            displaySources();
+        });
+    }
+}
+
+// Update active filters count
+function updateActiveFiltersCount() {
+    const activeCount = countActiveFilters();
+    
+    if (activeFiltersCount) {
+        if (activeCount > 0) {
+            activeFiltersCount.textContent = `${activeCount} active`;
+            activeFiltersCount.classList.remove('hidden');
+        } else {
+            activeFiltersCount.classList.add('hidden');
+        }
+    }
+}
+
+// Count active filters
+function countActiveFilters() {
+    let count = 0;
+    
+    if (activeStatus) count++;
+    if (activeGamesRange) count++;
+    if (localStorage.getItem('currentSort')) count++;
+    
+    return count;
+}
+
+// Reset all filters
+function resetAllFilters() {
+    activeStatus = '';
+    activeGamesRange = null;
+    localStorage.removeItem('currentSort');
+    
+    // Reset UI state
+    document.querySelectorAll('.status-filter-btn div').forEach(btn => {
+        btn.classList.remove('bg-black/40');
+    });
+    
+    document.querySelectorAll('.games-filter-btn div').forEach(btn => {
+        btn.classList.remove('border-emerald-500/20', 'bg-black/40');
+        btn.classList.add('border-white/5', 'bg-black/20');
+    });
+    
+    document.querySelectorAll('.sort-option').forEach(btn => {
+        btn.classList.remove('bg-white/10', 'text-white');
+        btn.classList.add('text-white/70');
+    });
+    
+    displaySources();
+}
 
 async function fetchSources() {
     try {
@@ -217,11 +514,12 @@ async function loadSourceStats() {
     }
 }
 
-// Add this function back for risk alerts
+// Add function to show risk alert
 function showRiskAlert(callback) {
     // Add blur to the main content
     document.querySelector('main').classList.add('blur-sm', 'transition-all', 'duration-200');
     
+    const t = i18n.t.bind(i18n);
     const alertModal = document.createElement('div');
     alertModal.className = 'fixed inset-0 flex items-center justify-center z-50 animate-fade-in p-4';
     alertModal.innerHTML = `
@@ -263,10 +561,9 @@ function showRiskAlert(callback) {
                         <i class="fas fa-exclamation-triangle text-red-500 text-sm sm:text-base"></i>
                     </div>
                     <div>
-                        <h3 class="text-base sm:text-lg font-medium text-white mb-2">Warning</h3>
+                        <h3 class="text-base sm:text-lg font-medium text-white mb-2">${t('modal.warning.title')}</h3>
                         <p class="text-white/70 text-xs sm:text-sm">
-                            This source is marked as "Use At Your Own Risk". It may contain untested or potentially harmful content. 
-                            Are you sure you want to proceed?
+                            ${t('modal.warning.message')}
                         </p>
                     </div>
                 </div>
@@ -275,13 +572,13 @@ function showRiskAlert(callback) {
                 <div class="flex items-center justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
                     <button class="cancel-btn px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm 
                                  text-white/70 hover:text-white transition-colors">
-                        Cancel
+                        ${t('modal.warning.cancel')}
                     </button>
                     <button class="proceed-btn px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm 
                                  bg-red-500/10 hover:bg-red-500/20 
                                  border border-red-500/20 text-red-400 hover:text-red-300
                                  rounded-lg transition-colors">
-                        Proceed Anyway
+                        ${t('modal.warning.confirm')}
                     </button>
                 </div>
             </div>
@@ -316,7 +613,94 @@ function showRiskAlert(callback) {
     });
 }
 
+// Add source translations
+const sourceTranslations = {
+    en: {
+        'RuTracker | All Categories': {
+            title: 'RuTracker | All Categories',
+            description: 'The source created by Kakitu for Hydra Launcher.'
+        },
+        'FitGirl': {
+            title: 'FitGirl',
+            description: 'Home archivist to web\'s top game repacker: the ultimate source for trustworthy games.'
+        },
+        'SteamRip [DIRECT DOWNLOAD / NO TORRENT]': {
+            title: 'SteamRip [DIRECT DOWNLOAD / NO TORRENT]',
+            description: 'Pre-installed games with original content, uncompressed, and sourced reliably.'
+        },
+        'David Kazumi': {
+            title: 'David Kazumi',
+            description: 'David Kazumi\'s source, for Hydra Launcher. Well known across the Hydra Launcher community server.'
+        },
+        'CrackStatus': {
+            title: 'CrackStatus',
+            description: 'Latest updates on game cracks and releases.'
+        },
+        'AtopGames': {
+            title: 'AtopGames',
+            description: 'Unaltered pre-installed games sourced from multiple trustworthy names in the community.'
+        },
+        'DODI': {
+            title: 'DODI',
+            description: 'Renowned brand in pirated video games, this repacker is among the finest in the field'
+        },
+        'HydraSources(RUSSIAN)': {
+            title: 'HydraSources(RUSSIAN)',
+            description: 'Source that was created by the russian guy called HydraSources, updating almost daily. If you are a russian user, this is the source you should use.'
+        },
+        'Empress': {
+            title: 'Empress',
+            description: 'For games cracked by EMPRESS.'
+        }
+    },
+    ru: {
+        'RuTracker | All Categories': {
+            title: 'RuTracker | Все категории',
+            description: 'Источник, созданный Kakitu для Hydra Launcher.'
+        },
+        'FitGirl': {
+            title: 'FitGirl',
+            description: 'Домашний архивист лучшего в сети репакера игр: надежный источник проверенных игр.'
+        },
+        'SteamRip [DIRECT DOWNLOAD / NO TORRENT]': {
+            title: 'SteamRip [ПРЯМОЕ СКАЧИВАНИЕ / БЕЗ ТОРРЕНТА]',
+            description: 'Предустановленные игры с оригинальным контентом, без сжатия и из надежных источников.'
+        },
+        'David Kazumi': {
+            title: 'David Kazumi',
+            description: 'Источник David Kazumi для Hydra Launcher. Хорошо известен на сервере сообщества Hydra Launcher.'
+        },
+        'CrackStatus': {
+            title: 'CrackStatus',
+            description: 'Последние обновления о взломах и релизах игр.'
+        },
+        'AtopGames': {
+            title: 'AtopGames',
+            description: 'Неизмененные предустановленные игры от множества надежных имен в сообществе.'
+        },
+        'DODI': {
+            title: 'DODI',
+            description: 'Известный бренд в мире пиратских видеоигр, один из лучших репакеров в этой области'
+        },
+        'HydraSources(RUSSIAN)': {
+            title: 'HydraSources(РУССКИЙ)',
+            description: 'Источник, созданный русским парнем под ником HydraSources, обновляется почти ежедневно. Если вы русский пользователь, это источник, который вам нужен.'
+        },
+        'Empress': {
+            title: 'Empress',
+            description: 'Для игр, взломанных EMPRESS.'
+        }
+    }
+};
+
 function createSourceCard(source) {
+    const currentLang = i18n.getCurrentLocale();
+    const translations = i18n.translations[currentLang]?.sources || {};
+    const translation = translations[source.title] || {
+        title: source.title,
+        description: source.description
+    };
+    
     const isRisky = source.status.includes('Use At Your Own Risk');
     
     const card = document.createElement('div');
@@ -335,26 +719,38 @@ function createSourceCard(source) {
     
     const statusHTML = source.status.map(status => {
         const className = status.toLowerCase().replace(/\s+/g, '-');
-        const bgColor = {
-            'trusted': 'bg-emerald-500',
-            'safe-for-use': 'bg-blue-500',
-            'use-at-your-own-risk': 'bg-red-500',
-            'new': 'bg-amber-500',
-            'russian': 'bg-purple-500'
-        }[className];
-
-        const icon = {
-            'trusted': 'fa-shield',
-            'safe-for-use': 'fa-check-circle',
-            'use-at-your-own-risk': 'fa-exclamation-triangle',
-            'new': 'fa-star',
-            'russian': 'fa-globe'
-        }[className];
+        // Map status to translation key and color
+        const statusMap = {
+            'trusted': {
+                color: 'bg-emerald-500',
+                icon: 'fa-shield',
+                key: 'trusted'
+            },
+            'safe-for-use': {
+                color: 'bg-blue-500',
+                icon: 'fa-check-circle',
+                key: 'safeForUse'
+            },
+            'use-at-your-own-risk': {
+                color: 'bg-red-500',
+                icon: 'fa-exclamation-triangle',
+                key: 'useAtOwnRisk'
+            },
+            'russian': {
+                color: 'bg-purple-500',
+                icon: 'fa-globe',
+                key: 'russian'
+            }
+        }[className] || {
+            color: 'bg-gray-500',
+            icon: 'fa-circle',
+            key: className
+        };
 
         return `
             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-black/20 border border-white/10 text-xs backdrop-blur-sm">
-                <i class="fas ${icon} text-[10px] ${bgColor.replace('bg-', 'text-')}"></i>
-                ${status}
+                <i class="fas ${statusMap.icon} text-[10px] ${statusMap.color.replace('bg-', 'text-')}"></i>
+                ${i18n.t(`status.${statusMap.key}`)}
             </span>
         `;
     }).join('');
@@ -388,7 +784,9 @@ function createSourceCard(source) {
                                   ${isRisky ? 'group-hover:border-red-500/20' : 'group-hover:border-emerald-500/20'}
                                   transition-colors duration-300">
                             <i class="fas fa-gamepad ${isRisky ? 'text-red-500/50' : 'text-emerald-500/50'} text-[10px]"></i>
-                            <span>${source.gamesCount} games</span>
+                            <span class="text-white/70" data-i18n-params='{"count": "${source.gamesCount}"}'>
+                                ${source.gamesCount} ${i18n.t('sourceCard.games')}
+                            </span>
                         </div>
                     </div>
                     
@@ -403,13 +801,13 @@ function createSourceCard(source) {
                         <div class="flex-1 min-w-0">
                             <h3 class="text-base font-medium text-white group-hover:text-${isRisky ? 'red' : 'emerald'}-400 
                                        transition-colors duration-300 mb-1.5 truncate">
-                                ${source.title}
+                                ${translation.title}
                             </h3>
-                            <p class="text-white/60 text-xs leading-relaxed line-clamp-2 mb-2">${source.description}</p>
+                            <p class="text-white/60 text-xs leading-relaxed line-clamp-2 mb-2">${translation.description}</p>
                             <div class="flex items-center gap-2 text-white/40 text-xs">
                                 <span class="flex items-center gap-1">
                                     <i class="fas fa-calendar-alt text-[10px]"></i>
-                                    Added ${formatDate(source.addedDate)}
+                                    ${i18n.t('common.added')} ${formatDate(source.addedDate)}
                                 </span>
                                 <span class="w-1 h-1 rounded-full bg-white/20"></span>
                                 <div class="source-stats flex items-center gap-3">
@@ -443,14 +841,14 @@ function createSourceCard(source) {
                        flex items-center justify-center gap-2 min-h-[36px] disabled:opacity-50 
                        disabled:cursor-not-allowed hover:scale-[1.02]">
                         <i class="fas fa-download text-[10px]"></i>
-                        Install On Hydra
+                        ${i18n.t('common.install')}
                     </button>
                     <button class="copy-btn shrink-0 bg-white/5 hover:bg-white/10 text-white/70 
                                  border border-white/10 rounded-lg px-4 py-2 text-xs transition-all duration-200 
                                  flex items-center justify-center gap-2 hover:scale-[1.02]" 
                             data-url="${source.url}">
                         <i class="fas fa-copy text-[10px]"></i>
-                        Copy
+                        ${i18n.t('common.copy')}
                     </button>
                 </div>
             </div>
@@ -473,13 +871,14 @@ function createSourceCard(source) {
                 }
             };
 
-        if (isRisky) {
+            // Check if source is marked as risky
+            if (source.status && source.status.includes('Use At Your Own Risk')) {
                 showRiskAlert((shouldInstall) => {
                     if (shouldInstall) {
                         proceedWithInstall();
-                }
-            });
-        } else {
+                    }
+                });
+            } else {
                 proceedWithInstall();
             }
         });
@@ -491,9 +890,9 @@ function createSourceCard(source) {
                 const success = await trackSourceUsage(source.url, 'copy');
                 if (success) {
                     navigator.clipboard.writeText(source.url);
-                    copyBtn.innerHTML = '<i class="fas fa-check text-[10px]"></i> Copied!';
+                    copyBtn.innerHTML = '<i class="fas fa-check text-[10px]"></i> ' + i18n.t('sourceCard.copied');
                     setTimeout(() => {
-                        copyBtn.innerHTML = '<i class="fas fa-copy text-[10px]"></i> Copy URL';
+                        copyBtn.innerHTML = '<i class="fas fa-copy text-[10px]"></i> ' + i18n.t('sourceCard.copy');
                     }, 2000);
                 }
             };
@@ -564,10 +963,12 @@ let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
+        handleFilterVisibility();
+        
+        // Your existing resize code...
         const newLayout = getLayoutType();
         const layoutChanged = currentLayout !== newLayout;
         
-        // Only reorganize if layout actually changed
         if (layoutChanged) {
             const filteredSources = filterSources();
             const newCardsPerPage = getCardsPerPage();
@@ -576,7 +977,7 @@ window.addEventListener('resize', () => {
             // If changing from 4 to 3 columns, adjust pagination
             if (currentLayout === 'wide' && newLayout === 'desktop') {
                 // Calculate new page based on current visible items
-                const firstVisibleItem = (currentPage - 1) * CARDS_PER_PAGE.wide;
+                const firstVisibleItem = (currentPage - 1) * CARDS_PER_PAGE.desktop;
                 currentPage = Math.floor(firstVisibleItem / CARDS_PER_PAGE.desktop) + 1;
             }
             
@@ -667,72 +1068,66 @@ function displaySources(sourcesToDisplay = null) {
         container.appendChild(card);
     });
     
-    updatePagination(filteredSources.length, cardsPerPage);
+    updatePagination(totalPages);
+    
+    // Update translations for newly added content
+    i18n.updatePageContent();
 }
 
 function getCardsPerPage() {
     const width = window.innerWidth;
-    if (width >= 1536) return CARDS_PER_PAGE.wide;      // 2xl breakpoint: 4 columns
-    if (width >= 1024) return CARDS_PER_PAGE.desktop;   // lg breakpoint: 3 columns
-    if (width >= 640) return CARDS_PER_PAGE.tablet;     // sm breakpoint: 2 columns
-    return CARDS_PER_PAGE.mobile;                       // mobile: 1 column
+    if (width >= 2560) return CARDS_PER_PAGE.wide;     // 1440p and up: 3 columns × 5 rows
+    if (width >= 1024) return CARDS_PER_PAGE.desktop;  // 1080p: 3 columns × 3 rows
+    if (width >= 640) return CARDS_PER_PAGE.tablet;    // sm breakpoint: 2 columns × 3 rows
+    return CARDS_PER_PAGE.mobile;                      // mobile: 1 column × 4 rows
 }
 
 // Add this function to update pagination
-function updatePagination(totalItems, itemsPerPage) {
+function updatePagination(totalPages) {
     const paginationContainer = document.getElementById('pagination');
     if (!paginationContainer) return;
+
+    let paginationHTML = '';
     
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    
-    // Don't show pagination if there's only one page
-    if (totalPages <= 1) {
-        paginationContainer.innerHTML = '';
-        return;
-    }
-    
-    let paginationHTML = `
-        <div class="flex items-center justify-center gap-2">
-            <button onclick="changePage(${currentPage - 1})" 
-                    class="pagination-btn w-9 h-9 flex items-center justify-center rounded-lg
-                           bg-black/20 border border-white/5 text-white/70 hover:text-white
-                           hover:bg-black/40 transition-colors ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}"
-                    ${currentPage === 1 ? 'disabled' : ''}>
-                <i class="fas fa-chevron-left text-xs"></i>
-            </button>
+    // Previous button
+    paginationHTML += `
+        <button onclick="changePage(${currentPage - 1})" 
+                class="px-2 py-1.5 text-sm text-white/50 hover:text-white disabled:opacity-50 
+                       transition-colors duration-200 rounded-md hover:bg-white/5"
+                ${currentPage === 1 ? 'disabled' : ''}>
+            <i class="fas fa-chevron-left"></i>
+        </button>
     `;
-    
+
+    // Page numbers
     for (let i = 1; i <= totalPages; i++) {
-        if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
-        paginationHTML += `
-                <button onclick="changePage(${i})" 
-                        class="pagination-btn w-9 h-9 flex items-center justify-center rounded-lg
-                               text-sm font-medium transition-colors
-                               ${i === currentPage 
-                                   ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' 
-                                   : 'bg-black/20 border-white/5 text-white/70 hover:text-white hover:bg-black/40'} 
-                               border">
-                ${i}
-            </button>
-        `;
-        } else if (i === currentPage - 3 || i === currentPage + 3) {
+        if (i === currentPage) {
             paginationHTML += `
-                <span class="w-9 h-9 flex items-center justify-center text-white/40">...</span>
+                <button class="px-3 py-1.5 text-sm bg-white/10 text-white rounded-md">
+                    ${i}
+                </button>
+            `;
+        } else {
+            paginationHTML += `
+                <button onclick="changePage(${i})" 
+                        class="px-3 py-1.5 text-sm text-white/50 hover:text-white hover:bg-white/5 
+                               transition-colors duration-200 rounded-md">
+                    ${i}
+                </button>
             `;
         }
     }
-    
+
+    // Next button
     paginationHTML += `
-            <button onclick="changePage(${currentPage + 1})" 
-                    class="pagination-btn w-9 h-9 flex items-center justify-center rounded-lg
-                           bg-black/20 border border-white/5 text-white/70 hover:text-white
-                           hover:bg-black/40 transition-colors ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}"
-                    ${currentPage === totalPages ? 'disabled' : ''}>
-                <i class="fas fa-chevron-right text-xs"></i>
+        <button onclick="changePage(${currentPage + 1})" 
+                class="px-2 py-1.5 text-sm text-white/50 hover:text-white disabled:opacity-50 
+                       transition-colors duration-200 rounded-md hover:bg-white/5"
+                ${currentPage === totalPages ? 'disabled' : ''}>
+            <i class="fas fa-chevron-right"></i>
         </button>
-    </div>
     `;
-    
+
     paginationContainer.innerHTML = paginationHTML;
 }
 
@@ -771,9 +1166,10 @@ document.querySelectorAll('.status-filter-btn').forEach(button => {
             button.querySelector('div').classList.add('bg-black/40');
         }
         
-        // Update display
+        currentPage = 1; // Reset to first page when filtering
         displaySources();
         updateFilterCounts();
+        dispatchFiltersChanged();
     });
 });
 
@@ -782,18 +1178,19 @@ document.querySelectorAll('.games-filter-btn').forEach(button => {
     button.addEventListener('click', () => {
         const min = parseInt(button.dataset.min);
         const max = parseInt(button.dataset.max);
-        const buttonDiv = button.querySelector('div');
         
-        document.querySelectorAll('.games-filter-btn').forEach(btn => {
-            const btnDiv = btn.querySelector('div');
-            btnDiv.classList.remove('border-emerald-500/20', 'bg-black/40');
-            btnDiv.classList.add('border-white/5', 'bg-black/20');
+        // Remove active state from all buttons
+        document.querySelectorAll('.games-filter-btn div').forEach(btn => {
+            btn.classList.remove('border-emerald-500/20', 'bg-black/40');
+            btn.classList.add('border-white/5', 'bg-black/20');
         });
 
         if (activeGamesRange && activeGamesRange.min === min && activeGamesRange.max === max) {
             activeGamesRange = null;
         } else {
             activeGamesRange = { min, max };
+            // Get the div element of the clicked button
+            const buttonDiv = button.querySelector('div');
             buttonDiv.classList.remove('border-white/5', 'bg-black/20');
             buttonDiv.classList.add('border-emerald-500/20', 'bg-black/40');
         }
@@ -801,6 +1198,8 @@ document.querySelectorAll('.games-filter-btn').forEach(button => {
         currentPage = 1; // Reset to first page when filtering
         displaySources();
         updateFilterCounts();
+        updateActiveFiltersCount();
+        dispatchFiltersChanged();
     });
 });
 
@@ -833,7 +1232,7 @@ function updateFilterCounts() {
             const gamesCount = parseInt(source.gamesCount);
             return gamesCount >= min && gamesCount <= max;
         }).length;
-        
+
         // Update count display
         const countElement = button.querySelector('.text-white\\/40');
         if (countElement) {
@@ -962,8 +1361,23 @@ function sortByPopularity() {
 
 // Add this helper function to format the date
 function formatDate(dateString) {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-US', options);
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    const t = i18n.t.bind(i18n);
+    
+    if (diffDays === 0) {
+        return t('common.date.today');
+    } else if (diffDays === 1) {
+        return t('common.date.yesterday');
+    } else if (diffDays < 30) {
+        return t('common.date.daysAgo', { days: diffDays });
+    } else {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return `${t('common.date.on')} ${date.toLocaleDateString(i18n.getCurrentLocale(), options)}`;
+    }
 }
 
 // Initialize the page
@@ -1370,7 +1784,9 @@ function updateSearchPlaceholder() {
     const searchInput = document.getElementById('search');
     if (searchInput) {
         const updatePlaceholder = () => {
-            searchInput.placeholder = window.innerWidth < 640 ? 'Search' : 'Search sources...';
+            const isMobile = window.innerWidth < 640;
+            const key = isMobile ? 'header.searchMobile' : 'header.search';
+            searchInput.placeholder = i18n.t(key);
         };
         
         // Initial update
@@ -1378,6 +1794,9 @@ function updateSearchPlaceholder() {
         
         // Update on resize
         window.addEventListener('resize', updatePlaceholder);
+        
+        // Update when language changes
+        document.addEventListener('languageChanged', updatePlaceholder);
     }
 }
 
@@ -1390,3 +1809,8 @@ function startActivityCleanup() {
         });
     }, 60 * 60 * 1000); // Run every hour
 }
+
+// Also update the displaySources function to refresh cards when language changes
+document.addEventListener('languageChanged', () => {
+    displaySources(); // This will recreate all cards with the new language
+});

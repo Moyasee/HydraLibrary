@@ -1,5 +1,6 @@
 import { db } from '../firebase.js';
 import { ref, get } from 'firebase/database';
+import { i18n } from '../i18n/index.js';
 
 async function loadStatistics() {
     try {
@@ -52,4 +53,48 @@ async function loadStatistics() {
 // Initialize when the document is loaded
 document.addEventListener('DOMContentLoaded', () => {
     loadStatistics();
+
+    // Update initial translations
+    i18n.updatePageContent();
+
+    // Add language switcher functionality
+    const languageSwitcher = document.getElementById('language-switcher');
+    const languageDropdown = document.getElementById('language-dropdown');
+
+    // Toggle dropdown
+    languageSwitcher.addEventListener('click', (e) => {
+        e.stopPropagation();
+        languageDropdown.classList.toggle('hidden');
+    });
+
+    // Handle language selection
+    document.querySelectorAll('[data-lang]').forEach(button => {
+        button.addEventListener('click', () => {
+            const locale = button.dataset.lang;
+            i18n.setLocale(locale);
+            languageDropdown.classList.add('hidden');
+        });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', () => {
+        languageDropdown.classList.add('hidden');
+    });
+
+    // Update language switcher text
+    const updateLanguageSwitcherText = () => {
+        const text = languageSwitcher.querySelector('span');
+        const languageNames = {
+            'en': 'English',
+            'ru': 'Русский',
+            'pt-br': 'Português'
+        };
+        text.textContent = languageNames[i18n.currentLocale] || 'English';
+    };
+
+    // Listen for language changes
+    document.addEventListener('languageChanged', updateLanguageSwitcherText);
+    
+    // Set initial language switcher text
+    updateLanguageSwitcherText();
 }); 

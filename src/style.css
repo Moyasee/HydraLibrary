@@ -128,43 +128,39 @@
 }
 
 /* Custom scrollbar styles */
-.visible-scrollbar {
-    /* Variables for scrollbar styling */
-    --sb-track-color: rgba(0, 0, 0, 0.2);
-    --sb-thumb-color: rgba(16, 185, 129, 0.3);
-    --sb-thumb-hover-color: rgba(16, 185, 129, 0.5);
-    --sb-size: 6px;
-
-    /* Firefox */
-    scrollbar-width: thin;
-    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+.custom-scrollbar {
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(16, 185, 129, 0.3) rgba(0, 0, 0, 0.2) !important;
 }
 
 /* Chrome, Edge, Safari */
-.visible-scrollbar::-webkit-scrollbar {
-    width: var(--sb-size);
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px !important;
+    background-color: transparent !important;
 }
 
-.visible-scrollbar::-webkit-scrollbar-track {
-    background: var(--sb-track-color);
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2) !important;
     border-radius: 19px;
-    margin: 3px;
+    margin: 4px !important;
 }
 
-.visible-scrollbar::-webkit-scrollbar-thumb {
-    background: var(--sb-thumb-color);
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(16, 185, 129, 0.3) !important;
     border-radius: 19px;
+    border: 1px solid rgba(16, 185, 129, 0.1) !important;
     transition: background-color 0.2s ease;
 }
 
-.visible-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: var(--sb-thumb-hover-color);
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(16, 185, 129, 0.5) !important;
 }
 
-/* For browsers that don't support ::-webkit-scrollbar */
+/* For Firefox */
 @supports not selector(::-webkit-scrollbar) {
-    .visible-scrollbar {
-        scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+    .custom-scrollbar {
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(16, 185, 129, 0.3) rgba(0, 0, 0, 0.2) !important;
     }
 }
 
