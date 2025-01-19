@@ -109,7 +109,7 @@
             "description": "The source are getting games from the Repack-Games.com. Ensures fast and reliable downloads.",
             "url": "https://raw.githubusercontent.com/Shisuiicaro/source/refs/heads/main/shisuyssource.json",
             "gamesCount": "11799",
-            "status": ["Use At Your Own Risk"],
+            "status": ["Safe For use"],
             "addedDate": "2024-12-30"
         },
         {
@@ -133,7 +133,7 @@
             "description": "Source created by wkeynhk for Hydra Launcher which parses the site rutor.info",
             "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/rutor.json",
             "gamesCount": "26510",
-            "status": ["Use At Your Own Risk"],
+            "status": ["Safe For Use", "Russian"],
             "addedDate": "2024-12-30"
         },
         {
