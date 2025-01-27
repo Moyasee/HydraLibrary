@@ -4,7 +4,7 @@
             "title": "AtopGames",
             "description": "Unaltered pre-installed games sourced from multiple trustworthy names in the community.",
             "url": "https://hydralinks.cloud/sources/atop-games.json",
-            "gamesCount": "584",
+            "gamesCount": "721",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
         },
@@ -20,7 +20,7 @@
             "title": "SteamRip [DIRECT DOWNLOAD / NO TORRENT]",
             "description": "Pre-installed games with original content, uncompressed, and sourced reliably.",
             "url": "https://hydralinks.cloud/sources/steamrip.json",
-            "gamesCount": "1031",
+            "gamesCount": "786",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
         },
@@ -28,7 +28,7 @@
             "title": "DODI",
             "description": "Renowned brand in pirated video games, this repacker is among the finest in the field",
             "url": "https://hydralinks.cloud/sources/dodi.json",
-            "gamesCount": "2595",
+            "gamesCount": "2619",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
         },
@@ -44,7 +44,7 @@
             "title": "FitGirl",
             "description": "Home archivist to web's top game repacker: the ultimate source for trustworthy games.",
             "url": "https://hydralinks.cloud/sources/fitgirl.json",
-            "gamesCount": "5592",
+            "gamesCount": "5758",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
         },
@@ -52,7 +52,7 @@
             "title": "KaOsKrew",
             "description": "Veteran rippers who, over the past two decades, have consistently created rips and repacks.",
             "url": "https://hydralinks.cloud/sources/kaoskrew.json",
-            "gamesCount": "2812",
+            "gamesCount": "2852",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
         },
@@ -60,7 +60,7 @@
             "title": "Online-Fix",
             "description": "Grants online solutions to play multiplayer in specific games with others.",
             "url": "https://hydralinks.cloud/sources/onlinefix.json",
-            "gamesCount": "1571",
+            "gamesCount": "1584",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
         },
@@ -76,7 +76,7 @@
             "title": "ByXatab",
             "description": "Esteemed within the realm of pirated video games, this site stands out as a prominent figure.",
             "url": "https://hydralinks.cloud/sources/xatab.json",
-            "gamesCount": "6886",
+            "gamesCount": "7099",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
         },
@@ -92,7 +92,7 @@
             "title": "David Kazumi",
             "description": "David Kazumi's source, for Hydra Launcher. Well known across the Hydra Launcher community server.",
             "url": "https://davidkazumi.github.io/fontekazumi.json",
-            "gamesCount": "765",
+            "gamesCount": "956",
             "status": ["Safe For Use"],
             "addedDate": "2024-12-30"
         },
@@ -100,7 +100,7 @@
             "title": "HydraSources(RUSSIAN)",
             "description": "Source that was created by the russian guy called HydraSources, updating almost daily. If you are a russian user, this is the source you should use.",
             "url": "https://hydrasources.su/hydra.json",
-            "gamesCount": "661",
+            "gamesCount": "750",
             "status": ["Safe For Use", "Russian"],
             "addedDate": "2024-12-30"
         },
@@ -108,7 +108,7 @@
             "title": "Shisuy's Source",
             "description": "The source are getting games from the Repack-Games.com. Ensures fast and reliable downloads.",
             "url": "https://raw.githubusercontent.com/Shisuiicaro/source/refs/heads/main/shisuyssource.json",
-            "gamesCount": "11799",
+            "gamesCount": "11736",
             "status": ["Safe For use"],
             "addedDate": "2024-12-30"
         },
@@ -124,7 +124,7 @@
             "title": "Free GOG",
             "description": "Delivering DRM-free games that have undergone thorough vetting before their release.",
             "url": "https://hydralinks.cloud/sources/gog.json",
-            "gamesCount": "5575",
+            "gamesCount": "6056",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
         },
@@ -132,7 +132,7 @@
             "title": "Wkeynhk Source",
             "description": "Source created by wkeynhk for Hydra Launcher which parses the site rutor.info",
             "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/rutor.json",
-            "gamesCount": "26510",
+            "gamesCount": "62298",
             "status": ["Safe For Use", "Russian"],
             "addedDate": "2024-12-30"
         },
