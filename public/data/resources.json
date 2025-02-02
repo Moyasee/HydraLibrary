@@ -98,7 +98,7 @@
         },
         {
             "title": "HydraSources(RUSSIAN)",
-            "description": "Source that was created by the russian guy called HydraSources, updating almost daily. If you are a russian user, this is the source you should use.",
+            "description": "Source that was created by the russian guy called HydraSources, updating almost weekly. If you are a russian user, this is the source you should use.",
             "url": "https://hydrasources.su/hydra.json",
             "gamesCount": "860",
             "status": ["Safe For Use", "Russian"],
