@@ -109,7 +109,7 @@
             "description": "The source are getting games from the Repack-Games.com. Ensures fast and reliable downloads.",
             "url": "https://raw.githubusercontent.com/Shisuiicaro/source/refs/heads/main/shisuyssource.json",
             "gamesCount": "11736",
-            "status": ["Safe For use"],
+            "status": ["Safe For Use"],
             "addedDate": "2024-12-30"
         },
         {
