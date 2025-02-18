@@ -539,48 +539,82 @@
         });
     </script>
 
-    <!-- Add the Firebase data loading script -->
+    <!-- Update the Firebase data loading script -->
     <script type="module">
         import { db } from './firebase.js';
         import { ref, get } from 'firebase/database';
 
         async function loadStatistics() {
             try {
-                // Get sources data from resources.json
-                const response = await fetch('./data/resources.json');
+                // Clear any cached data
+                document.getElementById('sourcesCount').textContent = '0';
+                document.getElementById('gamesCount').textContent = '0';
+                document.getElementById('actionsCount').textContent = '0';
+
+                // Force fetch latest resources.json with cache-busting query parameter
+                const timestamp = new Date().getTime();
+                const response = await fetch(`./data/resources.json?t=${timestamp}`, {
+                    cache: 'no-store' // Prevent caching
+                });
                 const data = await response.json();
                 const sources = data.sources;
                 
-                // Update sources count
-                document.getElementById('sourcesCount').textContent = sources.length;
+                // Update sources count with animation
+                const sourcesElement = document.getElementById('sourcesCount');
+                animateNumber(sourcesElement, sources.length);
 
-                // Calculate total games from resources.json
+                // Calculate and update total games count
                 const totalGames = sources.reduce((sum, source) => {
                     return sum + (parseInt(source.gamesCount) || 0);
                 }, 0);
-                document.getElementById('gamesCount').textContent = totalGames.toLocaleString();
+                const gamesElement = document.getElementById('gamesCount');
+                animateNumber(gamesElement, totalGames);
 
-                // Get installation and copy statistics from Firebase
+                // Get fresh Firebase stats
                 const statsRef = ref(db, 'sources');
                 const snapshot = await get(statsRef);
                 const stats = snapshot.val();
 
                 if (stats) {
-                    // Calculate total actions (installs + copies) from Firebase
                     const totalActions = Object.values(stats).reduce((sum, sourceData) => {
                         const sourceStats = sourceData.stats || {};
                         return sum + (sourceStats.installs || 0) + (sourceStats.copies || 0);
                     }, 0);
                     
-                    document.getElementById('actionsCount').textContent = totalActions.toLocaleString();
+                    const actionsElement = document.getElementById('actionsCount');
+                    animateNumber(actionsElement, totalActions);
                 }
             } catch (error) {
                 console.error('Error loading statistics:', error);
             }
         }
 
+        // Smooth number animation function
+        function animateNumber(element, target) {
+            const duration = 2000; // 2 seconds
+            const steps = 60;
+            const stepDuration = duration / steps;
+            let current = 0;
+            
+            const increment = target / steps;
+            
+            const updateNumber = () => {
+                current += increment;
+                if (current > target) current = target;
+                element.textContent = Math.floor(current).toLocaleString();
+                if (current < target) {
+                    setTimeout(updateNumber, stepDuration);
+                }
+            };
+
+            updateNumber();
+        }
+
         // Load statistics when the page loads
         window.addEventListener('load', loadStatistics);
+
+        // Optionally refresh stats periodically (every 5 minutes)
+        setInterval(loadStatistics, 300000);
     </script>
 
     <!-- Add before the closing body tag -->
