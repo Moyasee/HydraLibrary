@@ -269,5 +269,39 @@ export default {
             title: 'Fonte do Shisuy',
             description: 'Fonte que obtém jogos do site Repack-Games.com. Fornece download rápido e confiável.'
         }
+    },
+    index: {
+        hero: {
+            badge: "Descubra Fontes de Jogos",
+            title: {
+                part1: "A Melhor",
+                part2: "Biblioteca para",
+                part3: "o Hydra"
+            },
+            description: "Acesse a mais completa coleção de fontes de jogos verificadas. Navegue por repositórios confiáveis e fique atualizado com as últimas adições.",
+            cta: {
+                primary: "Explorar Biblioteca",
+                secondary: "Ver no GitHub"
+            }
+        },
+        stats: {
+            trustedSources: "Fontes Confiáveis",
+            totalGames: "Total de Jogos",
+            totalCopies: "Total de Cópias"
+        },
+        features: {
+            secure: {
+                title: "Fontes Seguras",
+                description: "Todas as fontes são verificadas e monitoradas quanto à segurança e confiabilidade."
+            },
+            fast: {
+                title: "Acesso Rápido",
+                description: "Acesso rápido e fácil a milhares de jogos de fontes verificadas."
+            },
+            community: {
+                title: "Movido pela Comunidade",
+                description: "Participação ativa da comunidade na verificação e avaliação das fontes."
+            }
+        }
     }
 }; 

@@ -219,5 +219,39 @@ export default {
             title: 'wkeyhnk Source',
             description: 'Source created by wkeyhnk for Hydra Launcher which parses the rutor.info site.'
         }
+    },
+    index: {
+        hero: {
+            badge: "Discover Game Sources",
+            title: {
+                part1: "The Ultimate",
+                part2: "Game Library",
+                part3: "for Hydra"
+            },
+            description: "Access the most comprehensive collection of verified game sources. Browse through trusted repositories and stay up to date with the latest additions.",
+            cta: {
+                primary: "Browse Library",
+                secondary: "View on GitHub"
+            }
+        },
+        stats: {
+            trustedSources: "Trusted Sources",
+            totalGames: "Total Games",
+            totalCopies: "Total Copies"
+        },
+        features: {
+            secure: {
+                title: "Secure Sources",
+                description: "All sources are verified and monitored for safety and reliability."
+            },
+            fast: {
+                title: "Fast Access",
+                description: "Quick and easy access to thousands of games from verified sources."
+            },
+            community: {
+                title: "Community Driven",
+                description: "Active community participation in source verification and ratings."
+            }
+        }
     }
 }; 

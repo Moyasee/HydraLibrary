@@ -12,6 +12,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
+        library: 'library.html',
         about: 'about.html'
       }
     }

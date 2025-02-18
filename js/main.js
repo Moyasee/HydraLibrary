@@ -702,151 +702,146 @@ function createSourceCard(source) {
     };
     
     const isRisky = source.status.includes('Use At Your Own Risk');
+    const stats = source.stats || { installs: 0, copies: 0, recentActivity: 0 };
+    const recentActivity = parseInt(stats.recentActivity || 0);
     
     const card = document.createElement('div');
-    card.className = 'source-card animate-fade-in';
+    card.className = 'source-card animate-fade-in rounded-xl';
     card.dataset.url = source.url;
     card.dataset.name = source.title;
     card.dataset.copies = source.stats?.copies || 0;
     card.dataset.installs = source.stats?.installs || 0;
     card.dataset.activity = source.stats?.recentActivity || 0;
-    
-    const stats = source.stats || { installs: 0, copies: 0, recentActivity: 0 };
-    const recentActivity = parseInt(stats.recentActivity || 0);
 
-    // Debug log
-    console.log('Creating card for source:', source.title, 'with stats:', stats);
-    
     const statusHTML = source.status.map(status => {
         const className = status.toLowerCase().replace(/\s+/g, '-');
-        // Map status to translation key and color
         const statusMap = {
             'trusted': {
-                color: 'bg-emerald-500',
-                icon: 'fa-shield',
+                color: 'emerald',
+                icon: 'shield',
                 key: 'trusted'
             },
             'safe-for-use': {
-                color: 'bg-blue-500',
-                icon: 'fa-check-circle',
+                color: 'teal',
+                icon: 'check-circle',
                 key: 'safeForUse'
             },
             'use-at-your-own-risk': {
-                color: 'bg-red-500',
-                icon: 'fa-exclamation-triangle',
+                color: 'red',
+                icon: 'exclamation-triangle',
                 key: 'useAtOwnRisk'
             },
             'russian': {
-                color: 'bg-purple-500',
-                icon: 'fa-globe',
+                color: 'indigo',
+                icon: 'globe',
                 key: 'russian'
             }
         }[className] || {
-            color: 'bg-gray-500',
-            icon: 'fa-circle',
+            color: 'gray',
+            icon: 'circle',
             key: className
         };
 
         return `
-            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-black/20 border border-white/10 text-xs backdrop-blur-sm">
-                <i class="fas ${statusMap.icon} text-[10px] ${statusMap.color.replace('bg-', 'text-')}"></i>
+            <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md 
+                         bg-${statusMap.color}-500/10 border border-${statusMap.color}-500/20 
+                         text-${statusMap.color}-400 text-xs backdrop-blur-sm status-badge">
+                <i class="fas fa-${statusMap.icon} text-[10px]"></i>
                 ${i18n.t(`status.${statusMap.key}`)}
             </span>
         `;
     }).join('');
 
     card.innerHTML = `
-        <div class="group relative h-full flex flex-col rounded-xl border ${isRisky ? 'border-red-500/20' : 'border-white/5'} 
-                    overflow-hidden backdrop-blur-sm 
-                    hover:shadow-lg hover:shadow-${isRisky ? 'red' : 'emerald'}-500/10 
-                    transition-all duration-300">
-            <!-- Full card background -->
-            <div class="absolute inset-0 bg-gradient-to-b from-[#111]/80 to-[#111]/40"></div>
+        <div class="group relative h-full flex flex-col overflow-hidden
+                    ${isRisky ? 'border-red-500/20' : 'border-white/5'} border
+                    backdrop-blur-sm transition-all duration-300
+                    hover:shadow-lg ${isRisky ? 'hover:shadow-red-500/10' : 'hover:shadow-emerald-500/10'}
+                    bg-[#111]/40 rounded-xl">
             
-            <!-- Card Header -->
-            <div class="p-4 relative flex-1">
-                <!-- Glowing background effect -->
-                <div class="absolute inset-0 bg-gradient-to-r 
-                           ${isRisky 
-                               ? 'from-red-500/5 via-transparent to-red-500/5' 
-                               : 'from-emerald-500/5 via-transparent to-emerald-500/5'} 
-                           opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <!-- Card background effects -->
+            <div class="absolute inset-0 bg-gradient-to-b 
+                        ${isRisky ? 'from-red-500/5' : 'from-emerald-500/5'} to-transparent 
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute inset-0 bg-gradient-to-r 
+                       ${isRisky ? 'from-red-500/5 via-transparent to-red-500/5' : 
+                                 'from-emerald-500/5 via-transparent to-emerald-500/5'} 
+                       opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+            
+            <!-- Glass effect overlay -->
+            <div class="absolute inset-0 backdrop-blur-sm bg-black/10"></div>
+            
+            <!-- Card content -->
+            <div class="relative p-4 flex-1 flex flex-col">
+                <!-- Status badges -->
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                    ${statusHTML}
                 </div>
-                
-                <!-- Content -->
-                <div class="relative">
-                    <div class="flex items-start justify-between gap-2 mb-3">
-                        <div class="flex flex-wrap gap-1">
-                            ${statusHTML}
-                        </div>
-                        <div class="flex items-center gap-1.5 text-white/40 text-xs shrink-0 
-                                  bg-black/30 px-2.5 py-1 rounded-full border border-white/5
-                                  ${isRisky ? 'group-hover:border-red-500/20' : 'group-hover:border-emerald-500/20'}
-                                  transition-colors duration-300">
-                            <i class="fas fa-gamepad ${isRisky ? 'text-red-500/50' : 'text-emerald-500/50'} text-[10px]"></i>
-                            <span class="text-white/70" data-i18n-params='{"count": "${source.gamesCount}"}'>
-                                ${source.gamesCount} ${i18n.t('sourceCard.games')}
-                            </span>
-                        </div>
+
+                <!-- Title and description -->
+                <div class="flex items-start gap-3 flex-1">
+                    <div class="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center
+                         ${isRisky ? 'bg-red-500/10 border-red-500/20' : 'bg-emerald-500/10 border-emerald-500/20'} 
+                         border group-hover:scale-110 transition-transform duration-300
+                         backdrop-blur-sm">
+                        <i class="fas ${isRisky ? 'fa-triangle-exclamation text-red-500/70' : 'fa-book-open text-emerald-500/70'} 
+                             text-lg"></i>
                     </div>
-                    
-                    <div class="flex items-start gap-3">
-                        <div class="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center
-                            ${isRisky 
-                                ? 'bg-gradient-to-br from-red-500/10 to-red-500/5 border-red-500/20' 
-                                : 'bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20'
-                            } border group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas ${isRisky ? 'fa-triangle-exclamation text-red-500/70' : 'fa-book-open text-emerald-500/70'} text-lg"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h3 class="text-base font-medium text-white group-hover:text-${isRisky ? 'red' : 'emerald'}-400 
-                                       transition-colors duration-300 mb-1.5 truncate">
-                                ${translation.title}
-                            </h3>
-                            <p class="text-white/60 text-xs leading-relaxed line-clamp-2 mb-2">${translation.description}</p>
-                            <div class="flex items-center gap-2 text-white/40 text-xs">
-                                <span class="flex items-center gap-1">
-                                    <i class="fas fa-calendar-alt text-[10px]"></i>
-                                    ${i18n.t('common.added')} ${formatDate(source.addedDate)}
-                                </span>
-                                <span class="w-1 h-1 rounded-full bg-white/20"></span>
-                                <div class="source-stats flex items-center gap-3">
-                                    <span class="flex items-center gap-1">
-                                        <i class="fas fa-fire text-[10px] ${recentActivity > 0 ? 'text-red-500' : ''}"></i>
-                                        ${recentActivity}
-                                    </span>
-                                    <span class="flex items-center gap-1">
-                                        <i class="fas fa-download text-[10px]"></i>
-                                        ${stats.installs || 0}
-                                    </span>
-                                    <span class="flex items-center gap-1">
-                                        <i class="fas fa-copy text-[10px]"></i>
-                                        ${stats.copies || 0}
-                                    </span>
-                                </div>
-                            </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="text-base font-medium text-white group-hover:text-${isRisky ? 'red' : 'emerald'}-400 
+                                   transition-colors duration-300 mb-1.5 truncate">
+                            ${translation.title}
+                        </h3>
+                        <p class="text-white/60 text-sm leading-relaxed line-clamp-2">
+                            ${translation.description}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Stats and date (fixed at bottom) -->
+                <div class="mt-2 pt-4 border-t border-white/5">
+                    <div class="flex items-center justify-between text-white/40 text-xs">
+                        <span class="flex items-center gap-1.5 mr-2">
+                            <i class="fas fa-calendar-alt text-[10px]"></i>
+                            ${i18n.t('common.added')} ${formatDate(source.addedDate)}
+                        </span>
+                        <div class="source-stats flex items-center gap-3">
+                            <span class="flex items-center gap-1.5 ${recentActivity > 0 ? 'text-red-400' : ''}
+                                       transition-colors duration-300">
+                                <i class="fas fa-fire text-[10px]"></i>
+                                ${recentActivity}
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <i class="fas fa-download text-[10px]"></i>
+                                ${stats.installs || 0}
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <i class="fas fa-copy text-[10px]"></i>
+                                ${stats.copies || 0}
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Card Footer -->
+            <!-- Card actions -->
             <div class="relative border-t ${isRisky ? 'border-red-500/10' : 'border-white/5'} 
-                        p-3 bg-black/30">
+                        p-3 bg-black/30 backdrop-blur-sm">
                 <div class="flex gap-2">
-                    <button class="install-btn flex-1 ${isRisky 
-                        ? 'bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/20' 
-                        : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border-emerald-500/20'
-                    } border rounded-lg px-4 py-2 text-xs font-medium transition-all duration-200 
-                       flex items-center justify-center gap-2 min-h-[36px] disabled:opacity-50 
-                       disabled:cursor-not-allowed hover:scale-[1.02]">
+                    <button class="install-btn flex-1 
+                                 ${isRisky ? 'bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/20' : 
+                                           'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border-emerald-500/20'}
+                                 border rounded-lg px-4 py-2 text-sm font-medium 
+                                 transition-all duration-200 flex items-center justify-center gap-2 
+                                 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed
+                                 backdrop-blur-sm">
                         <i class="fas fa-download text-[10px]"></i>
                         ${i18n.t('common.install')}
                     </button>
                     <button class="copy-btn shrink-0 bg-white/5 hover:bg-white/10 text-white/70 
-                                 border border-white/10 rounded-lg px-4 py-2 text-xs transition-all duration-200 
-                                 flex items-center justify-center gap-2 hover:scale-[1.02]" 
-                            data-url="${source.url}">
+                                 border border-white/10 rounded-lg px-4 py-2 text-sm
+                                 transition-all duration-200 flex items-center justify-center gap-2
+                                 hover:scale-[1.02] backdrop-blur-sm" data-url="${source.url}">
                         <i class="fas fa-copy text-[10px]"></i>
                         ${i18n.t('common.copy')}
                     </button>
@@ -905,8 +900,8 @@ function createSourceCard(source) {
             });
         } else {
                 proceedWithCopy();
-        }
-    });
+            }
+        });
     }
 
     // Initialize stats display with current values
@@ -1566,15 +1561,15 @@ function updateSourceStats(sourceUrl, stats = null) {
             const recentActivity = parseInt(stats?.recentActivity || 0);
 
             statsContainer.innerHTML = `
-                <span class="flex items-center gap-1">
+                <span class="flex items-center gap-1.5">
                     <i class="fas fa-fire text-[10px] ${recentActivity > 0 ? 'text-red-500' : ''}"></i>
                     ${recentActivity}
                 </span>
-                <span class="flex items-center gap-1">
+                <span class="flex items-center gap-1.5">
                     <i class="fas fa-download text-[10px]"></i>
                     ${installs}
                 </span>
-                <span class="flex items-center gap-1">
+                <span class="flex items-center gap-1.5">
                     <i class="fas fa-copy text-[10px]"></i>
                     ${copies}
                 </span>
