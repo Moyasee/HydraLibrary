@@ -223,6 +223,22 @@
             "gamesCount": "5575",
             "status": ["Trusted", "Russian"],
             "addedDate": "2024-12-29"
+        },
+        {
+            "title": "LinuxRulez!",
+            "description": "Repacks for Linuxoids; GNU/Linux Games; Linux P2P Games",
+            "url": "https://torrents.starserv.net/torrents/sources/torrminatorr_linuxrule",
+            "gamesCount": "2915",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2025-02-18"
+        },
+        {
+            "title": "1337x",
+            "description": "Include RePacks from FitGirl, KaOsKrew, DODI, IGGGAMESCOM and etc",
+            "url": "https://torrents.starserv.net/torrents/sources/1337x",
+            "gamesCount": "9193",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2025-02-18"
         }
     ]
 } 
