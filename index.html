@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Primary Meta Tags -->
-    <title>Hydra Library - Game Source Management System</title>
-    <meta name="title" content="Hydra Library - Game Source Management System">
-    <meta name="description" content="A comprehensive game source management system to discover, organize, and access various game repositories safely and efficiently. Features source verification, filtering, and community-driven ratings.">
+    <title>Hydra Library - The Largest Source Library for Hydra Launcher</title>
+    <meta name="title" content="Hydra Library - The Largest Source Library for Hydra Launcher">
+    <meta name="description" content="Access the most comprehensive collection of verified game sources for Hydra Launcher. Browse through trusted repositories, community-verified sources, and stay up to date with the latest additions.">
     
     <!-- Keywords -->
     <meta name="keywords" content="game library, source management, game repositories, safe gaming sources, game downloads, trusted sources, hydra links, hydralinks, hydra sources, hydra launcher sources, hydra launcher links, hydra launcher, hydra launcher github, hydrasources, hydralibrary, hydra library, moyase github, hydra launcher discord">
@@ -31,707 +31,505 @@
     <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow">
 
-    <!-- Your existing tags -->
+    <!-- Styles and Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta name="google-site-verification" content="IfxfsGr1vBDzJvp2_bhiKfrV6BN_kxRM56eMbKQ-r-4" />
-  <script type="module" crossorigin src="/HydraLibrary/assets/main-BpmTkobn.js"></script>
-  <link rel="modulepreload" crossorigin href="/HydraLibrary/assets/index-DvivCdrJ.js">
-  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/index-Cud1Yd6G.css">
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script type="module" crossorigin src="/HydraLibrary/assets/main-qKkqy7k2.js"></script>
+  <link rel="modulepreload" crossorigin href="/HydraLibrary/assets/index-BvrYQBFb.js">
+  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/index-CQwkNOgI.css">
 </head>
-<body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex flex-col text-gray-100">
-    <!-- Preloader -->
-    <div id="preloader" class="fixed inset-0 z-[9999] bg-[#0A0A0A] flex items-center justify-center">
-        <div class="relative">
-            <!-- Animated background -->
-            <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-emerald-500/20 
-                        blur-3xl animate-gradient-shift opacity-30">
-            </div>
-            
-            <!-- Logo and text container -->
-            <div class="relative flex flex-col items-center">
-                <!-- Animated logo -->
-                <div class="w-24 h-24 mb-8 relative">
-                    <div class="absolute inset-0 bg-emerald-500/20 rounded-full animate-pulse"></div>
-                    <div class="relative flex items-center justify-center w-full h-full">
-                        <i class="fas fa-book text-emerald-500 text-5xl animate-float"></i>
-                    </div>
-                </div>
-                
-                <!-- Loading text -->
-                <h2 class="text-2xl font-medium text-white mb-4 animate-fade-in">
-                    Hydra Library
-                </h2>
-                
-                <!-- Loading bar -->
-                <div class="w-48 h-1 bg-white/5 rounded-full overflow-hidden">
-                    <div class="loading-progress h-full w-0 bg-gradient-to-r from-emerald-500 to-emerald-400 
-                              rounded-full transition-all duration-300 ease-out"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+<body class="bg-black min-h-screen text-gray-100 overflow-x-hidden">
+    <!-- Particles Background -->
+    <div id="particles-js" class="fixed inset-0 -z-10"></div>
+    
+    <!-- Noise Overlay -->
+    <div class="fixed inset-0 bg-[url('/noise.png')] opacity-[0.02] mix-blend-overlay pointer-events-none -z-10"></div>
 
-    <!-- Cookie Consent -->
-    <div id="cookie-consent" 
-         class="fixed bottom-0 left-0 right-0 bg-black/95 border-t border-white/5 
-                transform translate-y-full transition-transform duration-300 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-4">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <p class="text-white/70 text-sm" data-i18n="cookies.message">
-                    We use cookies to track source usage and improve your experience.
-                </p>
-                <div class="flex items-center gap-3">
-                    <button id="reject-cookies"
-                            class="px-4 py-2 text-sm text-white/50 hover:text-white/70 
-                                   transition-colors duration-200"
-                            data-i18n="cookies.reject">
-                        Reject All
-                    </button>
-                    <button id="accept-cookies"
-                            class="px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
-                                   text-emerald-400 hover:bg-emerald-500/20 transition-all duration-200 
-                                   text-sm"
-                            data-i18n="cookies.accept">
-                        Accept All
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header -->
-    <header class="border-b border-white/5 backdrop-blur-sm bg-black/30 sticky top-0 z-50">
-        <div class="max-w-[1920px] w-full mx-auto px-4 py-3">
-            <nav class="flex items-center justify-between">
-                <a href="./" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                    <i class="fas fa-book text-emerald-500 text-2xl"></i>
-                    <h1 class="hidden sm:block text-lg md:text-xl font-medium" data-i18n="header.title">Hydra Library</h1>
-                </a>
-                <div class="flex items-center gap-2 md:gap-4 justify-end flex-1 max-w-[600px] ml-4">
-                    <!-- Language Switcher -->
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center relative overflow-hidden pt-6">
+        <!-- Language Switcher -->
+        <div class="absolute top-6 left-6">
                     <div class="relative">
-                        <button id="language-switcher" 
-                                type="button"
-                                class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 
-                                       text-white/70 hover:bg-white/10 transition-all duration-200
-                                       flex items-center gap-1.5 text-sm">
-                            <i class="fas fa-globe"></i>
-                            <span class="hidden sm:inline">English</span>
-                        </button>
-                        <div id="language-dropdown" 
-                             class="absolute top-full mt-1 z-[100] hidden
-                                    bg-[#111]/90 backdrop-blur-sm border border-white/5 
-                                    rounded-lg overflow-hidden w-[120px] sm:w-full
-                                    shadow-lg shadow-black/50">
-                            <button type="button" 
-                                    class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
-                                           transition-all duration-200 text-left" 
-                                    data-lang="en">
-                                <span class="flex items-center gap-2">
-                                    <i class="fas fa-globe text-xs"></i>
-                                    <span>English</span>
-                                </span>
-                            </button>
-                            <button type="button" 
-                                    class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
-                                           transition-all duration-200 text-left" 
-                                    data-lang="ru">
-                                <span class="flex items-center gap-2">
-                                    <i class="fas fa-globe text-xs"></i>
-                                    <span>Русский</span>
-                                </span>
-                            </button>
-                            <button type="button" 
-                                    class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
-                                           transition-all duration-200 text-left" 
-                                    data-lang="pt-br">
-                                <span class="flex items-center gap-2">
-                                    <i class="fas fa-globe text-xs"></i>
-                                    <span>Português</span>
-                                </span>
-                            </button>
+                <button id="language-switcher" 
+                        type="button"
+                        class="px-3 py-2 rounded-lg bg-black/40 border border-white/10 
+                               text-white/70 hover:bg-white/10 transition-all duration-200
+                               flex items-center gap-1.5 text-sm">
+                    <i class="fas fa-globe"></i>
+                    <span class="hidden sm:inline">English</span>
+                </button>
+                <div id="language-dropdown" 
+                     class="absolute top-full mt-1 z-[100] hidden
+                            bg-black/90 backdrop-blur-sm border border-white/5 
+                            rounded-lg overflow-hidden w-[125px] sm:w-[125px]
+                            shadow-lg shadow-black/50">
+                    <button type="button" 
+                            class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
+                                   transition-all duration-200 text-left" 
+                            data-lang="en">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-globe text-xs"></i>
+                            <span>English</span>
+                        </span>
+                    </button>
+                    <button type="button" 
+                            class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
+                                   transition-all duration-200 text-left" 
+                            data-lang="ru">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-globe text-xs"></i>
+                            <span>Русский</span>
+                        </span>
+                    </button>
+                    <button type="button" 
+                            class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
+                                   transition-all duration-200 text-left" 
+                            data-lang="pt-br">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-globe text-xs"></i>
+                            <span>Português</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Animated Background Shapes -->
+        <div class="absolute inset-0 -z-10">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-blob"></div>
+            <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+            <div class="absolute bottom-1/4 left-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 py-20">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <!-- Left Column - Hero Content -->
+                    <div class="space-y-8 reveal-content">
+                        <!-- Hero Badge -->
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full 
+                                  bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm
+                              animate-float">
+                        <i class="fas fa-sparkles text-xs"></i>
+                            <span data-i18n="index.hero.badge">Discover Game Sources</span>
                         </div>
-                    </div>
-                    <div class="relative w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px]">
-                        <input type="text" 
-                               id="search" 
-                               placeholder="Search" 
-                               class="w-full bg-black/20 border border-white/5 rounded-lg 
-                                      px-3 sm:px-4 py-1.5 sm:py-2 
-                                      text-sm sm:text-base text-white/70 placeholder-white/40 
-                                      focus:outline-none focus:border-emerald-500/20 
-                                      focus:bg-black/30 transition-colors"
-                               data-i18n-placeholder="header.searchMobile"
-                               data-i18n-placeholder-desktop="header.search">
-                        <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 
-                                 text-white/40 pointer-events-none text-sm"></i>
-                    </div>
-                    <div class="flex items-center gap-2 shrink-0">
-                        <a href="./about.html"
-                            class="px-3 md:px-4 py-2 rounded-lg bg-white/5 border border-white/10 
-                                   text-white/70 hover:bg-white/10 transition-all duration-200
-                                   flex items-center gap-1.5 text-sm shrink-0">
-                            <i class="fas fa-circle-info"></i>
-                            <span class="hidden sm:inline" data-i18n="header.about">About</span>
+
+                        <!-- Main Title -->
+                        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
+                            <div data-i18n="index.hero.title.part1">The Ultimate</div>
+                            <div data-i18n="index.hero.title.part2">Game Library</div>
+                            <div data-i18n="index.hero.title.part3">for Hydra</div>
+                        </h1>
+
+                        <!-- Description -->
+                        <p class="text-xl text-white/70 leading-relaxed max-w-xl" data-i18n="index.hero.description">
+                            Access the most comprehensive collection of verified game sources. 
+                            Browse through trusted repositories and stay up to date with the latest additions.
+                        </p>
+
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <a href="./library.html" class="cta-primary">
+                            <i class="fas fa-book"></i>
+                            <span data-i18n="index.hero.cta.primary">Browse Library</span>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
-                        <button id="suggest-btn" 
-                            class="w-8 h-8 sm:w-auto sm:h-auto sm:px-4 sm:py-2 rounded-lg 
-                                   bg-emerald-500/10 border border-emerald-500/20 
-                                   text-emerald-400 hover:bg-emerald-500/20 
-                                   transition-all duration-200 
-                                   flex items-center justify-center sm:gap-2 text-xs sm:text-sm whitespace-nowrap">
-                            <i class="fas fa-plus"></i>
-                            <span class="hidden sm:inline" data-i18n="header.suggest">Suggest Source</span>
-                        </button>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- About Modal -->
-    <div id="about-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-        <div class="bg-[#111]/90 border border-white/5 rounded-xl p-6 max-w-2xl mx-4 animate-fade-in">
-            <div class="flex items-start justify-between gap-4 mb-6">
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-book text-emerald-500 text-2xl"></i>
-                    <h2 class="text-xl font-medium text-white">About Hydra Library</h2>
-                </div>
-                <button id="close-about" class="text-white/40 hover:text-white/70 transition-colors duration-200">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="space-y-4 text-white/70 text-sm leading-relaxed">
-                <p>
-                    Hydra Library is a comprehensive game source management system designed to help users discover, organize, and access various game repositories safely and efficiently.
-                </p>
-                
-                <!-- Creator Information -->
-                <div class="border-t border-white/5 pt-4">
-                    <h3 class="text-white font-medium mb-2">Creator</h3>
-                    <div class="bg-black/20 rounded-lg p-4 border border-white/5">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                <i class="fas fa-code text-emerald-500 text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-white font-medium">Moyase</h4>
-                                <p class="text-white/60 text-xs">Developer & Designer</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-2">
-                            <a href="https://github.com/moyase" target="_blank" rel="noopener noreferrer" 
-                               class="flex-1 bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 rounded-lg px-3 py-2 text-xs transition-all duration-200 flex items-center justify-center gap-2">
-                                <i class="fab fa-github"></i>
-                                GitHub
-                            </a>
-                            <a href="https://linktr.ee/moyase" target="_blank" rel="noopener noreferrer"
-                               class="flex-1 bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 rounded-lg px-3 py-2 text-xs transition-all duration-200 flex items-center justify-center gap-2">
-                                <i class="fas fa-link"></i>
-                                Linktree
-                            </a>
-                            <a href="https://discord.gg/moyase" target="_blank" rel="noopener noreferrer"
-                               class="flex-1 bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 rounded-lg px-3 py-2 text-xs transition-all duration-200 flex items-center justify-center gap-2">
-                                <i class="fab fa-discord"></i>
-                                Discord
+                        <a href="https://github.com/Moyasee/HydraLibrary" target="_blank" class="cta-secondary">
+                            <i class="fab fa-github"></i>
+                            <span data-i18n="index.hero.cta.secondary">View on GitHub</span>
+                            <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
+
+                        <!-- Stats -->
+                        <div class="grid grid-cols-3 gap-6 pt-8">
+                            <div class="stat-card">
+                                <div class="stat-content">
+                                    <div class="stat-header">
+                                        <div class="stat-indicator bg-emerald-500"></div>
+                                        <h3 class="counter" id="sourcesCount">0</h3>
+                                    </div>
+                                    <p data-i18n="index.stats.trustedSources">Trusted Sources</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-content">
+                                    <div class="stat-header">
+                                        <div class="stat-indicator bg-blue-500"></div>
+                                        <h3 class="counter" id="gamesCount">0</h3>
+                                    </div>
+                                    <p data-i18n="index.stats.totalGames">Total Games</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-content">
+                                    <div class="stat-header">
+                                        <div class="stat-indicator bg-amber-500"></div>
+                                        <h3 class="counter" id="actionsCount">0</h3>
+                                    </div>
+                                    <p data-i18n="index.stats.totalCopies">Total Copies</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="border-t border-white/5 pt-4">
-                    <h3 class="text-white font-medium mb-2">Source Status Types:</h3>
-                    <ul class="space-y-2">
-                        <li class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                            <span class="text-white/90">Trusted - Verified and safe sources</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                            <span class="text-white/90">Safe For Use - Community-verified sources</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                            <span class="text-white/90">Use At Your Own Risk - Unverified sources</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                            <span class="text-white/90">New - Recently added sources</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="border-t border-white/5 pt-4">
-                    <h3 class="text-white font-medium mb-2">Features:</h3>
-                    <ul class="list-disc list-inside space-y-1">
-                        <li>Advanced filtering system</li>
-                        <li>Source status indicators</li>
-                        <li>Game count tracking</li>
-                        <li>Safe copy and install options</li>
-                        <li>Risk warnings for unverified sources</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Suggest Modal -->
-    <div id="suggest-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-        <div class="bg-[#111]/90 border border-white/5 rounded-xl p-6 max-w-2xl mx-4 animate-fade-in">
-            <div class="flex items-start justify-between gap-4 mb-6">
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-plus text-emerald-500 text-2xl"></i>
-                    <h2 class="text-xl font-medium text-white">Suggest a Source</h2>
-                </div>
-                <button id="close-suggest" class="text-white/40 hover:text-white/70 transition-colors duration-200">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="space-y-4 text-white/70 text-sm leading-relaxed">
-                <p>
-                    Want to add a new source to Hydra Library? You can suggest it by creating an issue on our GitHub repository. Here's how:
-                </p>
-                
-                <div class="bg-black/20 rounded-lg p-4 border border-white/5">
-                    <h3 class="text-white font-medium mb-3">How to Suggest a Source:</h3>
-                    <ol class="list-decimal list-inside space-y-2">
-                        <li>Visit our GitHub repository issue page</li>
-                        <li>Click on "New Issue"</li>
-                        <li>Select "Source Suggestion" template</li>
-                        <li>Fill in the required information:
-                            <ul class="list-disc list-inside ml-4 mt-2 space-y-1 text-white/50">
-                                <li>Source URL</li>
-                                <li>Source Name</li>
-                                <li>Description</li>
-                                <li>Approximate number of games</li>
-                            </ul>
-                        </li>
-                        <li>Submit the issue</li>
-                    </ol>
-                </div>
-                
-                <div class="flex justify-center mt-6">
-                    <a href="https://github.com/Moyasee/HydraLibrary/issues/new?template=source-suggestion.md" 
-                       target="_blank" rel="noopener noreferrer"
-                       class="bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 
-                              text-emerald-400 font-medium rounded-lg px-6 py-3 text-sm transition-all duration-200 
-                              flex items-center justify-center gap-2">
-                        <i class="fab fa-github"></i>
-                        Create Source Suggestion
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <main class="flex-1 px-4 py-6 mt-4">
-        <div class="max-w-[1920px] mx-auto w-full min-h-[calc(100vh-12rem)] flex flex-col">
-            <div class="flex flex-row-reverse gap-6 flex-1">
-                <!-- Status Filters -->
-                <div id="filters-sidebar" class="w-[280px] shrink-0">
-                    <div class="sticky top-20">
-                        <div class="bg-[#111]/40 backdrop-blur-sm rounded-lg border border-white/5 p-5">
-                            <div class="pr-2">
-                                <div class="flex flex-col gap-6">
-                                    <!-- Source Status section -->
-                                    <div>
-                                        <h3 class="text-sm font-medium text-white mb-4" data-i18n="filters.status.title">Source Status</h3>
-                                        <div class="flex flex-col gap-2">
-                                            <button class="status-filter-btn" data-status="Trusted">
-                                                <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                                        <i class="fas fa-shield text-emerald-500 text-sm"></i>
-                                                    </div>
-                                                    <div class="flex items-center justify-between flex-1">
-                                                        <span class="text-white/70 text-sm" data-i18n="filters.status.trusted">Trusted</span>
-                                                        <span class="text-white/40">22</span>
-                                                    </div>
-                                                </div>
-                                            </button>
-
-                                            <button class="status-filter-btn" data-status="Safe For Use">
-                                                <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                                                        <i class="fas fa-check-circle text-blue-500 text-sm"></i>
-                                                    </div>
-                                                    <div class="flex items-center justify-between flex-1">
-                                                        <span class="text-white/70 text-sm" data-i18n="filters.status.safeForUse">Safe For Use</span>
-                                                        <span class="text-white/40">4</span>
-                                                    </div>
-                                                </div>
-                                            </button>
-
-                                            <button class="status-filter-btn" data-status="Use At Your Own Risk">
-                                                <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                                    <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                                                        <i class="fas fa-exclamation-triangle text-red-500 text-sm"></i>
-                                                    </div>
-                                                    <div class="flex items-center justify-between flex-1">
-                                                        <span class="text-white/70 text-sm" data-i18n="filters.status.useAtOwnRisk">Use At Your Own Risk</span>
-                                                        <span class="text-white/40">2</span>
-                                                    </div>
-                                                </div>
-                                            </button>
-
-                                            <button class="status-filter-btn" data-status="Russian">
-                                                <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-                                                        <i class="fas fa-globe text-purple-500 text-sm"></i>
-                                                    </div>
-                                                    <div class="flex items-center justify-between flex-1">
-                                                        <span class="text-white/70 text-sm" data-i18n="filters.status.russian">Russian</span>
-                                                        <span class="text-white/40">13</span>
-                                                    </div>
-                                                </div>
-                                            </button>
-                                        </div>
+                    <!-- Right Column - Feature Cards -->
+                    <div class="relative perspective-container reveal-content">
+                    <div class="cards-container space-y-6">
+                            <div class="feature-card" data-rotation="5">
+                                <div class="card-content">
+                                    <div class="icon-container">
+                                        <i class="fas fa-shield-alt"></i>
                                     </div>
-
-                                    <!-- Sort Options -->
-                                    <div>
-                                        <h3 class="text-sm font-medium text-white mb-4" data-i18n="filters.sort.title">Sort Sources</h3>
-                                        <div class="flex flex-col gap-2">
-                                            <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="hot">
-                                                <i class="fas fa-fire text-[10px] text-red-500"></i>
-                                                <span class="text-white/70 text-sm" data-i18n="filters.sort.hot">Hot (24h)</span>
-                                            </button>
-                                            <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="new">
-                                                <i class="fas fa-star text-[10px] text-amber-500"></i>
-                                                <span class="text-white/70 text-sm" data-i18n="filters.sort.new">New</span>
-                                            </button>
-                                            <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="most-copies">
-                                                <i class="fas fa-copy text-[10px] text-emerald-500"></i>
-                                                <span class="text-white/70 text-sm" data-i18n="filters.sort.mostCopies">Most Copies</span>
-                                            </button>
-                                            <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="most-installs">
-                                                <i class="fas fa-download text-[10px] text-emerald-500"></i>
-                                                <span class="text-white/70 text-sm" data-i18n="filters.sort.mostInstalls">Most Installs</span>
-                                            </button>
-                                            <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="name-asc">
-                                                <i class="fas fa-sort-alpha-down text-[10px] text-white/50"></i>
-                                                <span class="text-white/70 text-sm" data-i18n="filters.sort.nameAsc">Name (A-Z)</span>
-                                            </button>
-                                            <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="name-desc">
-                                                <i class="fas fa-sort-alpha-up text-[10px] text-white/50"></i>
-                                                <span class="text-white/70 text-sm" data-i18n="filters.sort.nameDesc">Name (Z-A)</span>
-                                            </button>
-                                        </div>
+                                    <h3 data-i18n="index.features.secure.title">Secure Sources</h3>
+                                    <p data-i18n="index.features.secure.description">All sources are verified and monitored for safety and reliability.</p>
+                                </div>
+                            </div>
+                            <div class="feature-card" data-rotation="-5">
+                                <div class="card-content">
+                                    <div class="icon-container">
+                                        <i class="fas fa-bolt"></i>
                                     </div>
-
-                                    <!-- Games Count section -->
-                                    <div>
-                                        <h3 class="text-sm font-medium text-white mb-4" data-i18n="filters.gamesCount.title">Games Count</h3>
-                                        <div class="flex flex-col gap-2">
-                                            <button class="games-filter-btn" data-min="0" data-max="999">
-                                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                                    <span class="text-white/90 text-sm" data-i18n="filters.gamesCount.range1">0-999</span>
-                                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                                        <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                                    </div>
-                                                    <span class="text-white/40 text-xs">0</span>
-                                                </div>
-                                            </button>
-
-                                            <button class="games-filter-btn" data-min="1000" data-max="4999">
-                                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                                    <span class="text-white/90 text-sm" data-i18n="filters.gamesCount.range2">1000-4999</span>
-                                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                                        <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                                    </div>
-                                                    <span class="text-white/40 text-xs">4</span>
-                                                </div>
-                                            </button>
-
-                                            <button class="games-filter-btn" data-min="5000" data-max="9999">
-                                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                                    <span class="text-white/90 text-sm" data-i18n="filters.gamesCount.range3">5000-9999</span>
-                                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                                        <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                                    </div>
-                                                    <span class="text-white/40 text-xs">5</span>
-                                                </div>
-                                            </button>
-
-                                            <button class="games-filter-btn" data-min="10000" data-max="999999">
-                                                <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                                    <span class="text-white/90 text-sm" data-i18n="filters.gamesCount.range4">10000+</span>
-                                                    <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                                        <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                                    </div>
-                                                    <span class="text-white/40 text-xs">0</span>
-                                                </div>
-                                            </button>
-                                        </div>
+                                    <h3 data-i18n="index.features.fast.title">Fast Access</h3>
+                                    <p data-i18n="index.features.fast.description">Quick and easy access to thousands of games from verified sources.</p>
+                                </div>
+                            </div>
+                            <div class="feature-card" data-rotation="8">
+                                <div class="card-content">
+                                    <div class="icon-container">
+                                        <i class="fas fa-users"></i>
                                     </div>
+                                    <h3 data-i18n="index.features.community.title">Community Driven</h3>
+                                    <p data-i18n="index.features.community.description">Active community participation in source verification and ratings.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Sources Grid -->
-                <div class="flex-1">
-                    <!-- Mobile/Tablet Filter Button -->
-                    <div class="hidden mb-4">
-                        <button id="mobile-filters-btn" 
-                                class="w-full bg-[#111]/40 backdrop-blur-sm border border-white/5 rounded-lg px-4 py-3 text-sm text-white/70 hover:bg-[#111]/60 transition-all duration-200 flex items-center justify-between cursor-pointer">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-filter text-emerald-500/70"></i>
-                                <span data-i18n="filters.title">Filters & Sort</span>
-                            </div>
-                            <div class="flex items-center gap-3 text-xs">
-                                <div id="active-filters-count" 
-                                     class="hidden px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                                    0 active
-                                </div>
-                                <i class="fas fa-chevron-right text-white/30"></i>
-                            </div>
-                        </button>
-                    </div>
-
-                    <div id="sources-container" 
-                         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[200px]">
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="mt-6 flex justify-center">
-                        <div id="pagination" class="inline-flex items-center gap-1 bg-[#111]/40 backdrop-blur-sm border border-white/5 rounded-lg p-1">
-                            <!-- Pagination content -->
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-    </main>
+    </section>
 
-    <!-- Mobile Filters Modal -->
-    <div id="mobile-filters-modal" 
-         class="fixed inset-0 z-50 hidden transition-all duration-300 ease-out">
-        <div class="absolute inset-0 bg-[#0A0A0A] bg-opacity-95 transition-opacity duration-300 opacity-0"></div>
+    <style>
+        /* CTA Buttons */
+        .cta-primary {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background-color: rgb(16 185 129);
+            color: white;
+            font-weight: 500;
+            border-radius: 0.75rem;
+            transition: all 0.3s;
+        }
+        .cta-primary:hover {
+            transform: scale(1.05);
+        }
+        .cta-primary::before {
+            content: '';
+            position: absolute;
+            background-color: rgb(16 185 129);
+            border-radius: 0.75rem;
+            filter: blur(16px);
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        .cta-primary:hover::before {
+            opacity: 1;
+        }
         
-        <div class="absolute inset-0 flex flex-col bg-[#111] transition-transform duration-300 ease-out translate-y-full">
-            <!-- Modal Header -->
-            <div class="p-4 border-b border-white/5 bg-[#111]">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-chevron-down text-emerald-500"></i>
-                        <h3 class="text-lg font-medium text-white" data-i18n="filters.title">Filters & Sort</h3>
-                    </div>
-                    <button id="close-mobile-filters" class="text-white/50 hover:text-white">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Modal Content -->
-            <div class="flex-1 overflow-y-auto custom-scrollbar bg-[#111]">
-                <div class="p-4">
-                    <div id="mobile-filters-content" class="flex flex-col gap-8">
-                        <!-- Source Status section -->
-                        <div class="mb-4">
-                            <h3 class="text-base font-medium text-white mb-4" data-i18n="filters.status.title">Source Status</h3>
-                            <div class="grid grid-cols-1 gap-3">
-                                <!-- Trusted Status -->
-                                <button class="status-filter-btn" data-status="Trusted">
-                                    <div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                            <i class="fas fa-shield text-emerald-500"></i>
-                                        </div>
-                                        <div class="flex items-center justify-between flex-1">
-                                            <span class="text-white/70" data-i18n="filters.status.trusted">Trusted</span>
-                                            <span class="text-white/40">22</span>
-                                        </div>
-                                    </div>
-                                </button>
+        .cta-secondary {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            transition: all 0.3s;
+        }
+        .cta-secondary:hover {
+            transform: scale(1.05);
+        }
+        .cta-secondary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 0.75rem;
+            filter: blur(16px);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .cta-secondary:hover::before {
+            opacity: 1;
+        }
 
-                                <!-- Safe For Use Status -->
-                                <button class="status-filter-btn" data-status="Safe For Use">
-                                    <div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                                            <i class="fas fa-check-circle text-blue-500"></i>
-                                        </div>
-                                        <div class="flex items-center justify-between flex-1">
-                                            <span class="text-white/70" data-i18n="filters.status.safeForUse">Safe For Use</span>
-                                            <span class="text-white/40">4</span>
-                                        </div>
-                                    </div>
-                                </button>
+        /* Stat Cards */
+        .stat-card {
+            background-color: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            position: relative;
+            transition: all 0.3s;
+        }
 
-                                <!-- Use At Your Own Risk Status -->
-                                <button class="status-filter-btn" data-status="Use At Your Own Risk">
-                                    <div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                                            <i class="fas fa-exclamation-triangle text-red-500"></i>
-                                        </div>
-                                        <div class="flex items-center justify-between flex-1">
-                                            <span class="text-white/70" data-i18n="filters.status.useAtOwnRisk">Use At Your Own Risk</span>
-                                            <span class="text-white/40">1</span>
-                                        </div>
-                                    </div>
-                                </button>
+        .stat-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
 
-                                <!-- Russian Status -->
-                                <button class="status-filter-btn" data-status="Russian">
-                                    <div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-                                            <i class="fas fa-globe text-purple-500"></i>
-                                        </div>
-                                        <div class="flex items-center justify-between flex-1">
-                                            <span class="text-white/70" data-i18n="filters.status.russian">Russian</span>
-                                            <span class="text-white/40">15</span>
-                                        </div>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
+        .stat-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
 
-                        <!-- Sort Sources section -->
-                        <div class="mb-4">
-                            <h3 class="text-base font-medium text-white mb-4" data-i18n="filters.sort.title">Sort Sources</h3>
-                            <div class="flex flex-col gap-2">
-                                <!-- Hot Sort -->
-                                <button class="sort-option" data-sort="hot">
-                                    <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                                            <i class="fas fa-fire text-red-500"></i>
-                                        </div>
-                                        <span class="text-white/70 text-sm" data-i18n="filters.sort.hot">Hot (24h)</span>
-                                    </div>
-                                </button>
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
 
-                                <!-- Most Copies Sort -->
-                                <button class="sort-option" data-sort="most-copies">
-                                    <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
-                                            <i class="fas fa-copy text-white/70"></i>
-                                        </div>
-                                        <span class="text-white/70 text-sm" data-i18n="filters.sort.mostCopies">Most Copies</span>
-                                    </div>
-                                </button>
+        .stat-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
 
-                                <!-- Most Installs Sort -->
-                                <button class="sort-option" data-sort="most-installs">
-                                    <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
-                                            <i class="fas fa-download text-white/70"></i>
-                                        </div>
-                                        <span class="text-white/70 text-sm" data-i18n="filters.sort.mostInstalls">Most Installs</span>
-                                    </div>
-                                </button>
+        .stat-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+        }
 
-                                <!-- Newest Sort -->
-                                <button class="sort-option" data-sort="newest">
-                                    <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                            <i class="fas fa-clock text-emerald-500"></i>
-                                        </div>
-                                        <span class="text-white/70 text-sm" data-i18n="filters.sort.newest">Newest</span>
-                                    </div>
-                                </button>
+        .stat-card p {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 400;
+            margin-left: calc(8px + 0.75rem); /* Align with the number */
+        }
 
-                                <!-- Alphabetical Sort -->
-                                <button class="sort-option" data-sort="alphabetical">
-                                    <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-                                            <i class="fas fa-sort-alpha-down text-purple-500"></i>
-                                        </div>
-                                        <span class="text-white/70 text-sm" data-i18n="filters.sort.alphabetical">A-Z</span>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
+        /* Remove any previous hover effects or animations */
+        .stat-card::before,
+        .stat-card::after {
+            display: none;
+        }
 
-                        <!-- Games Count section -->
-                        <div>
-                            <h3 class="text-base font-medium text-white mb-4" data-i18n="filters.gamesCount.title">Games Count</h3>
-                            <div class="flex flex-col gap-3">
-                                <button class="games-filter-btn w-full" data-min="0" data-max="999">
-                                    <div class="flex items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <span class="text-white/90" data-i18n="filters.gamesCount.range1">0-999</span>
-                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                        </div>
-                                        <span class="text-white/40 text-sm">0</span>
-                                    </div>
-                                </button>
+        /* Animations */
+        @keyframes blob {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
 
-                                <button class="games-filter-btn w-full" data-min="1000" data-max="4999">
-                                    <div class="flex items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <span class="text-white/90" data-i18n="filters.gamesCount.range2">1000-4999</span>
-                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                        </div>
-                                        <span class="text-white/40 text-sm">8</span>
-                                    </div>
-                                </button>
+        /* Feature Cards */
+        .feature-card {
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(10px);
+                    backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
 
-                                <button class="games-filter-btn w-full" data-min="5000" data-max="9999">
-                                    <div class="flex items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <span class="text-white/90" data-i18n="filters.gamesCount.range3">5000-9999</span>
-                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                        </div>
-                                        <span class="text-white/40 text-sm">5</span>
-                                    </div>
-                                </button>
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(16, 185, 129, 0.2);
+            box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.2);
+        }
 
-                                <button class="games-filter-btn w-full" data-min="10000" data-max="999999">
-                                    <div class="flex items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <span class="text-white/90" data-i18n="filters.gamesCount.range4">10000+</span>
-                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                        </div>
-                                        <span class="text-white/40 text-sm">2</span>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
 
-            <!-- Modal Footer -->
-            <div class="p-4 border-t border-white/5 bg-[#111]">
-                <div class="flex items-center justify-between gap-4">
-                    <button id="reset-filters" 
-                            class="px-4 py-2 text-sm text-white/50 hover:text-white 
-                                   transition-colors duration-200"
-                            data-i18n="filters.reset">
-                        Reset All
-                    </button>
-                    <button id="apply-filters"
-                            class="px-6 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 
-                                   border border-emerald-500/20 rounded-lg text-sm 
-                                   text-emerald-400 transition-all duration-200"
-                            data-i18n="filters.apply">
-                        Apply Filters
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+        .icon-container {
+            width: 48px;
+            height: 48px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Hydra Library",
-      "description": "A comprehensive game source management system designed to help users discover, organize, and access various game repositories safely and efficiently.",
-      "applicationCategory": "Game Library",
-      "operatingSystem": "Any",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "creator": {
-        "@type": "Person",
-        "name": "Moyase",
-        "url": "https://github.com/moyase"
-      }
-    }
+        .icon-container i {
+            font-size: 1.25rem;
+            color: rgb(16 185 129);
+        }
+
+        .feature-card h3 {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Add subtle hover effect for the cards */
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(16, 185, 129, 0.03) 100%
+            );
+            border-radius: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Add subtle animation for cards container */
+        .cards-container {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .perspective-container {
+            perspective: 2000px;
+        }
+
+        /* Optional: Add a subtle floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .feature-card:nth-child(1) { animation: float 6s ease-in-out infinite; }
+        .feature-card:nth-child(2) { animation: float 6s ease-in-out infinite 0.2s; }
+        .feature-card:nth-child(3) { animation: float 6s ease-in-out infinite 0.4s; }
+    </style>
+
+    <script>
+        // Initialize particles.js
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#10b981" },
+                shape: { type: "circle" },
+                opacity: {
+                    value: 0.1,
+                    random: true,
+                    animation: { enable: true, speed: 1, opacity_min: 0.05, sync: false }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    animation: { enable: true, speed: 2, size_min: 0.1, sync: false }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#10b981",
+                    opacity: 0.1,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 140, line_linked: { opacity: 0.3 } },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Initialize GSAP animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate content on load
+        window.addEventListener('load', () => {
+            gsap.to('.reveal-content', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power4.out"
+            });
+
+            // Animate counter
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2;
+                const steps = 50;
+                const increment = target / steps;
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += increment;
+                    if (current > target) current = target;
+                    counter.textContent = Math.floor(current).toLocaleString();
+                    if (current < target) {
+                        requestAnimationFrame(updateCounter);
+                    }
+                };
+
+                updateCounter();
+            });
+        });
     </script>
+
+    <!-- Add the Firebase data loading script -->
+
+    <!-- Add before the closing body tag -->
 </body>
 </html> 
