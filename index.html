@@ -543,6 +543,7 @@
     <script type="module">
         import { db } from './firebase.js';
         import { ref, get } from 'firebase/database';
+        import { fetchLatestResources } from './js/utils.js';
 
         async function loadStatistics() {
             try {
@@ -551,12 +552,8 @@
                 document.getElementById('gamesCount').textContent = '0';
                 document.getElementById('actionsCount').textContent = '0';
 
-                // Force fetch latest resources.json with cache-busting query parameter
-                const timestamp = new Date().getTime();
-                const response = await fetch(`./data/resources.json?t=${timestamp}`, {
-                    cache: 'no-store' // Prevent caching
-                });
-                const data = await response.json();
+                // Get fresh data using the utility function
+                const data = await fetchLatestResources();
                 const sources = data.sources;
                 
                 // Update sources count with animation

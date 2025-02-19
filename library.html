@@ -714,5 +714,17 @@
       }
     }
     </script>
+    <script>
+    import { fetchLatestResources } from './js/utils.js';
+
+    async function loadLibrary() {
+        try {
+            const data = await fetchLatestResources();
+            // Your code to display the sources...
+        } catch (error) {
+            console.error('Error loading library:', error);
+        }
+    }
+    </script>
 </body>
 </html> 
