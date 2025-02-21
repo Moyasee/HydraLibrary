@@ -763,13 +763,17 @@ function createSourceCard(source) {
             <div class="absolute inset-0 bg-gradient-to-b 
                         ${isRisky ? 'from-red-500/5' : 'from-emerald-500/5'} to-transparent 
                         opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div class="absolute inset-0 bg-gradient-to-r 
-                       ${isRisky ? 'from-red-500/5 via-transparent to-red-500/5' : 
-                                 'from-emerald-500/5 via-transparent to-emerald-500/5'} 
-                       opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
             
-            <!-- Glass effect overlay -->
+            <!-- Glass effect overlay - Moved before the games count -->
             <div class="absolute inset-0 backdrop-blur-sm bg-black/10"></div>
+            
+            <!-- Games count badge -->
+            <div class="absolute mt-4 right-4 inline-flex items-center gap-1.5 px-2 py-1 z-10
+                        rounded-md bg-emerald-500/10 border border-emerald-500/20 
+                        text-emerald-400 text-xs">
+                <i class="fas fa-gamepad text-[10px]"></i>
+                <span>${source.gamesCount}</span>
+            </div>
             
             <!-- Card content -->
             <div class="relative p-4 flex-1 flex flex-col">
