@@ -42,14 +42,10 @@ function initPreloader() {
 
 // Add this function to initialize the language switcher
 function initializeLanguageSwitcher() {
-    console.log('Starting language switcher initialization');
     const languageSwitcher = document.getElementById('language-switcher');
     const languageDropdown = document.getElementById('language-dropdown');
     
-    console.log('Initializing language switcher:', { languageSwitcher, languageDropdown });
-    
     if (!languageSwitcher || !languageDropdown) {
-        console.error('Language switcher elements not found:', { languageSwitcher, languageDropdown });
         return;
     }
     
@@ -60,7 +56,6 @@ function initializeLanguageSwitcher() {
     // Set initial language text
     const currentLang = i18n.getCurrentLocale();
     const langSpan = newLanguageSwitcher.querySelector('span');
-    console.log('Initial language setup:', { currentLang, langSpan });
     
     if (langSpan) {
         const languageNames = {
@@ -75,8 +70,7 @@ function initializeLanguageSwitcher() {
     newLanguageSwitcher.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log('Language switcher clicked');
-        // Check if dropdown is currently hidden
+        
         const isHidden = languageDropdown.classList.contains('hidden');
         
         // Show/hide dropdown
@@ -89,19 +83,16 @@ function initializeLanguageSwitcher() {
             // Remove active state from button
             newLanguageSwitcher.classList.remove('bg-white/10');
         }
-        console.log('Dropdown toggled, hidden:', !isHidden);
     });
     
     // Handle language selection
     const langButtons = languageDropdown.querySelectorAll('button');
-    console.log('Language buttons found:', langButtons.length);
     
     langButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             const lang = button.dataset.lang;
-            console.log('Language button clicked:', lang);
             i18n.setLocale(lang);
             languageDropdown.classList.add('hidden');
             newLanguageSwitcher.classList.remove('bg-white/10');
@@ -122,7 +113,6 @@ function initializeLanguageSwitcher() {
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
         if (!newLanguageSwitcher.contains(e.target)) {
-            console.log('Clicking outside, closing dropdown');
             languageDropdown.classList.add('hidden');
             newLanguageSwitcher.classList.remove('bg-white/10');
         }
@@ -299,12 +289,10 @@ function handleFilterVisibility() {
     const mobileFiltersBtn = document.getElementById('mobile-filters-btn')?.parentElement;
     
     if (!filtersSidebar || !mobileFiltersBtn) {
-        console.error('Filter elements not found:', { filtersSidebar, mobileFiltersBtn });
         return;
     }
     
     const isMobile = window.innerWidth < BREAKPOINTS.tablet;
-    console.log('Visibility check:', { isMobile, width: window.innerWidth, breakpoint: BREAKPOINTS.tablet });
     
     // Set initial states
     filtersSidebar.classList.toggle('hidden', isMobile);
@@ -319,7 +307,6 @@ function setupMobileFilters() {
     const modalBackdrop = mobileFiltersModal?.querySelector('.bg-\\[\\#0A0A0A\\]');
     
     if (!mobileFiltersBtn || !mobileFiltersModal || !mobileFiltersContent || !modalBackdrop) {
-        console.error('Required mobile filter elements not found');
         return;
     }
 
@@ -459,7 +446,7 @@ async function fetchSources() {
         displaySources(sources);
         updateFilterCounts();  // Make sure this is called
     } catch (error) {
-        console.error('Error loading sources:', error);
+        // Handle error silently
     }
 }
 
@@ -469,8 +456,6 @@ async function loadSourceStats() {
         const statsRef = ref(db, 'sources');
         const snapshot = await get(statsRef);
         const stats = snapshot.val();
-        
-        console.log('Raw Firebase stats:', stats); // Debug log
         
         if (stats) {
             // Update local sources with Firebase stats
@@ -486,13 +471,6 @@ async function loadSourceStats() {
                 const recentActivity = activity.filter(timestamp => 
                     now - timestamp < ACTIVITY_WINDOW
                 ).length;
-                
-                console.log(`Source ${source.title} activity:`, {
-                    activity,
-                    recentActivity,
-                    now,
-                    window: ACTIVITY_WINDOW
-                });
                 
                 return {
                     ...source,
@@ -510,7 +488,7 @@ async function loadSourceStats() {
             });
         }
     } catch (error) {
-        console.error('Error loading stats from Firebase:', error);
+        // Handle error silently
     }
 }
 
@@ -937,7 +915,7 @@ function proceedWithCopy(button) {
             button.innerHTML = originalText;
         }, 2000);
     }).catch(err => {
-        console.error('Failed to copy:', err);
+        // Handle error silently
     });
 }
 
@@ -1547,7 +1525,7 @@ async function trackSourceUsage(sourceUrl, action) {
         
         return true;
     } catch (error) {
-        console.error('Error tracking source usage:', error);
+        // Handle error silently
         return false;
     }
 }
@@ -1709,9 +1687,8 @@ async function testFirebase() {
             timestamp: Date.now(),
             message: 'Firebase connection successful'
         });
-        console.log('Firebase connection test successful');
     } catch (error) {
-        console.error('Firebase connection test failed:', error);
+        // Handle error silently
     }
 }
 
@@ -1745,7 +1722,7 @@ async function cleanupOldActivity(sourceId) {
             }
         }
     } catch (error) {
-        console.error('Error cleaning up old activity:', error);
+        // Handle error silently
     }
 }
 

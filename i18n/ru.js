@@ -71,7 +71,7 @@ export default {
             today: 'сегодня',
             yesterday: 'вчера',
             daysAgo: '{days} дней назад',
-            on: ''
+            on: ' '
         }
     },
     modal: {
