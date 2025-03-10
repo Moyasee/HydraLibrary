@@ -239,6 +239,14 @@
             "gamesCount": "9193",
             "status": ["Use At Your Own Risk"],
             "addedDate": "2025-02-18"
+        },
+        {
+            "title": "Corea source",
+            "description": "Include RePacks from DODI",
+            "url": "https://coreaox.github.io/coreaox.json",
+            "gamesCount": "56",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2025-03-10"
         }
     ]
 } 
