@@ -233,14 +233,6 @@
             "addedDate": "2025-02-18"
         },
         {
-            "title": "1337x",
-            "description": "Include RePacks from FitGirl, KaOsKrew, DODI, IGGGAMESCOM and etc",
-            "url": "https://torrents.starserv.net/torrents/sources/1337x",
-            "gamesCount": "9193",
-            "status": ["Use At Your Own Risk"],
-            "addedDate": "2025-02-18"
-        },
-        {
             "title": "Corea source",
             "description": "Include RePacks from DODI",
             "url": "https://coreaox.github.io/coreaox.json",
