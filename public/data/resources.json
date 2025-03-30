@@ -9,14 +9,6 @@
             "addedDate": "2024-12-29"
         },
         {
-            "title": "SteamRip [SOFTWARE ONLY]",
-            "description": "Smaller version of SteamRip that only includes software such as Lossless Scaling, Wallpaper Engine and more.",
-            "url": "https://hydralinks.cloud/sources/steamrip-software.json",
-            "gamesCount": "7",
-            "status": ["Trusted"],
-            "addedDate": "2024-12-29"
-        },
-        {
             "title": "SteamRip [DIRECT DOWNLOAD / NO TORRENT]",
             "description": "Pre-installed games with original content, uncompressed, and sourced reliably.",
             "url": "https://hydralinks.cloud/sources/steamrip.json",
@@ -113,14 +105,6 @@
             "addedDate": "2024-12-30"
         },
         {
-            "title": "CrackStatus",
-            "description": "",
-            "url": "https://crackstatus.net/downloads.json",
-            "gamesCount": "11703",
-            "status": ["Safe For Use"],
-            "addedDate": "2024-12-30"
-        },
-        {
             "title": "Free GOG",
             "description": "Delivering DRM-free games that have undergone thorough vetting before their release.",
             "url": "https://hydralinks.cloud/sources/gog.json",
@@ -141,14 +125,6 @@
             "description": "Unaltered pre-installed games sourced from multiple trustworthy names in the community.",
             "url": "https://hydrasources.su/sources/atop-games.json",
             "gamesCount": "584",
-            "status": ["Trusted", "Russian"],
-            "addedDate": "2024-12-29"
-        },
-        {
-            "title": "SteamRip(RU) [SOFTWARE ONLY]",
-            "description": "Smaller version of SteamRip that only includes software such as Lossless Scaling, Wallpaper Engine and more.",
-            "url": "https://hydrasources.su/sources/steamrip-software.json",
-            "gamesCount": "7",
             "status": ["Trusted", "Russian"],
             "addedDate": "2024-12-29"
         },
