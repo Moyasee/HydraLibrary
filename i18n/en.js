@@ -4,7 +4,8 @@ export default {
         search: 'Search',
         searchMobile: 'Search',
         about: 'About',
-        suggest: 'Suggest Source'
+        suggest: 'Suggest Source',
+        donate: 'Donate'
     },
     filters: {
         title: 'Filters & Sort',
@@ -251,6 +252,30 @@ export default {
             community: {
                 title: "Community Driven",
                 description: "Active community participation in source verification and ratings."
+            }
+        }
+    },
+    donate: {
+        hero: {
+            badge: "Support the Project",
+            title: "Support Hydra Library",
+            description: "Your support helps maintain and improve Hydra Library. Every donation contributes to keeping the project running and developing new features."
+        },
+        crypto: {
+            title: "Cryptocurrency",
+            btc: "Bitcoin (BTC) Network: SegWit",
+            usdt: "USDT (TRC20)"
+        },
+        other: {
+            title: "Other Ways to Support",
+            share: {
+                title: "Share the Project",
+                description: "Help spread the word about Hydra Library by sharing it with your friends and community."
+            },
+            contribute: {
+                title: "Contribute",
+                description: "You can also contribute to the project by reporting bugs, suggesting features, or contributing code on GitHub.",
+                github: "Visit GitHub Repository"
             }
         }
     }

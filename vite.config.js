@@ -13,7 +13,8 @@ export default defineConfig({
       input: {
         main: 'index.html',
         library: 'library.html',
-        about: 'about.html'
+        about: 'about.html',
+        donate: 'donate.html'
       }
     }
   },

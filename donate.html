@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Support Hydra Library - Donations</title>
+    <meta name="title" content="Support Hydra Library - Donations">
+    <meta name="description" content="Support the development and maintenance of Hydra Library through donations. Help us keep the library running and improving.">
+    
+    <!-- Your existing tags -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module">
+        import { initializeLanguageSwitcher } from './js/i18n.js';
+        
+        // Initialize language switcher when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeLanguageSwitcher();
+        });
+    </script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex flex-col text-gray-100">
+    <!-- Header (same as library.html) -->
+    <header class="border-b border-white/5 backdrop-blur-sm bg-black/30 sticky top-0 z-50">
+        <div class="max-w-[1920px] w-full mx-auto px-4 py-3">
+            <nav class="flex items-center justify-between">
+                <a href="./" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <i class="fas fa-book text-emerald-500 text-2xl"></i>
+                    <h1 class="hidden sm:block text-lg md:text-xl font-medium">Hydra Library</h1>
+                </a>
+                <!-- Language Switcher -->
+                <div class="relative">
+                    <button id="language-switcher" 
+                            type="button"
+                            class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 
+                                   text-white/70 hover:bg-white/10 transition-all duration-200
+                                   flex items-center gap-1.5 text-sm">
+                        <i class="fas fa-globe"></i>
+                        <span class="hidden sm:inline">English</span>
+                    </button>
+                    <div id="language-dropdown" 
+                         class="absolute top-full mt-1 z-[100] hidden
+                                bg-[#111]/90 backdrop-blur-sm border border-white/5 
+                                rounded-lg overflow-hidden w-[120px] sm:w-full
+                                shadow-lg shadow-black/50">
+                        <button type="button" 
+                                class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
+                                       transition-all duration-200 text-left" 
+                                data-lang="en">
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-globe text-xs"></i>
+                                <span>English</span>
+                            </span>
+                        </button>
+                        <button type="button" 
+                                class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
+                                       transition-all duration-200 text-left" 
+                                data-lang="ru">
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-globe text-xs"></i>
+                                <span>Русский</span>
+                            </span>
+                        </button>
+                        <button type="button" 
+                                class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
+                                       transition-all duration-200 text-left" 
+                                data-lang="pt-br">
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-globe text-xs"></i>
+                                <span>Português</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto space-y-8">
+            <!-- Hero Section -->
+            <div class="text-center space-y-4">
+                <div class="inline-flex items-center justify-center gap-3 px-4 py-2 rounded-full 
+                            bg-amber-500/10 border border-amber-500/20">
+                    <i class="fas fa-heart text-amber-500"></i>
+                    <span class="text-white/70 text-sm" data-i18n="donate.hero.badge">Support the Project</span>
+                </div>
+                
+                <h1 class="text-4xl font-bold text-white" data-i18n="donate.hero.title">Support Hydra Library</h1>
+                <p class="text-lg text-white/70 max-w-2xl mx-auto" data-i18n="donate.hero.description">
+                    Your support helps maintain and improve Hydra Library. Every donation contributes to keeping the project running and developing new features.
+                </p>
+            </div>
+
+            <!-- Donation Methods -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Cryptocurrency Section -->
+                <div class="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 
+                                  flex items-center justify-center">
+                            <i class="fab fa-bitcoin text-blue-500"></i>
+                        </div>
+                        <h2 class="text-xl font-medium text-white" data-i18n="donate.crypto.title">Cryptocurrency</h2>
+                    </div>
+
+                    <!-- Bitcoin -->
+                    <div class="space-y-4">
+                        <div class="p-4 bg-black/20 rounded-lg border border-white/5">
+                            <h3 class="text-white font-medium mb-2 flex items-center gap-2">
+                                <i class="fab fa-bitcoin text-amber-500"></i>
+                                <span data-i18n="donate.crypto.btc">Bitcoin (BTC) Network: SegWit</span>
+                            </h3>
+                            <div class="flex items-center gap-2">
+                                <input type="text" 
+                                       value="bc1q8y8kln5vh58xj79xg363vhk7scnj6deqlsj6hy" 
+                                       readonly
+                                       class="flex-1 bg-black/20 border border-white/5 rounded px-3 py-2 
+                                              text-sm text-white/70">
+                                <button onclick="copyToClipboard('bc1q8y8kln5vh58xj79xg363vhk7scnj6deqlsj6hy')"
+                                        class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 
+                                               text-white/70 hover:bg-white/10 transition-all duration-200">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- USDT (TRC20) -->
+                        <div class="p-4 bg-black/20 rounded-lg border border-white/5">
+                            <h3 class="text-white font-medium mb-2 flex items-center gap-2">
+                                <i class="fas fa-dollar-sign text-green-500"></i>
+                                <span data-i18n="donate.crypto.usdt">USDT (TRC20)</span>
+                            </h3>
+                            <div class="flex items-center gap-2">
+                                <input type="text" 
+                                       value="TChf5oNjYSEjYUvws58bmBPoP6fo1AXgyj" 
+                                       readonly
+                                       class="flex-1 bg-black/20 border border-white/5 rounded px-3 py-2 
+                                              text-sm text-white/70">
+                                <button onclick="copyToClipboard('TChf5oNjYSEjYUvws58bmBPoP6fo1AXgyj')"
+                                        class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 
+                                               text-white/70 hover:bg-white/10 transition-all duration-200">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other Ways to Support -->
+                <div class="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                  flex items-center justify-center">
+                            <i class="fas fa-hands-helping text-emerald-500"></i>
+                        </div>
+                        <h2 class="text-xl font-medium text-white" data-i18n="donate.other.title">Other Ways to Support</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="p-4 bg-black/20 rounded-lg border border-white/5">
+                            <h3 class="text-white font-medium mb-2" data-i18n="donate.other.share.title">Share the Project</h3>
+                            <p class="text-white/70 text-sm" data-i18n="donate.other.share.description">
+                                Help spread the word about Hydra Library by sharing it with your friends and community.
+                            </p>
+                        </div>
+
+                        <div class="p-4 bg-black/20 rounded-lg border border-white/5">
+                            <h3 class="text-white font-medium mb-2" data-i18n="donate.other.contribute.title">Contribute</h3>
+                            <p class="text-white/70 text-sm" data-i18n="donate.other.contribute.description">
+                                You can also contribute to the project by reporting bugs, suggesting features, or contributing code on GitHub.
+                            </p>
+                            <a href="https://github.com/Moyasee/HydraLibrary" 
+                               target="_blank"
+                               class="inline-flex items-center gap-2 mt-3 text-sm text-emerald-400 hover:text-emerald-300">
+                                <i class="fab fa-github"></i>
+                                <span data-i18n="donate.other.contribute.github">Visit GitHub Repository</span>
+                                <i class="fas fa-external-link-alt text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            // Show success message
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-emerald-500/90 text-white px-4 py-2 rounded-lg text-sm';
+            toast.textContent = document.documentElement.lang === 'ru' ? 'Скопировано в буфер обмена!' :
+                               document.documentElement.lang === 'pt-br' ? 'Copiado para a área de transferência!' :
+                               'Copied to clipboard!';
+            document.body.appendChild(toast);
+            
+            // Remove toast after 2 seconds
+            setTimeout(() => {
+                toast.remove();
+            }, 2000);
+        });
+    }
+    </script>
+</body>
+</html> 
