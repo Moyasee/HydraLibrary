@@ -213,8 +213,16 @@
             "description": "Include RePacks from DODI",
             "url": "https://coreaox.github.io/coreaox.json",
             "gamesCount": "56",
-            "status": ["Use At Your Own Risk"],
+            "status": ["fonte com diversos jogos de diversas categorias"],
             "addedDate": "2025-03-10"
+        },
+        {
+            "title": "Nexus",
+            "description": "fonte com diversos jogos de diversas categorias",
+            "url": "https://carlosguab.github.io/nexus.json",
+            "gamesCount": "2000",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2025-04-10"
         }
     ]
 } 
