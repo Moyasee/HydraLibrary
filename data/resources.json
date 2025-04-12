@@ -223,6 +223,14 @@
             "gamesCount": "2902",
             "status": ["Use At Your Own Risk"],
             "addedDate": "2025-04-10"
+        },
+        {
+            "title": "Repack-Games",
+            "description": "Get games from various sources such as CODEX, P2P, and TENOKE, with great file hosters.",
+            "url": "https://hydralinks.cloud/sources/repack-games.json",
+            "gamesCount": "1605",
+            "status": ["Trusted"],
+            "addedDate": "2025-04-13"
         }
     ]
 } 
