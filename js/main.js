@@ -1,8 +1,15 @@
 import { db } from '../firebase.js';
 import { ref, update, get, set } from 'firebase/database';
 import { i18n } from '../i18n/index.js';
+import connectionManager from '../firebase-connection.js';
 
 document.body.classList.add('preloading');
+
+// Initialize connection manager when page loads
+document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize the connection manager
+    await connectionManager.initialize();
+});
 
 // Preloader functionality
 function initPreloader() {
@@ -440,21 +447,32 @@ async function fetchSources() {
         const data = await response.json();
         sources = data.sources;
         
-        // Fetch stats for all sources from Firebase
-        await loadSourceStats();
-        
+        // Display sources immediately without waiting for Firebase
         displaySources(sources);
-        updateFilterCounts();  // Make sure this is called
+        updateFilterCounts();
+        
+        // Try to fetch stats for all sources from Firebase, but don't block rendering
+        loadSourceStats().catch(() => {
+            console.log('Firebase stats loading failed, continuing with local data only');
+        });
     } catch (error) {
         // Handle error silently
     }
 }
 
-// Modify the loadSourceStats function to properly handle activity
+// Modify the loadSourceStats function to properly handle activity and add a timeout
 async function loadSourceStats() {
     try {
+        // Add a timeout to the Firebase request to prevent hanging
+        const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Firebase request timed out')), 5000)
+        );
+        
         const statsRef = ref(db, 'sources');
-        const snapshot = await get(statsRef);
+        const firestorePromise = get(statsRef);
+        
+        // Race between the Firebase request and the timeout
+        const snapshot = await Promise.race([firestorePromise, timeoutPromise]);
         const stats = snapshot.val();
         
         if (stats) {
@@ -486,9 +504,74 @@ async function loadSourceStats() {
             sources.forEach(source => {
                 updateSourceStats(source.url, source.stats);
             });
+            
+            // Cache the stats in localStorage for fallback
+            try {
+                localStorage.setItem('sourceStats', JSON.stringify(stats));
+                localStorage.setItem('statsLastUpdated', Date.now().toString());
+            } catch (e) {
+                // Ignore storage errors
+            }
+            
+            return true;
         }
+        return false;
     } catch (error) {
-        // Handle error silently
+        // Try to load cached stats from localStorage if Firebase fails
+        try {
+            const cachedStats = localStorage.getItem('sourceStats');
+            if (cachedStats) {
+                const stats = JSON.parse(cachedStats);
+                
+                // Update local sources with cached stats
+                sources = sources.map(source => {
+                    const sourceId = source.url.replace(/[^a-zA-Z0-9]/g, '_');
+                    const sourceStats = stats[sourceId]?.stats || { installs: 0, copies: 0, activity: [] };
+                    
+                    // Ensure activity is an array
+                    const activity = Array.isArray(sourceStats.activity) ? sourceStats.activity : [];
+                    
+                    // Calculate 24h activity (but might be outdated)
+                    const now = Date.now();
+                    const recentActivity = activity.filter(timestamp => 
+                        now - timestamp < ACTIVITY_WINDOW
+                    ).length;
+                    
+                    return {
+                        ...source,
+                        stats: {
+                            ...sourceStats,
+                            recentActivity,
+                            activity
+                        }
+                    };
+                });
+                
+                // Update the UI with cached data
+                sources.forEach(source => {
+                    updateSourceStats(source.url, source.stats);
+                });
+                
+                console.log('Using cached stats from localStorage');
+                return true;
+            }
+        } catch (cacheError) {
+            // Ignore cache errors
+        }
+        
+        // Set default stats for all sources if both Firebase and cache fail
+        sources = sources.map(source => {
+            return {
+                ...source,
+                stats: {
+                    installs: 0,
+                    copies: 0,
+                    recentActivity: 0,
+                    activity: []
+                }
+            };
+        });
+        return false;
     }
 }
 
@@ -1472,7 +1555,7 @@ function getCookie(name) {
     return null;
 }
 
-// Modify the trackSourceUsage function to track activity
+// Modify the trackSourceUsage function to handle Firebase failures
 async function trackSourceUsage(sourceUrl, action) {
     try {
         const sourceId = sourceUrl.replace(/[^a-zA-Z0-9]/g, '_');
@@ -1483,38 +1566,101 @@ async function trackSourceUsage(sourceUrl, action) {
             return true;
         }
 
-        const statsRef = ref(db, `sources/${sourceId}/stats`);
-        const snapshot = await get(statsRef);
-        const currentStats = snapshot.val() || { installs: 0, copies: 0, activity: [] };
+        // Create a local copy of the stats in case Firebase fails
+        let newStats = { installs: 0, copies: 0, activity: [], recentActivity: 0 };
         
-        // Get current timestamp
-        const now = Date.now();
-        
-        // Clean up old activity (older than 24 hours)
-        const activity = Array.isArray(currentStats.activity) ? currentStats.activity : [];
-        const recentActivity = activity.filter(timestamp => 
-            now - timestamp < ACTIVITY_WINDOW
-        );
-        
-        // Add new activity timestamp
-        recentActivity.push(now);
+        // Try to get current stats from Firebase
+        try {
+            const timeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Firebase request timed out')), 3000)
+            );
+            
+            const statsRef = ref(db, `sources/${sourceId}/stats`);
+            const firestorePromise = get(statsRef);
+            
+            // Race between the Firebase request and the timeout
+            const snapshot = await Promise.race([firestorePromise, timeoutPromise]);
+            const currentStats = snapshot.val() || { installs: 0, copies: 0, activity: [] };
+            
+            // Get current timestamp
+            const now = Date.now();
+            
+            // Clean up old activity (older than 24 hours)
+            const activity = Array.isArray(currentStats.activity) ? currentStats.activity : [];
+            const recentActivity = activity.filter(timestamp => 
+                now - timestamp < ACTIVITY_WINDOW
+            );
+            
+            // Add new activity timestamp
+            recentActivity.push(now);
 
-        // Create new stats object
-        const newStats = {
-            installs: parseInt(currentStats.installs || 0) + (action === 'install' ? 1 : 0),
-            copies: parseInt(currentStats.copies || 0) + (action === 'copy' ? 1 : 0),
-            activity: recentActivity,
-            lastUpdated: now
-        };
-        
-        // Update database
-        await update(statsRef, newStats);
+            // Create new stats object
+            newStats = {
+                installs: parseInt(currentStats.installs || 0) + (action === 'install' ? 1 : 0),
+                copies: parseInt(currentStats.copies || 0) + (action === 'copy' ? 1 : 0),
+                activity: recentActivity,
+                recentActivity: recentActivity.length,
+                lastUpdated: now
+            };
+            
+            // Try to update database, but continue if it fails
+            await Promise.race([
+                update(statsRef, newStats),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Update timed out')), 3000))
+            ]);
+            
+            // Also update the localStorage cache when successful
+            try {
+                const cachedStats = localStorage.getItem('sourceStats');
+                if (cachedStats) {
+                    const allStats = JSON.parse(cachedStats);
+                    if (!allStats[sourceId]) {
+                        allStats[sourceId] = {};
+                    }
+                    allStats[sourceId].stats = newStats;
+                    localStorage.setItem('sourceStats', JSON.stringify(allStats));
+                    localStorage.setItem('statsLastUpdated', now.toString());
+                }
+            } catch (e) {
+                // Ignore storage errors
+            }
+        } catch (error) {
+            // If Firebase fails, just use local data and continue
+            console.log('Firebase update failed, continuing with local data');
+            
+            // Update local stats that will be shown in the UI
+            const sourceObj = sources.find(s => s.url === sourceUrl);
+            if (sourceObj && sourceObj.stats) {
+                newStats = {
+                    installs: parseInt(sourceObj.stats.installs || 0) + (action === 'install' ? 1 : 0),
+                    copies: parseInt(sourceObj.stats.copies || 0) + (action === 'copy' ? 1 : 0),
+                    activity: [],
+                    recentActivity: 1, // Show at least 1 for UI feedback
+                    lastUpdated: Date.now()
+                };
+                
+                // Try to update the local cache as fallback
+                try {
+                    const cachedStats = localStorage.getItem('sourceStats');
+                    if (cachedStats) {
+                        const allStats = JSON.parse(cachedStats);
+                        if (!allStats[sourceId]) {
+                            allStats[sourceId] = {};
+                        }
+                        allStats[sourceId].stats = newStats;
+                        localStorage.setItem('sourceStats', JSON.stringify(allStats));
+                        localStorage.setItem('statsLastUpdated', Date.now().toString());
+                    }
+                } catch (e) {
+                    // Ignore storage errors
+                }
+            }
+        }
 
         // Set cookie to prevent rapid repeated actions
         setCookie(actionId, 'true', action === 'install' ? 0.003472222 : 0.000347222);
 
-        // Update UI with correct recent activity count
-        newStats.recentActivity = recentActivity.length;
+        // Update UI with the stats
         updateSourceStats(sourceUrl, newStats);
         
         // Update the source object in our sources array

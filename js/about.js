@@ -1,6 +1,7 @@
 import { db } from '../firebase.js';
 import { ref, get } from 'firebase/database';
 import { i18n } from '../i18n/index.js';
+import connectionManager from '../firebase-connection.js';
 
 async function loadStatistics() {
     try {
@@ -18,19 +19,35 @@ async function loadStatistics() {
         }, 0);
         document.getElementById('gamesCount').textContent = totalGames.toLocaleString();
 
-        // Get installation and copy statistics from Firebase
-        const statsRef = ref(db, 'sources');
-        const snapshot = await get(statsRef);
-        const stats = snapshot.val();
-
-        if (stats) {
-            // Calculate total actions (installs + copies) from Firebase
-            const totalActions = Object.values(stats).reduce((sum, sourceData) => {
-                const sourceStats = sourceData.stats || {};
-                return sum + (sourceStats.installs || 0) + (sourceStats.copies || 0);
-            }, 0);
+        // Try to get Firebase stats with a timeout
+        try {
+            const timeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Firebase request timed out')), 5000)
+            );
             
-            document.getElementById('actionsCount').textContent = totalActions.toLocaleString();
+            const statsRef = ref(db, 'sources');
+            const firestorePromise = get(statsRef);
+            
+            // Race between the Firebase request and the timeout
+            const snapshot = await Promise.race([firestorePromise, timeoutPromise]);
+            const stats = snapshot.val();
+
+            if (stats) {
+                // Calculate total actions (installs + copies) from Firebase
+                const totalActions = Object.values(stats).reduce((sum, sourceData) => {
+                    const sourceStats = sourceData.stats || {};
+                    return sum + (sourceStats.installs || 0) + (sourceStats.copies || 0);
+                }, 0);
+                
+                document.getElementById('actionsCount').textContent = totalActions.toLocaleString();
+            } else {
+                // If no stats available, set to 0
+                document.getElementById('actionsCount').textContent = '0';
+            }
+        } catch (error) {
+            console.log('Firebase stats unavailable - connection limit reached or timeout');
+            // Just show a default value for actions if Firebase fails
+            document.getElementById('actionsCount').textContent = '0';
         }
 
         // Add animation to the numbers
@@ -51,7 +68,10 @@ async function loadStatistics() {
 }
 
 // Initialize when the document is loaded
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize the connection manager
+    await connectionManager.initialize();
+    
     loadStatistics();
 
     // Update initial translations

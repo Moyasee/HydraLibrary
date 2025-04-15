@@ -1,0 +1,37 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    
+    "sources": {
+      ".read": true,
+      "$sourceId": {
+        "stats": {
+          ".write": true,
+          "installs": {
+            ".validate": "newData.isNumber()"
+          },
+          "copies": {
+            ".validate": "newData.isNumber()"
+          },
+          "activity": {
+            ".validate": "newData.hasChildren()"
+          },
+          "lastUpdated": {
+            ".validate": "newData.isNumber()"
+          }
+        }
+      }
+    },
+    
+    "presence": {
+      ".read": true,
+      ".write": true
+    },
+    
+    "test": {
+      ".read": true,
+      ".write": true
+    }
+  }
+} 

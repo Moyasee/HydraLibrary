@@ -43,6 +43,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    
 </head>
 <body class="bg-black min-h-screen text-gray-100 overflow-x-hidden">
     <!-- Particles Background -->
@@ -544,6 +545,15 @@
         import { db } from './firebase.js';
         import { ref, get } from 'firebase/database';
         import { fetchLatestResources } from './js/utils.js';
+        import connectionManager from './firebase-connection.js';
+
+        // Initialize connection manager when page loads
+        window.addEventListener('load', async () => {
+            // Initialize connection manager
+            await connectionManager.initialize();
+            // Then load statistics
+            loadStatistics();
+        });
 
         async function loadStatistics() {
             try {
@@ -567,22 +577,42 @@
                 const gamesElement = document.getElementById('gamesCount');
                 animateNumber(gamesElement, totalGames);
 
-                // Get fresh Firebase stats
-                const statsRef = ref(db, 'sources');
-                const snapshot = await get(statsRef);
-                const stats = snapshot.val();
-
-                if (stats) {
-                    const totalActions = Object.values(stats).reduce((sum, sourceData) => {
-                        const sourceStats = sourceData.stats || {};
-                        return sum + (sourceStats.installs || 0) + (sourceStats.copies || 0);
-                    }, 0);
+                // Try to get Firebase stats with a timeout
+                try {
+                    const timeoutPromise = new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Firebase request timed out')), 5000)
+                    );
                     
-                    const actionsElement = document.getElementById('actionsCount');
-                    animateNumber(actionsElement, totalActions);
+                    const statsRef = ref(db, 'sources');
+                    const firestorePromise = get(statsRef);
+                    
+                    // Race between the Firebase request and the timeout
+                    const snapshot = await Promise.race([firestorePromise, timeoutPromise]);
+                    const stats = snapshot.val();
+
+                    if (stats) {
+                        const totalActions = Object.values(stats).reduce((sum, sourceData) => {
+                            const sourceStats = sourceData.stats || {};
+                            return sum + (sourceStats.installs || 0) + (sourceStats.copies || 0);
+                        }, 0);
+                        
+                        const actionsElement = document.getElementById('actionsCount');
+                        animateNumber(actionsElement, totalActions);
+                    } else {
+                        // If no stats, show a default value
+                        document.getElementById('actionsCount').textContent = '0';
+                    }
+                } catch (error) {
+                    console.log('Firebase stats unavailable - connection limit reached or timeout');
+                    // Just show a default value for actions if Firebase fails
+                    document.getElementById('actionsCount').textContent = '0';
                 }
             } catch (error) {
                 console.error('Error loading statistics:', error);
+                // Set default values if everything fails
+                document.getElementById('sourcesCount').textContent = '0';
+                document.getElementById('gamesCount').textContent = '0';
+                document.getElementById('actionsCount').textContent = '0';
             }
         }
 
@@ -606,9 +636,6 @@
 
             updateNumber();
         }
-
-        // Load statistics when the page loads
-        window.addEventListener('load', loadStatistics);
 
         // Optionally refresh stats periodically (every 5 minutes)
         setInterval(loadStatistics, 300000);
