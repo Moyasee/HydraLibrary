@@ -1320,25 +1320,33 @@ function updateFilterCounts() {
 }
 
 // Search functionality
+let searchTerm = '';
 document.getElementById('search').addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    
-    const container = document.getElementById('sources-container');
-    container.innerHTML = '';
-
-    const filteredSources = sources.filter(source => 
-        (activeStatuses.size === 0 || source.status.some(status => activeStatuses.has(status))) &&
-        (source.title.toLowerCase().includes(searchTerm) ||
-         source.description.toLowerCase().includes(searchTerm) ||
-         source.url.toLowerCase().includes(searchTerm))
-    );
-
-    filteredSources.forEach((source, index) => {
-        const card = createSourceCard(source);
-        card.style.setProperty('--i', index + 1);
-        container.appendChild(card);
-    });
+    searchTerm = e.target.value.toLowerCase();
+    currentPage = 1; // Reset to first page when searching
+    displaySources();
 });
+
+// Update filterSources function to include search
+function filterSources() {
+    return sources.filter(source => {
+        // Check if source matches the search term
+        const searchMatch = !searchTerm || 
+            source.title.toLowerCase().includes(searchTerm) ||
+            source.description.toLowerCase().includes(searchTerm) ||
+            source.url.toLowerCase().includes(searchTerm);
+            
+        // Check if source matches the selected status
+        const statusMatch = !activeStatus || source.status.includes(activeStatus);
+            
+        // Check if source is within the selected games range
+        const gamesCount = parseInt(source.gamesCount);
+        const gamesMatch = !activeGamesRange || 
+            (gamesCount >= activeGamesRange.min && gamesCount <= activeGamesRange.max);
+
+        return searchMatch && statusMatch && gamesMatch;
+    });
+}
 
 // Replace the sort button functionality with dropdown logic
 const sortDropdownBtn = document.getElementById('sort-dropdown-btn');
@@ -1773,21 +1781,6 @@ function changePage(newPage) {
     
     // Scroll to top smoothly when changing pages
     window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Add this function to filter sources (was missing)
-function filterSources() {
-    return sources.filter(source => {
-        // Check if source matches the selected status
-        const statusMatch = !activeStatus || source.status.includes(activeStatus);
-            
-        // Check if source is within the selected games range
-        const gamesCount = parseInt(source.gamesCount);
-        const gamesMatch = !activeGamesRange || 
-            (gamesCount >= activeGamesRange.min && gamesCount <= activeGamesRange.max);
-
-        return statusMatch && gamesMatch;
-    });
 }
 
 // Update the showCookieConsent function
