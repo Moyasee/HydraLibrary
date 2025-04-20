@@ -287,32 +287,41 @@
             <div class="flex items-start justify-between gap-4 mb-6">
                 <div class="flex items-center gap-3">
                     <i class="fas fa-plus text-emerald-500 text-2xl"></i>
-                    <h2 class="text-xl font-medium text-white">Suggest a Source</h2>
+                    <h2 class="text-xl font-medium text-white" data-i18n="suggest.title">Suggest a Source</h2>
                 </div>
                 <button id="close-suggest" class="text-white/40 hover:text-white/70 transition-colors duration-200">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="space-y-4 text-white/70 text-sm leading-relaxed">
-                <p>
-                    Want to add a new source to Hydra Library? You can suggest it by creating an issue on our GitHub repository. Here's how:
+                <p data-i18n="suggest.description">
+                    Want to add a new source to Hydra Library? You can suggest it by creating an issue on our GitHub repository.
                 </p>
                 
+                <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-4">
+                    <h3 class="text-red-400 font-medium mb-2" data-i18n="suggest.requirements.title">Important Requirements:</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li data-i18n="suggest.requirements.jsonOnly">Only .json file links are accepted (e.g., repack-games.com/source.json)</li>
+                        <li data-i18n="suggest.requirements.noWebsites">Website links are not accepted (e.g., repack-games.com)</li>
+                    </ul>
+                </div>
+                
                 <div class="bg-black/20 rounded-lg p-4 border border-white/5">
-                    <h3 class="text-white font-medium mb-3">How to Suggest a Source:</h3>
+                    <h3 class="text-white font-medium mb-3" data-i18n="suggest.steps.title">How to Suggest a Source:</h3>
                     <ol class="list-decimal list-inside space-y-2">
-                        <li>Visit our GitHub repository issue page</li>
-                        <li>Click on "New Issue"</li>
-                        <li>Select "Source Suggestion" template</li>
-                        <li>Fill in the required information:
+                        <li data-i18n="suggest.steps.visit">Visit our GitHub repository issue page</li>
+                        <li data-i18n="suggest.steps.newIssue">Click on "New Issue"</li>
+                        <li data-i18n="suggest.steps.template">Select "Source Suggestion" template</li>
+                        <li>
+                            <span data-i18n="suggest.steps.fillInfo">Fill in the required information:</span>
                             <ul class="list-disc list-inside ml-4 mt-2 space-y-1 text-white/50">
-                                <li>Source URL</li>
-                                <li>Source Name</li>
-                                <li>Description</li>
-                                <li>Approximate number of games</li>
+                                <li data-i18n="suggest.steps.sourceUrl">Source URL (.json file)</li>
+                                <li data-i18n="suggest.steps.sourceName">Source Name</li>
+                                <li data-i18n="suggest.steps.description">Description</li>
+                                <li data-i18n="suggest.steps.gamesCount">Approximate number of games</li>
                             </ul>
                         </li>
-                        <li>Submit the issue</li>
+                        <li data-i18n="suggest.steps.submit">Submit the issue</li>
                     </ol>
                 </div>
                 
@@ -323,7 +332,7 @@
                               text-emerald-400 font-medium rounded-lg px-6 py-3 text-sm transition-all duration-200 
                               flex items-center justify-center gap-2">
                         <i class="fab fa-github"></i>
-                        Create Source Suggestion
+                        <span data-i18n="suggest.createIssue">Create Source Suggestion</span>
                     </a>
                 </div>
             </div>

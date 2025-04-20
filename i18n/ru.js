@@ -327,5 +327,27 @@ export default {
                 github: "Посетить репозиторий GitHub"
             }
         }
+    },
+    suggest: {
+        title: 'Предложить источник',
+        description: 'Хотите добавить новый источник в Hydra Library? Вы можете предложить его, создав issue в нашем GitHub репозитории.',
+        requirements: {
+            title: 'Важные требования:',
+            jsonOnly: 'Принимаются только ссылки на файлы .json (например, repack-games.com/source.json)',
+            noWebsites: 'Ссылки на веб-сайты не принимаются (например, repack-games.com)'
+        },
+        steps: {
+            title: 'Как предложить источник:',
+            visit: 'Перейдите на страницу issues нашего GitHub репозитория',
+            newIssue: 'Нажмите "New Issue"',
+            template: 'Выберите шаблон "Source Suggestion"',
+            fillInfo: 'Заполните необходимую информацию:',
+            sourceUrl: 'URL источника (файл .json)',
+            sourceName: 'Название источника',
+            description: 'Описание',
+            gamesCount: 'Примерное количество игр',
+            submit: 'Отправить issue'
+        },
+        createIssue: 'Создать предложение источника'
     }
 }; 
