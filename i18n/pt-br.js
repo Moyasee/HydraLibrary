@@ -269,6 +269,10 @@ export default {
         "Shisuy's Source": {
             title: 'Fonte do Shisuy',
             description: 'Fonte que obtém jogos do site Repack-Games.com. Fornece download rápido e confiável.'
+        },
+        'CPGRepacks': {
+            title: 'CPGRepacks',
+            description: 'Uma coleção de mais de 200 jogos NSFW. Contém conteúdo adulto e é destinado a usuários maiores de 18 anos.'
         }
     },
     index: {
@@ -350,5 +354,15 @@ export default {
             submit: 'Enviar issue'
         },
         createIssue: 'Criar Sugestão de Fonte'
+    },
+    badges: {
+        nsfw: 'NSFW'
+    },
+    ageVerification: {
+        title: 'Verificação de Idade Necessária',
+        message: 'Esta fonte contém conteúdo adulto (NSFW). Você deve ter 18 anos ou mais para acessar este conteúdo.',
+        confirm: 'Tenho 18 anos ou mais',
+        cancel: 'Cancelar',
+        warning: 'Ao continuar, você confirma que tem idade legal para visualizar conteúdo adulto.'
     }
 }; 

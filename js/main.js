@@ -674,6 +674,110 @@ function showRiskAlert(callback) {
     });
 }
 
+// Add function to show age verification dialog
+function showAgeVerification(callback) {
+    // Add blur to the main content
+    document.querySelector('main').classList.add('blur-sm', 'transition-all', 'duration-200');
+    
+    const t = i18n.t.bind(i18n);
+    const alertModal = document.createElement('div');
+    alertModal.className = 'fixed inset-0 flex items-center justify-center z-50 animate-fade-in p-4';
+    alertModal.innerHTML = `
+        <div class="fixed inset-0 bg-black/90 backdrop-blur-sm"></div>
+        <div class="relative bg-[#111] rounded-xl overflow-hidden animate-scale-in max-w-md w-full mx-4">
+            <!-- Animated background effects -->
+            <div class="absolute inset-0 overflow-hidden">
+                <!-- Diagonal stripes -->
+                <div class="absolute inset-0" style="
+                    background-image: repeating-linear-gradient(
+                        45deg,
+                        #FF0000 0,
+                        #FF0000 1px,
+                        transparent 0,
+                        transparent 10px
+                    );
+                    opacity: 0.03;
+                "></div>
+                
+                <!-- Animated gradient -->
+                <div class="absolute inset-0 animate-gradient-shift" style="
+                    background: linear-gradient(45deg, 
+                        rgba(255,0,0,0.1) 0%,
+                        transparent 20%,
+                        transparent 80%,
+                        rgba(255,0,0,0.1) 100%
+                    );
+                "></div>
+                
+                <!-- Pulsing border -->
+                <div class="absolute inset-0 border border-red-500/20 rounded-xl animate-pulse-border"></div>
+            </div>
+            
+            <!-- Content -->
+            <div class="relative p-4 sm:p-6">
+                <div class="flex items-start gap-3 sm:gap-4">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-red-500/10 border border-red-500/20 
+                              flex items-center justify-center shrink-0">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-sm sm:text-base"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-medium text-white mb-2">
+                            ${t('ageVerification.title')}
+                        </h3>
+                        <p class="text-white/70 text-xs sm:text-sm">
+                            ${t('ageVerification.message')}
+                        </p>
+                        <p class="text-red-400/70 text-xs mt-2">
+                            ${t('ageVerification.warning')}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex items-center justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
+                    <button class="cancel-btn px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm 
+                                 text-white/70 hover:text-white transition-colors">
+                        ${t('ageVerification.cancel')}
+                    </button>
+                    <button class="proceed-btn px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm 
+                                 bg-red-500/10 hover:bg-red-500/20 
+                                 border border-red-500/20 text-red-400 hover:text-red-300
+                                 rounded-lg transition-colors">
+                        ${t('ageVerification.confirm')}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(alertModal);
+
+    const removeModal = () => {
+        // Remove blur from main content
+        document.querySelector('main').classList.remove('blur-sm');
+        alertModal.remove();
+    };
+
+    // Handle button clicks
+    alertModal.querySelector('.cancel-btn').addEventListener('click', () => {
+        removeModal();
+        callback(false);
+    });
+
+    alertModal.querySelector('.proceed-btn').addEventListener('click', () => {
+        removeModal();
+        callback(true);
+    });
+
+    // Close on backdrop click
+    alertModal.querySelector('.fixed.inset-0').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+            removeModal();
+            callback(false);
+        }
+    });
+}
+
 // Add source translations
 const sourceTranslations = {
     en: {
@@ -796,6 +900,11 @@ function createSourceCard(source) {
                 color: 'indigo',
                 icon: 'globe',
                 key: 'russian'
+            },
+            'nsfw': {
+                color: 'pink',
+                icon: 'exclamation-circle',
+                text: 'NSFW'  // Direct text instead of translation key
             }
         }[className] || {
             color: 'gray',
@@ -808,7 +917,7 @@ function createSourceCard(source) {
                          bg-${statusMap.color}-500/10 border border-${statusMap.color}-500/20 
                          text-${statusMap.color}-400 text-xs backdrop-blur-sm status-badge">
                 <i class="fas fa-${statusMap.icon} text-[10px]"></i>
-                ${i18n.t(`status.${statusMap.key}`)}
+                ${statusMap.text || i18n.t(`status.${statusMap.key}`)}
             </span>
         `;
     }).join('');
@@ -919,31 +1028,6 @@ function createSourceCard(source) {
     const installBtn = card.querySelector('.install-btn');
     const copyBtn = card.querySelector('.copy-btn');
 
-    if (installBtn) {
-        installBtn.addEventListener('click', async () => {
-            const proceedWithInstall = async () => {
-                animateInstallButton(installBtn, 'loading');
-                const success = await trackSourceUsage(source.url, 'install');
-                animateInstallButton(installBtn, success ? 'success' : 'rate-limited');
-                if (success) {
-                    const encodedUrl = encodeURIComponent(source.url);
-                    window.location.href = `hydralauncher://install-source?urls=${encodedUrl}`;
-                }
-            };
-
-            // Check if source is marked as risky
-            if (source.status && source.status.includes('Use At Your Own Risk')) {
-                showRiskAlert((shouldInstall) => {
-                    if (shouldInstall) {
-                        proceedWithInstall();
-                    }
-                });
-            } else {
-                proceedWithInstall();
-            }
-        });
-    }
-
     if (copyBtn) {
         copyBtn.addEventListener('click', async () => {
             const proceedWithCopy = async () => {
@@ -957,14 +1041,42 @@ function createSourceCard(source) {
                 }
             };
         
-        if (isRisky) {
-                showRiskAlert((shouldCopy) => {
-                    if (shouldCopy) {
+            const isNSFW = source.title === 'CPGRepacks';
+            if (isRisky || isNSFW) {
+                const showDialog = isNSFW ? showAgeVerification : showRiskAlert;
+                showDialog((shouldProceed) => {
+                    if (shouldProceed) {
                         proceedWithCopy();
-                }
-            });
-        } else {
+                    }
+                });
+            } else {
                 proceedWithCopy();
+            }
+        });
+    }
+
+    if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+            const proceedWithInstall = async () => {
+                animateInstallButton(installBtn, 'loading');
+                const success = await trackSourceUsage(source.url, 'install');
+                animateInstallButton(installBtn, success ? 'success' : 'rate-limited');
+                if (success) {
+                    const encodedUrl = encodeURIComponent(source.url);
+                    window.location.href = `hydralauncher://install-source?urls=${encodedUrl}`;
+                }
+            };
+
+            const isNSFW = source.title === 'CPGRepacks';
+            if (source.status.includes('Use At Your Own Risk') || isNSFW) {
+                const showDialog = isNSFW ? showAgeVerification : showRiskAlert;
+                showDialog((shouldInstall) => {
+                    if (shouldInstall) {
+                        proceedWithInstall();
+                    }
+                });
+            } else {
+                proceedWithInstall();
             }
         });
     }

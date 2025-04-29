@@ -4203,6 +4203,12 @@ body.overflow-hidden {
     color: rgb(129, 140, 248);
 }
 
+.status-badge[class*="bg-pink"] {
+    background-color: rgba(236, 72, 153, 0.1);
+    border-color: rgba(236, 72, 153, 0.2);
+    color: rgb(244, 114, 182);
+}
+
 /* Enhanced hover effects for badges */
 .status-badge {
     transition: all 0.2s ease;
@@ -4228,4 +4234,27 @@ body.overflow-hidden {
 
 .status-badge[class*="bg-red"]:hover {
     box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+
+.status-badge[class*="bg-pink"]:hover {
+    box-shadow: 0 2px 8px rgba(236, 72, 153, 0.2);
+}
+
+/* Animations and effects */
+@keyframes pulse-slow {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+}
+
+@keyframes pulse-border {
+    0%, 100% { border-color: rgba(236, 72, 153, 0.2); }
+    50% { border-color: rgba(236, 72, 153, 0.4); }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.animate-pulse-border {
+    animation: pulse-border 2s ease-in-out infinite;
 }

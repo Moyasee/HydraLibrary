@@ -219,6 +219,10 @@ export default {
         'wkeyhnk Source': {
             title: 'wkeyhnk Source',
             description: 'Source created by wkeyhnk for Hydra Launcher which parses the rutor.info site.'
+        },
+        'CPGRepacks': {
+            title: 'CPGRepacks',
+            description: 'A collection of 200+ NSFW games. Contains adult content and is intended for users 18 and older.'
         }
     },
     index: {
@@ -300,5 +304,15 @@ export default {
             submit: 'Submit the issue'
         },
         createIssue: 'Create Source Suggestion'
+    },
+    badges: {
+        nsfw: 'NSFW'
+    },
+    ageVerification: {
+        title: 'Age Verification Required',
+        message: 'This source contains adult content (NSFW). You must be 18 or older to access this content.',
+        confirm: 'I am 18 or older',
+        cancel: 'Cancel',
+        warning: 'By continuing, you confirm that you are of legal age to view adult content.'
     }
 }; 
