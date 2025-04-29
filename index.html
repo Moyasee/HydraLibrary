@@ -35,6 +35,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     
     <meta name="google-site-verification" content="IfxfsGr1vBDzJvp2_bhiKfrV6BN_kxRM56eMbKQ-r-4" />
     
     <!-- Animation Libraries -->
@@ -59,47 +60,49 @@
     <section class="min-h-screen flex items-center justify-center relative overflow-hidden pt-6">
         <!-- Language Switcher -->
         <div class="absolute top-6 left-6">
-                    <div class="relative">
-                <button id="language-switcher" 
-                        type="button"
-                        class="px-3 py-2 rounded-lg bg-black/40 border border-white/10 
-                               text-white/70 hover:bg-white/10 transition-all duration-200
-                               flex items-center gap-1.5 text-sm">
-                    <i class="fas fa-globe"></i>
-                    <span class="hidden sm:inline">English</span>
-                </button>
-                <div id="language-dropdown" 
-                     class="absolute top-full mt-1 z-[100] hidden
-                            bg-black/90 backdrop-blur-sm border border-white/5 
-                            rounded-lg overflow-hidden w-[125px] sm:w-[125px]
-                            shadow-lg shadow-black/50">
-                    <button type="button" 
-                            class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
-                                   transition-all duration-200 text-left" 
-                            data-lang="en">
-                        <span class="flex items-center gap-2">
-                            <i class="fas fa-globe text-xs"></i>
-                            <span>English</span>
-                        </span>
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <button id="language-switcher" 
+                            type="button"
+                            class="px-3 py-2 rounded-lg bg-black/40 border border-white/10 
+                                   text-white/70 hover:bg-white/10 transition-all duration-200
+                                   flex items-center gap-1.5 text-sm">
+                        <i class="fas fa-globe"></i>
+                        <span class="hidden sm:inline">English</span>
                     </button>
-                    <button type="button" 
-                            class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
-                                   transition-all duration-200 text-left" 
-                            data-lang="ru">
-                        <span class="flex items-center gap-2">
-                            <i class="fas fa-globe text-xs"></i>
-                            <span>Русский</span>
-                        </span>
-                    </button>
-                    <button type="button" 
-                            class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
-                                   transition-all duration-200 text-left" 
-                            data-lang="pt-br">
-                        <span class="flex items-center gap-2">
-                            <i class="fas fa-globe text-xs"></i>
-                            <span>Português</span>
-                        </span>
-                    </button>
+                    <div id="language-dropdown" 
+                         class="absolute top-full mt-1 z-[100] hidden
+                                bg-black/90 backdrop-blur-sm border border-white/5 
+                                rounded-lg overflow-hidden w-[125px] sm:w-[125px]
+                                shadow-lg shadow-black/50">
+                        <button type="button" 
+                                class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
+                                       transition-all duration-200 text-left" 
+                                data-lang="en">
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-globe text-xs"></i>
+                                <span>English</span>
+                            </span>
+                        </button>
+                        <button type="button" 
+                                class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
+                                       transition-all duration-200 text-left" 
+                                data-lang="ru">
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-globe text-xs"></i>
+                                <span>Русский</span>
+                            </span>
+                        </button>
+                        <button type="button" 
+                                class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
+                                       transition-all duration-200 text-left" 
+                                data-lang="pt-br">
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-globe text-xs"></i>
+                                <span>Português</span>
+                            </span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -138,15 +141,19 @@
 
                         <!-- CTA Buttons -->
                         <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                        <a href="./library.html" class="cta-primary">
-                            <i class="fas fa-book"></i>
-                            <span data-i18n="index.hero.cta.primary">Browse Library</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                        <a href="https://github.com/Moyasee/HydraLibrary" target="_blank" class="cta-secondary">
-                            <i class="fab fa-github"></i>
-                            <span data-i18n="index.hero.cta.secondary">View on GitHub</span>
-                            <i class="fas fa-external-link-alt"></i>
+                            <a href="./library.html" class="cta-primary">
+                                <i class="fas fa-book"></i>
+                                <span data-i18n="index.hero.cta.primary">Browse Library</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <a href="https://github.com/Moyasee/HydraLibrary" target="_blank" class="cta-secondary">
+                                <i class="fab fa-github"></i>
+                                <span data-i18n="index.hero.cta.secondary">View on GitHub</span>
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="./changelog.html" class="cta-secondary">
+                                <i class="fas fa-clock-rotate-left"></i>
+                                <span>Changelog</span>
                             </a>
                         </div>
 
