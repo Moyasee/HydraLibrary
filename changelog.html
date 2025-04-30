@@ -13,37 +13,86 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        .layout-container {
+            display: flex;
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        .sidebar {
+            width: 300px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+            height: -moz-fit-content;
+            height: fit-content;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+
         .cat-container {
             width: 100%;
-            max-width: 500px;
-            margin: 20px auto;
             border-radius: 12px;
             overflow: hidden;
             position: relative;
+            background: rgba(17, 17, 17, 0.4);
+            -webkit-backdrop-filter: blur(8px);
+                    backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 16px;
         }
+
+        .cat-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .cat-image {
             width: 100%;
-            height: auto;
+            height: 200px;
+            -o-object-fit: cover;
+               object-fit: cover;
+            border-radius: 8px;
             display: block;
-            border-radius: 12px;
         }
+
         .refresh-button {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            border: none;
-            color: white;
+            width: 100%;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            color: rgb(167, 139, 250);
             padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             transition: all 0.3s ease;
+            margin-top: 12px;
         }
+
         .refresh-button:hover {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        @media (max-width: 1024px) {
+            .layout-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
         }
     </style>
   <script type="module" crossorigin src="/HydraLibrary/assets/pt-br-Bp4DRuPK.js"></script>
@@ -87,117 +136,93 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 px-4 py-6 mt-4">
-        <div class="max-w-4xl mx-auto w-full">
-            <div class="space-y-8">
-                <!-- NSFW Badge Update -->
-                <div class="bg-[#111]/40 backdrop-blur-sm rounded-xl border border-white/5 overflow-hidden">
-                    <div class="p-6">
-                        <div class="flex items-start gap-4">
-                            <div class="shrink-0 w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 
-                                      flex items-center justify-center relative group">
-                                <i class="fas fa-circle-exclamation text-pink-500 text-xl transition-transform duration-300 group-hover:scale-110"></i>
-                                <div class="absolute inset-0 bg-pink-500/20 rounded-xl animate-pulse-slow"></div>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <h2 class="text-xl font-medium text-white">NSFW Badge & New Source</h2>
-                                    <span class="px-2 py-0.5 rounded-md text-xs bg-pink-500/10 border border-pink-500/20 
-                                               text-pink-400 animate-pulse-border">New Feature</span>
+    <main class="flex-1 py-6 mt-4">
+        <div class="layout-container">
+            <!-- Left Sidebar with Cat Photo -->
+            <aside class="sidebar">
+                <div class="cat-container">
+                    <div class="cat-title">
+                        <i class="fas fa-cat text-purple-500"></i>
+                        Random Cat Photo
+                    </div>
+                    <img id="catImage" class="cat-image" alt="Random Cat" src="https://cataas.com/cat">
+                    <button class="refresh-button" onclick="refreshCat()">
+                        <i class="fas fa-sync-alt"></i>
+                        New Cat
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Changelog Content -->
+            <div class="main-content">
+                <div class="space-y-8">
+                    <!-- NSFW Badge Update -->
+                    <div class="bg-[#111]/40 backdrop-blur-sm rounded-xl border border-white/5 overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-start gap-4">
+                                <div class="shrink-0 w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 
+                                          flex items-center justify-center relative group">
+                                    <i class="fas fa-circle-exclamation text-pink-500 text-xl transition-transform duration-300 group-hover:scale-110"></i>
+                                    <div class="absolute inset-0 bg-pink-500/20 rounded-xl animate-pulse-slow"></div>
                                 </div>
-                                <div class="prose prose-invert max-w-none">
-                                    <p class="text-white/70 leading-relaxed text-sm">
-                                        Added NSFW badge and age verification for adult content sources. Welcome to our newest source: 
-                                        <span class="text-pink-400 font-medium">CPGRepacks</span> - featuring 200+ NSFW games.
-                                    </p>
-                                </div>
-                                <div class="mt-4 flex items-center gap-3 text-sm text-white/40">
-                                    <span class="flex items-center gap-1.5">
-                                        <i class="fas fa-clock text-[10px]"></i>
-                                        Posted on April 29, 2025
-                                    </span>
-                                    <span class="flex items-center gap-1.5">
-                                        <i class="fas fa-user text-[10px]"></i>
-                                        by Moyase
-                                    </span>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <h2 class="text-xl font-medium text-white">NSFW Badge & New Source</h2>
+                                        <span class="px-2 py-0.5 rounded-md text-xs bg-pink-500/10 border border-pink-500/20 
+                                                   text-pink-400 animate-pulse-border">New Feature</span>
+                                    </div>
+                                    <div class="prose prose-invert max-w-none">
+                                        <p class="text-white/70 leading-relaxed text-sm">
+                                            Added NSFW badge and age verification for adult content sources. Welcome to our newest source: 
+                                            <span class="text-pink-400 font-medium">CPGRepacks</span> - featuring 200+ NSFW games.
+                                        </p>
+                                    </div>
+                                    <div class="mt-4 flex items-center gap-3 text-sm text-white/40">
+                                        <span class="flex items-center gap-1.5">
+                                            <i class="fas fa-clock text-[10px]"></i>
+                                            Posted on April 29, 2025
+                                        </span>
+                                        <span class="flex items-center gap-1.5">
+                                            <i class="fas fa-user text-[10px]"></i>
+                                            by Moyase
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Latest Update -->
-                <div class="bg-[#111]/40 backdrop-blur-sm rounded-xl border border-white/5 overflow-hidden">
-                    <div class="p-6">
-                        <div class="flex items-start gap-4">
-                            <div class="shrink-0 w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 
-                                      flex items-center justify-center">
-                                <i class="fas fa-newspaper text-emerald-500 text-xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <h2 class="text-xl font-medium text-white">Welcome to Changelog</h2>
-                                    <span class="px-2 py-0.5 rounded-md text-xs bg-emerald-500/10 border border-emerald-500/20 
-                                               text-emerald-400">Latest Update</span>
+                    <!-- Latest Update -->
+                    <div class="bg-[#111]/40 backdrop-blur-sm rounded-xl border border-white/5 overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-start gap-4">
+                                <div class="shrink-0 w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 
+                                          flex items-center justify-center">
+                                    <i class="fas fa-newspaper text-emerald-500 text-xl"></i>
                                 </div>
-                                <div class="prose prose-invert max-w-none">
-                                    <p class="text-white/70 leading-relaxed">
-                                        Hello, It's Moyase! I decided to create a new page with changelogs where I would post all changes 
-                                        I'm making to the Library. You can always come here to learn about new features, new sources, or 
-                                        just minor changes.
-                                    </p>
-                                </div>
-                                <div class="mt-6 flex items-center gap-3 text-sm text-white/40">
-                                    <span class="flex items-center gap-1.5">
-                                        <i class="fas fa-clock text-[10px]"></i>
-                                        Posted on April 29, 2025
-                                    </span>
-                                    <span class="flex items-center gap-1.5">
-                                        <i class="fas fa-user text-[10px]"></i>
-                                        by Moyase
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cat Photo Feature -->
-                <div class="bg-[#111]/40 backdrop-blur-sm rounded-xl border border-white/5 overflow-hidden">
-                    <div class="p-6">
-                        <div class="flex items-start gap-4">
-                            <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 
-                                      flex items-center justify-center relative group">
-                                <i class="fas fa-cat text-purple-500 text-xl transition-transform duration-300 group-hover:scale-110"></i>
-                                <div class="absolute inset-0 bg-purple-500/20 rounded-xl animate-pulse-slow"></div>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <h2 class="text-xl font-medium text-white">Random Cat Photos</h2>
-                                    <span class="px-2 py-0.5 rounded-md text-xs bg-purple-500/10 border border-purple-500/20 
-                                               text-purple-400 animate-pulse-border">New Feature</span>
-                                </div>
-                                <div class="prose prose-invert max-w-none">
-                                    <p class="text-white/70 leading-relaxed text-sm">
-                                        Added a fun feature that displays random cat photos from the Cataas API. Click the refresh button to see a new adorable cat!
-                                    </p>
-                                </div>
-                                <div class="cat-container">
-                                    <img id="catImage" class="cat-image" alt="Random Cat" src="https://cataas.com/cat">
-                                    <button class="refresh-button" onclick="refreshCat()">
-                                        <i class="fas fa-sync-alt"></i>
-                                        New Cat
-                                    </button>
-                                </div>
-                                <div class="mt-4 flex items-center gap-3 text-sm text-white/40">
-                                    <span class="flex items-center gap-1.5">
-                                        <i class="fas fa-clock text-[10px]"></i>
-                                        Posted on April 30, 2025
-                                    </span>
-                                    <span class="flex items-center gap-1.5">
-                                        <i class="fas fa-user text-[10px]"></i>
-                                        by Moyase
-                                    </span>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <h2 class="text-xl font-medium text-white">Welcome to Changelog</h2>
+                                        <span class="px-2 py-0.5 rounded-md text-xs bg-emerald-500/10 border border-emerald-500/20 
+                                                   text-emerald-400">Latest Update</span>
+                                    </div>
+                                    <div class="prose prose-invert max-w-none">
+                                        <p class="text-white/70 leading-relaxed">
+                                            Hello, It's Moyase! I decided to create a new page with changelogs where I would post all changes 
+                                            I'm making to the Library. You can always come here to learn about new features, new sources, or 
+                                            just minor changes.
+                                        </p>
+                                    </div>
+                                    <div class="mt-6 flex items-center gap-3 text-sm text-white/40">
+                                        <span class="flex items-center gap-1.5">
+                                            <i class="fas fa-clock text-[10px]"></i>
+                                            Posted on April 29, 2025
+                                        </span>
+                                        <span class="flex items-center gap-1.5">
+                                            <i class="fas fa-user text-[10px]"></i>
+                                            by Moyase
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
