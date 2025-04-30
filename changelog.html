@@ -13,6 +13,40 @@
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .cat-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .cat-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+        }
+        .refresh-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .refresh-button:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+    </style>
 </head>
 <body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex flex-col text-gray-100">
     <!-- Header -->
@@ -124,10 +158,61 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Cat Photo Feature -->
+                <div class="bg-[#111]/40 backdrop-blur-sm rounded-xl border border-white/5 overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 
+                                      flex items-center justify-center relative group">
+                                <i class="fas fa-cat text-purple-500 text-xl transition-transform duration-300 group-hover:scale-110"></i>
+                                <div class="absolute inset-0 bg-purple-500/20 rounded-xl animate-pulse-slow"></div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <h2 class="text-xl font-medium text-white">Random Cat Photos</h2>
+                                    <span class="px-2 py-0.5 rounded-md text-xs bg-purple-500/10 border border-purple-500/20 
+                                               text-purple-400 animate-pulse-border">New Feature</span>
+                                </div>
+                                <div class="prose prose-invert max-w-none">
+                                    <p class="text-white/70 leading-relaxed text-sm">
+                                        Added a fun feature that displays random cat photos from the Cataas API. Click the refresh button to see a new adorable cat!
+                                    </p>
+                                </div>
+                                <div class="cat-container">
+                                    <img id="catImage" class="cat-image" alt="Random Cat" src="https://cataas.com/cat">
+                                    <button class="refresh-button" onclick="refreshCat()">
+                                        <i class="fas fa-sync-alt"></i>
+                                        New Cat
+                                    </button>
+                                </div>
+                                <div class="mt-4 flex items-center gap-3 text-sm text-white/40">
+                                    <span class="flex items-center gap-1.5">
+                                        <i class="fas fa-clock text-[10px]"></i>
+                                        Posted on April 30, 2025
+                                    </span>
+                                    <span class="flex items-center gap-1.5">
+                                        <i class="fas fa-user text-[10px]"></i>
+                                        by Moyase
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
     <script src="js/main.js" type="module"></script>
+    <script>
+        function refreshCat() {
+            const catImage = document.getElementById('catImage');
+            catImage.src = `https://cataas.com/cat?timestamp=${new Date().getTime()}`;
+        }
+
+        // Load a random cat when the page loads
+        window.addEventListener('load', refreshCat);
+    </script>
 </body>
 </html> 
