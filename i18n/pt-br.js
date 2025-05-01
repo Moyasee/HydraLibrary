@@ -264,7 +264,7 @@ export default {
         },
         'Wkeynhk Source': {
             title: 'Fonte Wkeynhk',
-            description: 'Fonte criada por wkeynhk para o Hydra Launcher que analisa o site rutor.info.'
+            description: 'Fonte atualizada automaticamente contendo jogos dos sites: RuTracker e Rutor.'
         },
         "Shisuy's Source": {
             title: 'Fonte do Shisuy',
