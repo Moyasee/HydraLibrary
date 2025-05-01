@@ -245,7 +245,7 @@
             "description": "russian torrent tracker that contains many NSFW torrent games",
             "url": "https://raw.githubusercontent.com/s0d4lite52spb/sodalite-hydralinks/refs/heads/main/erotorrent.ru_list.json",
             "gamesCount": "4500",
-            "status": ["Not Safe For Use", "NSFW", "Russian"],
+            "status": ["Use At Your Own Risk", "NSFW", "Russian"],
             "addedDate": "2025-05-01"
         }
     ]
