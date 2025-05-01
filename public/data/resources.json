@@ -238,7 +238,15 @@
             "url": "https://raw.githubusercontent.com/HyperNovaX/CPGREPACKS-Hydra-links/main/directDownloads.json",
             "gamesCount": "200",
             "status": ["Use At Your Own Risk", "NSFW"],
-            "addedDate": "2024-01-17"
+            "addedDate": "2025-04-30"
+        },
+        {
+            "title": "Erotorrent.ru by sodalite",
+            "description": "russian torrent tracker that contains many NSFW torrent games",
+            "url": "https://raw.githubusercontent.com/s0d4lite52spb/sodalite-hydralinks/refs/heads/main/erotorrent.ru_list.json",
+            "gamesCount": "4500",
+            "status": ["Not Safe For Use", "NSFW", "Russian"],
+            "addedDate": "2025-05-01"
         }
     ]
 } 
