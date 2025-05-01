@@ -263,7 +263,7 @@ export default {
         },
         'Wkeynhk Source': {
             title: 'Источник Wkeynhk',
-            description: 'Автоматически обновляемый источник от wkeynhk, собирающий информацию с rutor.info. Большая база игр.'
+            description: 'Автоматически обновляемый источник содержащий в себе игры с сайтов: RuTracker и Rutor'
         },
         "Shisuy's Source": {
             title: 'Источник Shisuy',
