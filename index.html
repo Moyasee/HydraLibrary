@@ -52,6 +52,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
 </head>
 <body class="bg-black min-h-screen text-gray-100 overflow-x-hidden">
@@ -570,6 +571,59 @@
             loadStatistics();
         });
 
+        // Celebration confetti function
+        function celebrate500k() {
+            const count = 200;
+            const defaults = {
+                origin: { y: 0.7 },
+                spread: 360,
+                ticks: 100,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+            };
+
+            function fire(particleRatio, opts) {
+                confetti({
+                    ...defaults,
+                    ...opts,
+                    particleCount: Math.floor(count * particleRatio),
+                });
+            }
+
+            fire(0.25, {
+                spread: 26,
+                startVelocity: 55,
+                colors: ['#10b981', '#3b82f6', '#6366f1']
+            });
+
+            fire(0.2, {
+                spread: 60,
+                colors: ['#10b981', '#3b82f6', '#6366f1']
+            });
+
+            fire(0.35, {
+                spread: 100,
+                decay: 0.91,
+                scalar: 0.8,
+                colors: ['#10b981', '#3b82f6', '#6366f1']
+            });
+
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 25,
+                decay: 0.92,
+                scalar: 1.2,
+                colors: ['#10b981', '#3b82f6', '#6366f1']
+            });
+
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 45,
+                colors: ['#10b981', '#3b82f6', '#6366f1']
+            });
+        }
+
         async function loadStatistics() {
             try {
                 // Clear any cached data
@@ -613,6 +667,11 @@
                         
                         const actionsElement = document.getElementById('actionsCount');
                         animateNumber(actionsElement, totalActions);
+
+                        // Check if we've reached 500k and celebrate!
+                        if (totalActions >= 500000 && totalActions <= 510000) {
+                            setTimeout(celebrate500k, 1000);
+                        }
                     } else {
                         // If no stats, show a default value
                         document.getElementById('actionsCount').textContent = '0';
