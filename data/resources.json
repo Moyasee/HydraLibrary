@@ -249,14 +249,6 @@
             "addedDate": "2025-05-01"
         },
         {
-            "title": "Irlan Source",
-            "description": "source is focused on updating and adding games that others haven't worked on yet — especially lesser-known titles that often get overlooked.",
-            "url": "https://irlan-sys.github.io/fonteirlan.json",
-            "gamesCount": "280",
-            "status": ["Use At Your Own Risk", "NSFW"],
-            "addedDate": "2025-05-07"
-        },
-        {
             "title": "FreeTp.Org",
             "description": "This repository contains all games (1700+) with online fixes from the FreeTP website for Hydra Launcher in JSON format.",
             "url": "https://raw.githubusercontent.com/BadKiko/freetp-hydra-link/refs/heads/main/games.json",
