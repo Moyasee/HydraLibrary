@@ -254,7 +254,7 @@
             "url": "https://irlan-sys.github.io/fonteirlan.json",
             "gamesCount": "280",
             "status": ["Use At Your Own Risk", "NSFW"],
-            "addedDate": "2025-05-02"
+            "addedDate": "2025-05-07"
         },
         {
             "title": "FreeTp.Org",
@@ -262,7 +262,7 @@
             "url": "https://raw.githubusercontent.com/BadKiko/freetp-hydra-link/refs/heads/main/games.json",
             "gamesCount": "1700",
             "status": ["Use At Your Own Risk"],
-            "addedDate": "2025-05-02"
+            "addedDate": "2025-05-07"
         }
     ]
 } 
