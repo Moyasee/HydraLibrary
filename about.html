@@ -4,7 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - Hydra Library</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/HydraLibrary/assets/favicon-DR7KQBQq.png">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .layout-container {
+            display: flex;
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        .sidebar {
+            width: 480px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+            height: -moz-fit-content;
+            height: fit-content;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+
+        @media (max-width: 1024px) {
+            .layout-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+        }
+    </style>
   <script type="module" crossorigin src="/HydraLibrary/assets/about-DNKbytMw.js"></script>
   <link rel="modulepreload" crossorigin href="/HydraLibrary/assets/pt-br-RKFyl-QW.js">
   <link rel="modulepreload" crossorigin href="/HydraLibrary/assets/index-DDVt117l.js">
@@ -80,63 +116,115 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 container mx-auto px-4 py-8">
-        <div class="max-w-4xl mx-auto space-y-16">
-            <!-- Hero Section -->
-            <div class="relative mb-16">
-                <!-- Background gradient -->
-                <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-transparent to-emerald-500/5 
-                            rounded-2xl opacity-60 blur-3xl -z-10 gradient-animate"></div>
-                
-                <!-- Content -->
-                <div class="text-center space-y-8 max-w-3xl mx-auto px-4">
-                    <!-- Badge -->
-                    <div class="inline-flex items-center justify-center gap-3 px-4 py-2 rounded-full 
-                                bg-emerald-500/10 border border-emerald-500/20">
-                        <i class="fas fa-book text-emerald-500"></i>
-                        <span class="text-white/70 text-sm" data-i18n="about.subtitle">Game Source Management System</span>
+    <main class="flex-1 py-6 mt-6">
+        <div class="layout-container">
+            <!-- Left Sidebar with Developer Info -->
+            <aside class="sidebar">
+                <!-- Developer Card -->
+                <div class="bg-black/20 backdrop-blur-sm rounded-xl border border-white/5 p-6 text-center mb-6">
+                    <div class="w-24 h-24 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 
+                                border border-emerald-500/20 flex items-center justify-center mx-auto mb-4
+                                transform hover:scale-105 transition-transform duration-300">
+                        <i class="fas fa-code text-emerald-500 text-4xl"></i>
                     </div>
+                    <h3 class="text-white font-medium text-lg mb-1">
+                        <span class="text-emerald-500">&lt;</span>
+                        Moyase
+                        <span class="text-emerald-500">/&gt;</span>
+                    </h3>
+                    <p class="text-white/50 text-sm mb-3">Developer & Designer</p>
                     
-                    <!-- Title -->
-                    <div class="space-y-4">
-                        <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight" data-i18n="about.title">About Hydra Library</h1>
-                        
-                        <p class="text-lg md:text-xl text-white/70 leading-relaxed max-w-2xl mx-auto" data-i18n="about.description">
-                            A comprehensive platform designed to streamline access to game repositories, 
-                            ensuring safety and efficiency for the gaming community.
+                    <!-- Social Links -->
+                    <div class="flex justify-center gap-4 mt-4">
+                        <a href="https://github.com/zxcsix-zxc" target="_blank" rel="noopener noreferrer"
+                           class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 
+                                  flex items-center justify-center text-white/70 hover:text-white 
+                                  transition-all duration-200 group pulse-on-hover">
+                            <i class="fab fa-github text-lg group-hover:scale-110 transition-transform"></i>
+                        </a>
+                        <a href="https://linktr.ee/moyase" target="_blank" rel="noopener noreferrer"
+                           class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 
+                                  flex items-center justify-center text-white/70 hover:text-white 
+                                  transition-all duration-200 group pulse-on-hover">
+                            <i class="fas fa-link text-lg group-hover:scale-110 transition-transform"></i>
+                        </a>
+                        <a href="https://discord.gg/hydralaunchercommunity" target="_blank" rel="noopener noreferrer"
+                           class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 
+                                  flex items-center justify-center text-white/70 hover:text-white 
+                                  transition-all duration-200 group pulse-on-hover">
+                            <i class="fab fa-discord text-lg group-hover:scale-110 transition-transform"></i>
+                        </a>
+                    </div>
+
+                    <!-- About -->
+                    <div class="mt-6 bg-black/20 rounded-xl border border-white/5 p-4">
+                        <h4 class="text-white font-medium mb-3 flex items-center gap-2">
+                            <i class="fas fa-user-circle text-emerald-500"></i>
+                            <span data-i18n="about.developer.about.title">About</span>
+                        </h4>
+                        <p class="text-white/70 leading-relaxed text-sm" data-i18n="about.developer.about.description">
+                            Developer and designer of Hydra Library, focused on creating safe and efficient 
+                            tools for the gaming community. Passionate about building user-friendly interfaces 
+                            and maintaining high security standards.
                         </p>
                     </div>
                     
-                    <!-- Key Features -->
-                    <div class="flex flex-wrap justify-center gap-3">
-                        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-black/20 border border-white/5
-                                    text-white/60 text-sm">
-                            <i class="fas fa-shield text-emerald-500 text-xs"></i>
-                            <span data-i18n="about.features.keyFeatures.secure">Secure Sources</span>
+                    <!-- Projects -->
+                    <div class="mt-4 bg-black/20 rounded-xl border border-white/5 p-4">
+                        <h4 class="text-white font-medium mb-3 flex items-center gap-2">
+                            <i class="fas fa-code-branch text-emerald-500"></i>
+                            <span data-i18n="about.developer.projects.title">Projects</span>
+                        </h4>
+                        <div class="space-y-3">
+                            <!-- Hydra Library Project -->
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-black/20 border border-white/5
+                                       hover:border-emerald-500/20 transition-colors duration-200 mb-3
+                                       border-glow gradient-animate">
+                                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                          flex items-center justify-center shrink-0">
+                                    <i class="fas fa-book text-emerald-500"></i>
                         </div>
-                        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-black/20 border border-white/5
-                                    text-white/60 text-sm">
-                            <i class="fas fa-bolt text-emerald-500 text-xs"></i>
-                            <span data-i18n="about.features.keyFeatures.fast">Fast Access</span>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h5 class="text-white font-medium" data-i18n="about.developer.projects.hydraLibrary.title">Hydra Library</h5>
+                                            <p class="text-emerald-400/70 text-sm" data-i18n="about.developer.projects.hydraLibrary.description">You are currently here</p>
                         </div>
-                        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-black/20 border border-white/5
-                                    text-white/60 text-sm">
-                            <i class="fas fa-users text-emerald-500 text-xs"></i>
-                            <span data-i18n="about.features.keyFeatures.community">Community Driven</span>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Decorative dots -->
-                <div class="absolute -bottom-8 left-1/2 -translate-x-1/2">
-                    <div class="flex items-center gap-2">
-                        <span class="w-1 h-1 rounded-full bg-emerald-500/50"></span>
-                        <span class="w-1 h-1 rounded-full bg-emerald-500/30"></span>
-                        <span class="w-1 h-1 rounded-full bg-emerald-500/20"></span>
+                            <!-- Is It On Hydra Project -->
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-black/20 border border-white/5
+                                       hover:border-emerald-500/20 transition-colors duration-200
+                                       border-glow gradient-animate">
+                                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
+                                          flex items-center justify-center shrink-0">
+                                    <i class="fas fa-rocket text-emerald-500"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h5 class="text-white font-medium" data-i18n="about.developer.projects.isItOnHydra.title">Is It On Hydra</h5>
+                                            <p class="text-white/50 text-sm" data-i18n="about.developer.projects.isItOnHydra.description">Check if a game is available on Hydra Launcher</p>
+                                        </div>
+                                        <a href="https://isitonhydra.xyz" target="_blank" rel="noopener noreferrer"
+                                           class="px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20
+                                                  text-emerald-400 text-sm hover:bg-emerald-500/20 
+                                                  transition-all duration-200 flex items-center gap-2">
+                                            <span data-i18n="about.developer.projects.isItOnHydra.action">Visit</span>
+                                            <i class="fas fa-external-link-alt text-xs"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </aside>
 
+            <!-- Main Content -->
+            <div class="main-content space-y-8">
             <!-- Statistics Section -->
             <div class="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -200,7 +288,7 @@
                     <div class="flex items-start gap-3 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
                         <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
                                   flex items-center justify-center shrink-0">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                <i class="fas fa-shield-alt text-emerald-500"></i>
                         </div>
                         <div>
                             <h3 class="text-white font-medium mb-1" data-i18n="about.statusTypes.trusted.title">Trusted</h3>
@@ -210,7 +298,7 @@
                     <div class="flex items-start gap-3 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
                         <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 
                                   flex items-center justify-center shrink-0">
-                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                                <i class="fas fa-shield-alt text-blue-500"></i>
                         </div>
                         <div>
                             <h3 class="text-white font-medium mb-1" data-i18n="about.statusTypes.safeForUse.title">Safe For Use</h3>
@@ -220,7 +308,7 @@
                     <div class="flex items-start gap-3 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
                         <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 
                                   flex items-center justify-center shrink-0">
-                            <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                <i class="fas fa-exclamation-triangle text-red-500"></i>
                         </div>
                         <div>
                             <h3 class="text-white font-medium mb-1" data-i18n="about.statusTypes.useAtOwnRisk.title">Use At Your Own Risk</h3>
@@ -230,169 +318,11 @@
                     <div class="flex items-start gap-3 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
                         <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 
                                   flex items-center justify-center shrink-0">
-                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                                <i class="fas fa-star text-amber-500"></i>
                         </div>
                         <div>
                             <h3 class="text-white font-medium mb-1" data-i18n="about.statusTypes.new.title">New</h3>
                             <p class="text-white/60 text-sm" data-i18n="about.statusTypes.new.description">Recently added sources that are still being evaluated by the community.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Features Section -->
-            <div class="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-                <h2 class="text-xl font-semibold text-white mb-6 glow-text-hover" data-i18n="about.features.title">Features</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Game Management -->
-                    <div class="flex items-start gap-4 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
-                                  flex items-center justify-center shrink-0">
-                            <i class="fas fa-gamepad text-emerald-500"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-white font-medium mb-2" data-i18n="about.features.gameManagement.title">Game Management</h3>
-                            <p class="text-white/60 text-sm leading-relaxed" data-i18n="about.features.gameManagement.description">
-                                Efficiently organize and manage your game collection with advanced filtering, sorting, and search capabilities.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Source Verification -->
-                    <div class="flex items-start gap-4 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
-                                  flex items-center justify-center shrink-0">
-                            <i class="fas fa-shield-alt text-emerald-500"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-white font-medium mb-2" data-i18n="about.features.sourceVerification.title">Source Verification</h3>
-                            <p class="text-white/60 text-sm leading-relaxed" data-i18n="about.features.sourceVerification.description">
-                                Community-driven verification system ensuring safe and reliable game sources with multiple security levels.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Community Integration -->
-                    <div class="flex items-start gap-4 p-4 rounded-lg bg-black/20 border border-white/5 border-glow">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
-                                  flex items-center justify-center shrink-0">
-                            <i class="fas fa-users text-emerald-500"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-white font-medium mb-2" data-i18n="about.features.communityIntegration.title">Community Integration</h3>
-                            <p class="text-white/60 text-sm leading-relaxed" data-i18n="about.features.communityIntegration.description">
-                                Active community participation in source verification, ratings, and reviews to maintain high-quality standards.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Developer Info -->
-            <div class="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-                <h2 class="text-xl font-semibold text-white mb-6 glow-text-hover" data-i18n="about.developer.title">About the Developer</h2>
-                <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
-                    <!-- Developer Card -->
-                    <div class="w-full md:w-64 bg-black/20 rounded-xl border border-white/5 p-6 text-center mb-6 glow-on-hover">
-                        <div class="w-24 h-24 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 
-                                    border border-emerald-500/20 flex items-center justify-center mx-auto mb-4
-                                    transform hover:scale-105 transition-transform duration-300">
-                            <i class="fas fa-code text-emerald-500 text-4xl"></i>
-                        </div>
-                        <h3 class="text-white font-medium text-lg mb-1">
-                            <span class="text-emerald-500">&lt;</span>
-                            Moyase
-                            <span class="text-emerald-500">/&gt;</span>
-                        </h3>
-                        <p class="text-white/50 text-sm mb-3">Developer & Designer</p>
-                        
-                        <!-- Social Links -->
-                        <div class="flex justify-center gap-4 mt-4">
-                            <a href="https://github.com/zxcsix-zxc" target="_blank" rel="noopener noreferrer"
-                               class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 
-                                      flex items-center justify-center text-white/70 hover:text-white 
-                                      transition-all duration-200 group pulse-on-hover">
-                                <i class="fab fa-github text-lg group-hover:scale-110 transition-transform"></i>
-                            </a>
-                            <a href="https://linktr.ee/moyase" target="_blank" rel="noopener noreferrer"
-                               class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 
-                                      flex items-center justify-center text-white/70 hover:text-white 
-                                      transition-all duration-200 group pulse-on-hover">
-                                <i class="fas fa-link text-lg group-hover:scale-110 transition-transform"></i>
-                            </a>
-                            <a href="https://discord.gg/hydralaunchercommunity" target="_blank" rel="noopener noreferrer"
-                               class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 
-                                      flex items-center justify-center text-white/70 hover:text-white 
-                                      transition-all duration-200 group pulse-on-hover">
-                                <i class="fab fa-discord text-lg group-hover:scale-110 transition-transform"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Developer Info -->
-                    <div class="flex-1 space-y-6">
-                        <!-- About -->
-                        <div class="bg-black/20 rounded-xl border border-white/5 p-6 mb-6">
-                            <h4 class="text-white font-medium mb-3 flex items-center gap-2">
-                                <i class="fas fa-user-circle text-emerald-500"></i>
-                                <span data-i18n="about.developer.about.title">About</span>
-                            </h4>
-                            <p class="text-white/70 leading-relaxed" data-i18n="about.developer.about.description">
-                                Developer and designer of Hydra Library, focused on creating safe and efficient 
-                                tools for the gaming community. Passionate about building user-friendly interfaces 
-                                and maintaining high security standards.
-                            </p>
-                        </div>
-
-                        <!-- Projects -->
-                        <div class="bg-black/20 rounded-xl border border-white/5 p-6">
-                            <h4 class="text-white font-medium mb-3 flex items-center gap-2">
-                                <i class="fas fa-code-branch text-emerald-500"></i>
-                                <span data-i18n="about.developer.projects.title">Projects</span>
-                            </h4>
-                            <div class="space-y-3">
-                                <!-- Hydra Library Project -->
-                                <div class="flex items-center gap-3 p-3 rounded-lg bg-black/20 border border-white/5
-                                           hover:border-emerald-500/20 transition-colors duration-200 mb-3
-                                           border-glow gradient-animate">
-                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
-                                              flex items-center justify-center shrink-0">
-                                        <i class="fas fa-book text-emerald-500"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <h5 class="text-white font-medium" data-i18n="about.developer.projects.hydraLibrary.title">Hydra Library</h5>
-                                                <p class="text-emerald-400/70 text-sm" data-i18n="about.developer.projects.hydraLibrary.description">You are currently here</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Is It On Hydra Project -->
-                                <div class="flex items-center gap-3 p-3 rounded-lg bg-black/20 border border-white/5
-                                           hover:border-emerald-500/20 transition-colors duration-200
-                                           border-glow gradient-animate">
-                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 
-                                              flex items-center justify-center shrink-0">
-                                        <i class="fas fa-rocket text-emerald-500"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <h5 class="text-white font-medium" data-i18n="about.developer.projects.isItOnHydra.title">Is It On Hydra</h5>
-                                                <p class="text-white/50 text-sm" data-i18n="about.developer.projects.isItOnHydra.description">Check if a game is available on Hydra Launcher</p>
-                                            </div>
-                                            <a href="https://isitonhydra.xyz" target="_blank" rel="noopener noreferrer"
-                                               class="px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20
-                                                      text-emerald-400 text-sm hover:bg-emerald-500/20 
-                                                      transition-all duration-200 flex items-center gap-2">
-                                                <span data-i18n="about.developer.projects.isItOnHydra.action">Visit</span>
-                                                <i class="fas fa-external-link-alt text-xs"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
