@@ -48,41 +48,146 @@
     
   <script type="module" crossorigin src="/HydraLibrary/assets/pt-br-RKFyl-QW.js"></script>
   <script type="module" crossorigin src="/HydraLibrary/assets/index-DDVt117l.js"></script>
-  <script type="module" crossorigin src="/HydraLibrary/assets/main-2lrYL32i.js"></script>
+  <script type="module" crossorigin src="/HydraLibrary/assets/main-4OWf2pxG.js"></script>
   <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/pt-br-D3pD5gj2.css">
 </head>
 <body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex flex-col text-gray-100">
     <!-- Preloader -->
-    <div id="preloader" class="fixed inset-0 z-[9999] bg-[#0A0A0A] flex items-center justify-center">
-        <div class="relative">
-            <!-- Animated background -->
-            <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-emerald-500/20 
-                        blur-3xl animate-gradient-shift opacity-30">
-            </div>
-            
-            <!-- Logo and text container -->
-            <div class="relative flex flex-col items-center">
-                <!-- Animated logo -->
-                <div class="w-24 h-24 mb-8 relative">
-                    <div class="absolute inset-0 bg-emerald-500/20 rounded-full animate-pulse"></div>
-                    <div class="relative flex items-center justify-center w-full h-full">
-                        <i class="fas fa-book text-emerald-500 text-5xl animate-float"></i>
+    <div id="preloader" class="fixed inset-0 z-[9999] bg-[#0A0A0A] transition-all duration-700 ease-in-out">
+        <!-- Particle Canvas -->
+        <canvas id="particleCanvas" class="absolute inset-0 w-full h-full"></canvas>
+        
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style="width: 600px;">
+            <!-- Content container -->
+            <div class="relative bg-black/40 backdrop-blur-md border border-white/5 rounded-2xl p-6 transition-all duration-700 ease-in-out">
+                <div class="flex items-center gap-6">
+                    <!-- Logo -->
+                    <div class="flex-shrink-0">
+                        <div class="relative">
+                            <!-- Pulse effect -->
+                            <div class="absolute inset-0 bg-emerald-500/20 rounded-full animate-pulse"></div>
+                            <!-- Icon container -->
+                            <div class="relative w-24 h-16 bg-black/50 border border-white/5 rounded-full flex items-center justify-center">
+                                <i class="fas fa-book text-emerald-500 text-2xl"></i>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- Loading text -->
-                <h2 class="text-2xl font-medium text-white mb-4 animate-fade-in">
-                    Hydra Library
-                </h2>
-                
-                <!-- Loading bar -->
-                <div class="w-48 h-1 bg-white/5 rounded-full overflow-hidden">
-                    <div class="loading-progress h-full w-0 bg-gradient-to-r from-emerald-500 to-emerald-400 
-                              rounded-full transition-all duration-300 ease-out"></div>
+                    
+                    <!-- Text and Progress -->
+                    <div class="flex-1">
+                        <!-- Loading text -->
+                        <div class="mb-4">
+                            <h2 class="text-xl font-medium text-white mb-1 animate-fade-in">
+                                Hydra Library
+                            </h2>
+                            <div class="loading-text-container">
+                                <div class="loading-text-slider">
+                                    <p class="loading-text">Carregando suas fontes de jogos...</p>
+                                    <p class="loading-text">Loading your game sources...</p>
+                                    <p class="loading-text">Загрузка игровых источников...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress bar -->
+                        <div class="relative">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-white/50 text-sm">Progress</span>
+                                <span class="loading-percentage text-sm font-medium text-emerald-400">0%</span>
+                            </div>
+                            <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                <div class="loading-progress h-full w-0 bg-gradient-to-r from-emerald-500 via-emerald-400 to-emerald-500 rounded-full transition-all duration-300 ease-out"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fade-in-delayed {
+        0% { opacity: 0; transform: translateY(10px); }
+        50% { opacity: 0; transform: translateY(10px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideText {
+        0%, 25% {
+            transform: translateY(0);
+        }
+        33%, 58% {
+            transform: translateY(-24px);
+        }
+        66%, 91% {
+            transform: translateY(-48px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    /* Add animation classes */
+    .animate-fade-in {
+        animation: fade-in 0.5s ease-out forwards;
+    }
+
+    .animate-fade-in-delayed {
+        animation: fade-in-delayed 1s ease-out forwards;
+    }
+
+    /* Add preloader specific styles */
+    .preloading {
+        overflow: hidden;
+    }
+
+    #preloader {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+        transition: all 0.7s ease-in-out;
+    }
+
+    #preloader.hiding {
+        opacity: 0;
+        transform: scale(1.1);
+    }
+
+    .loading-progress {
+        transition: width 0.3s ease-out;
+    }
+
+    .loading-text-container {
+        height: 24px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .loading-text-slider {
+        position: absolute;
+        width: 100%;
+        animation: slideText 6s infinite ease-in-out;
+    }
+
+    .loading-text {
+        height: 24px;
+        line-height: 24px;
+        margin: 0;
+        padding: 0;
+        text-align: left;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.875rem;
+    }
+
+    #particleCanvas {
+        pointer-events: none;
+    }
+    </style>
 
     <!-- Cookie Consent -->
     <div id="cookie-consent" 
@@ -760,6 +865,110 @@
             console.error('Error loading library:', error);
         }
     }
+    </script>
+    <script>
+    // Particle animation
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas size
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Particle class
+    class Particle {
+        constructor() {
+            this.reset();
+        }
+
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 3 + 1;
+            this.speedX = (Math.random() - 0.5) * 0.5;
+            this.speedY = (Math.random() - 0.5) * 0.5;
+            this.opacity = Math.random() * 0.5;
+            this.growing = Math.random() > 0.5;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            // Particle size animation
+            if (this.growing) {
+                this.size += 0.02;
+                if (this.size > 3) this.growing = false;
+            } else {
+                this.size -= 0.02;
+                if (this.size < 1) this.growing = true;
+            }
+
+            // Opacity animation
+            if (this.growing) {
+                this.opacity += 0.002;
+                if (this.opacity > 0.5) this.opacity = 0.5;
+            } else {
+                this.opacity -= 0.002;
+                if (this.opacity < 0.1) this.opacity = 0.1;
+            }
+
+            // Reset if out of bounds
+            if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                this.reset();
+            }
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(52, 211, 153, ${this.opacity})`; // Emerald color to match theme
+            ctx.fill();
+        }
+    }
+
+    // Create particle array
+    const particles = Array.from({ length: 50 }, () => new Particle());
+
+    // Animation loop
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+
+        // Connect nearby particles
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 100) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(52, 211, 153, ${0.1 * (1 - distance / 100)})`;
+                    ctx.lineWidth = 1;
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // Only continue animation if preloader is still visible
+        if (document.getElementById('preloader')) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    // Start animation
+    animate();
     </script>
 </body>
 </html> 
