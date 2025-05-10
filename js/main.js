@@ -15,36 +15,75 @@ document.addEventListener('DOMContentLoaded', async () => {
 function initPreloader() {
     const preloader = document.getElementById('preloader');
     const progressBar = preloader.querySelector('.loading-progress');
+    const percentageText = preloader.querySelector('.loading-percentage');
     let progress = 0;
     
-    // Simulate loading progress
-    const interval = setInterval(() => {
-        progress += Math.random() * 15;
+    // Create a smoother progress animation
+    const updateProgress = () => {
+        // Calculate the next progress increment
+        const remaining = 100 - progress;
+        const increment = Math.min(
+            remaining * 0.1, // Take 10% of remaining at a time
+            Math.max(0.2, Math.random() * 0.8) // Random increment between 0.5 and 2
+        );
         
-        if (progress > 100) {
-            progress = 100;
-            clearInterval(interval);
-            
-            // Add final animation
-            progressBar.style.width = '100%';
+        progress = Math.min(100, progress + increment);
+        
+        // Update the progress bar and percentage with smooth animation
+        progressBar.style.width = `${progress}%`;
+        
+        // Format percentage to always show one decimal place when not at 100%
+        const formattedPercentage = progress < 100 ? progress.toFixed(1) : Math.round(progress);
+        percentageText.textContent = `${formattedPercentage}%`;
+        
+        // Add color transition based on progress
+        if (progress < 30) {
+            percentageText.className = 'loading-percentage text-sm font-medium text-white/70';
+        } else if (progress < 60) {
+            percentageText.className = 'loading-percentage text-sm font-medium text-emerald-400/70';
+        } else {
+            percentageText.className = 'loading-percentage text-sm font-medium text-emerald-400';
+        }
+        
+        // Continue updating until we reach 100%
+        if (progress < 100) {
+            requestAnimationFrame(updateProgress);
+        } else {
+            // When progress reaches 100%, wait 5 seconds before starting transition animation
             setTimeout(() => {
-                // Fade out preloader
-                preloader.style.transition = 'opacity 0.5s ease-out';
-                preloader.style.opacity = '0';
+                // Add hiding class to trigger fade out animation
+                preloader.classList.add('hiding');
                 
-                // Remove preloader and restore scrolling
-                setTimeout(() => {
+                // Remove preloader after animation completes
+                preloader.addEventListener('transitionend', () => {
                     preloader.remove();
                     document.body.classList.remove('preloading');
                     // Initialize i18n and language switcher after preloader
                     i18n.updatePageContent();
                     initializeLanguageSwitcher();
-                }, 500);
-            }, 500);
-        } else {
-            progressBar.style.width = `${progress}%`;
+                }, { once: true });
+            }, 1000); // Wait 5 seconds before hiding
         }
-    }, 100);
+    };
+    
+    // Add a safety timeout to remove preloader if it gets stuck
+    const safetyTimeout = setTimeout(() => {
+        if (preloader && document.body.contains(preloader)) {
+            console.log('Preloader safety timeout triggered');
+            preloader.classList.add('hiding');
+            setTimeout(() => {
+                preloader.remove();
+                document.body.classList.remove('preloading');
+                i18n.updatePageContent();
+                initializeLanguageSwitcher();
+            }, 400); // Wait for hiding animation to complete
+        }
+    }, 5000); // Increased to 15 seconds to account for the 5 second wait
+    
+    // Start the progress animation after a short delay
+    setTimeout(() => {
+        requestAnimationFrame(updateProgress);
+    }, 300);
 }
 
 // Add this function to initialize the language switcher
@@ -143,7 +182,19 @@ function initializeLanguageSwitcher() {
 // Update your DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize preloader
-    initPreloader();
+    try {
+        initPreloader();
+    } catch (error) {
+        console.error('Error initializing preloader:', error);
+        // Fallback: Remove preloader and show content
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            preloader.remove();
+        }
+        document.body.classList.remove('preloading');
+        i18n.updatePageContent();
+        initializeLanguageSwitcher();
+    }
     
     // Show cookie consent after preloader
     showCookieConsent();
@@ -208,10 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
             handleFilterVisibility();
         }, 100);
     });
-
-    // Initialize i18n and language switcher
-    i18n.updatePageContent();
-    initializeLanguageSwitcher();
 });
 
 // Add this new function to handle sort options
