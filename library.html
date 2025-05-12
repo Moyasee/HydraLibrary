@@ -54,34 +54,21 @@
         <!-- Particle Canvas -->
         <canvas id="particleCanvas" class="absolute inset-0 w-full h-full"></canvas>
         
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style="width: 600px;">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style="width: 400px;">
             <!-- Content container -->
             <div class="relative bg-black/40 backdrop-blur-md border border-white/5 rounded-2xl p-6 transition-all duration-700 ease-in-out">
                 <div class="flex items-center gap-6">
-                    <!-- Logo -->
-                    <div class="flex-shrink-0">
-                        <div class="relative">
-                            <!-- Pulse effect -->
-                            <div class="absolute inset-0 bg-emerald-500/20 rounded-full animate-pulse"></div>
-                            <!-- Icon container -->
-                            <div class="relative w-24 h-16 bg-black/50 border border-white/5 rounded-full flex items-center justify-center">
-                                <i class="fas fa-book text-emerald-500 text-2xl"></i>
-                            </div>
-                        </div>
-                    </div>
+                    
                     
                     <!-- Text and Progress -->
                     <div class="flex-1">
                         <!-- Loading text -->
                         <div class="mb-4">
-                            <h2 class="text-xl font-medium text-white mb-1 animate-fade-in">
-                                Hydra Library
-                            </h2>
                             <div class="loading-text-container">
                                 <div class="loading-text-slider">
-                                    <p class="loading-text">Carregando suas fontes de jogos...</p>
-                                    <p class="loading-text">Loading your game sources...</p>
-                                    <p class="loading-text">Загрузка игровых источников...</p>
+                                    <h2 class="text-xl font-medium text-white">Carregando...</h2>
+                                    <h2 class="text-xl font-medium text-white">Loading...</h2>
+                                    <h2 class="text-xl font-medium text-white">Загрузка...</h2>
                                 </div>
                             </div>
                         </div>
@@ -108,21 +95,15 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes fade-in-delayed {
-        0% { opacity: 0; transform: translateY(10px); }
-        50% { opacity: 0; transform: translateY(10px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-
     @keyframes slideText {
         0%, 25% {
             transform: translateY(0);
         }
         33%, 58% {
-            transform: translateY(-24px);
+            transform: translateY(-40px);
         }
         66%, 91% {
-            transform: translateY(-48px);
+            transform: translateY(-80px);
         }
         100% {
             transform: translateY(0);
@@ -132,10 +113,6 @@
     /* Add animation classes */
     .animate-fade-in {
         animation: fade-in 0.5s ease-out forwards;
-    }
-
-    .animate-fade-in-delayed {
-        animation: fade-in-delayed 1s ease-out forwards;
     }
 
     /* Add preloader specific styles */
@@ -160,7 +137,7 @@
     }
 
     .loading-text-container {
-        height: 24px;
+        height: 40px;
         overflow: hidden;
         position: relative;
     }
@@ -171,14 +148,11 @@
         animation: slideText 6s infinite ease-in-out;
     }
 
-    .loading-text {
-        height: 24px;
-        line-height: 24px;
+    .loading-text-slider h2 {
+        height: 40px;
+        line-height: 40px;
         margin: 0;
         padding: 0;
-        text-align: left;
-        color: rgba(255, 255, 255, 0.5);
-        font-size: 0.875rem;
     }
 
     #particleCanvas {
@@ -225,7 +199,7 @@
                     </a>
                     <a href="./changelog.html" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition-all duration-200">
                         <i class="fas fa-clock-rotate-left text-sm"></i>
-                        <span class="text-sm">Changelog</span>
+                        <span class="hidden sm:inline text-sm">Changelog</span>
                     </a>
                 </div>
                 <div class="flex items-center gap-2 md:gap-4 justify-end flex-1 max-w-[800px] ml-4">
