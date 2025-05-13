@@ -108,6 +108,10 @@ export default {
             new: {
                 title: 'New',
                 description: 'Recently added sources that are still being evaluated by the community.'
+            },
+            russian: {
+                title: 'Russian',
+                description: 'Sources that work in Russia, allowing users to bypass infinite source validating in Hydra.'
             }
         },
         features: {
@@ -152,6 +156,10 @@ export default {
             new: {
                 title: 'New',
                 description: 'Recently added sources that are still being evaluated by the community.'
+            },
+            russian: {
+                title: 'Russian',
+                description: 'Sources that work in Russia, allowing users to bypass Cloudflare restrictions in their country.'
             }
         },
         developer: {

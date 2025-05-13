@@ -113,7 +113,11 @@ export default {
             },
             new: {
                 title: 'Novo',
-                description: 'Fontes recentemente adicionadas que ainda estão sendo avaliadas pela comunidade.'
+                description: 'Fontes adicionadas recentemente que ainda estão sendo avaliadas pela comunidade.'
+            },
+            russian: {
+                title: 'Russo',
+                description: 'Fontes que funcionam na Rússia, permitindo que os usuários contornem a validação infinita de fontes no Hydra.'
             }
         },
         features: {
