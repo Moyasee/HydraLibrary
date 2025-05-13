@@ -299,17 +299,17 @@ export default {
             totalCopies: "Total de Cópias"
         },
         features: {
-            secure: {
-                title: "Fontes Seguras",
-                description: "Todas as fontes são verificadas e monitoradas quanto à segurança e confiabilidade."
+            community: {
+                title: 'Movido pela Comunidade',
+                description: 'Usuários podem sugerir novas fontes para serem adicionadas à biblioteca.'
             },
             fast: {
-                title: "Acesso Rápido",
-                description: "Acesso rápido e fácil a milhares de jogos de fontes verificadas."
+                title: 'Acesso Rápido',
+                description: 'Acesso rápido e fácil a uma grande quantidade de fontes e links para o Hydra Launcher.'
             },
-            community: {
-                title: "Movido pela Comunidade",
-                description: "Participação ativa da comunidade na verificação e avaliação das fontes."
+            secure: {
+                title: 'Fontes Seguras',
+                description: 'Todas as fontes são verificadas e monitoradas quanto à segurança e confiabilidade.'
             }
         }
     },

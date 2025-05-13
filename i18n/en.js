@@ -253,17 +253,17 @@ export default {
             totalCopies: "Total Copies"
         },
         features: {
-            secure: {
-                title: "Secure Sources",
-                description: "All sources are verified and monitored for safety and reliability."
+            community: {
+                title: 'Community Driven',
+                description: 'Users can suggest new sources to be added to the library.'
             },
             fast: {
-                title: "Fast Access",
-                description: "Quick and easy access to thousands of games from verified sources."
+                title: 'Fast Access',
+                description: 'Quick and easy access to large amount of sources and links for Hydra Launcher.'
             },
-            community: {
-                title: "Community Driven",
-                description: "Active community participation in source verification and ratings."
+            secure: {
+                title: 'Secure Sources',
+                description: 'All sources are verified and monitored for safety and reliability.'
             }
         }
     },
