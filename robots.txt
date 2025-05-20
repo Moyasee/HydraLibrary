@@ -1,3 +1,18 @@
 User-agent: *
 Allow: /
-Sitemap: https://your-domain.com/sitemap.xml 
+Disallow: /node_modules/
+Disallow: /dist/
+Disallow: /src/
+Disallow: /data/
+Disallow: /i18n/
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.json$
+Disallow: /*.env$
+Disallow: /*.config.js$
+Disallow: /*.config.cjs$
+
+Sitemap: /sitemap.xml
+
