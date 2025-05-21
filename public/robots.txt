@@ -1,7 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /node_modules/
-Disallow: /dist/
 Disallow: /src/
 Disallow: /data/
 Disallow: /i18n/
