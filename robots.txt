@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Disallow: /src/
+Disallow: /data/
+Disallow: /i18n/
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.json$
+Disallow: /*.env$
+Disallow: /*.config.js$
+Disallow: /*.config.cjs$
+
+Sitemap: /sitemap.xml
+
