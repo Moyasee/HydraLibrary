@@ -3,7 +3,7 @@
         {
             "title": "AtopGames",
             "description": "Unaltered pre-installed games sourced from multiple trustworthy names in the community.",
-            "url": "https://hydralinks.cloud/sources/atop-games.json",
+            "url": "https://hydralinks.pages.dev/sources/atop-games.json",
             "gamesCount": "1046",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
@@ -11,7 +11,7 @@
         {
             "title": "SteamRip [DIRECT DOWNLOAD / NO TORRENT]",
             "description": "Pre-installed games, uncompressed, and sourced reliably.",
-            "url": "https://hydralinks.cloud/sources/steamrip.json",
+            "url": "https://hydralinks.pages.dev/sources/steamrip.json",
             "gamesCount": "554",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
@@ -19,7 +19,7 @@
         {
             "title": "DODI",
             "description": "Renowned brand in pirated video games, this repacker is among the finest in the field",
-            "url": "https://hydralinks.cloud/sources/dodi.json",
+            "url": "https://hydralinks.pages.dev/sources/dodi.json",
             "gamesCount": "2704",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
@@ -27,7 +27,7 @@
         {
             "title": "Empress",
             "description": "For games cracked by EMPRESS.",
-            "url": "https://hydralinks.cloud/sources/empress.json",
+            "url": "https://hydralinks.pages.dev/sources/empress.json",
             "gamesCount": "40",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
@@ -35,7 +35,7 @@
         {
             "title": "FitGirl",
             "description": "Home archivist to web's top game repacker: the ultimate source for trustworthy games.",
-            "url": "https://hydralinks.cloud/sources/fitgirl.json",
+            "url": "https://hydralinks.pages.dev/sources/fitgirl.json",
             "gamesCount": "6147",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
@@ -43,7 +43,7 @@
         {
             "title": "KaOsKrew",
             "description": "Veteran rippers who, over the past two decades, have consistently created rips and repacks.",
-            "url": "https://hydralinks.cloud/sources/kaoskrew.json",
+            "url": "https://hydralinks.pages.dev/sources/kaoskrew.json",
             "gamesCount": "3008",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
@@ -51,7 +51,7 @@
         {
             "title": "Online-Fix",
             "description": "Grants online solutions to play multiplayer in specific games with others.",
-            "url": "https://hydralinks.cloud/sources/onlinefix.json",
+            "url": "https://hydralinks.pages.dev/sources/onlinefix.json",
             "gamesCount": "1662",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
@@ -59,7 +59,7 @@
         {
             "title": "Tiny-Repacks",
             "description": "",
-            "url": "https://hydralinks.cloud/sources/tinyrepacks.json",
+            "url": "https://hydralinks.pages.dev/sources/tinyrepacks.json",
             "gamesCount": "75",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
@@ -67,7 +67,7 @@
         {
             "title": "ByXatab",
             "description": "Esteemed within the realm of pirated video games, this site stands out as a prominent figure.",
-            "url": "https://hydralinks.cloud/sources/xatab.json",
+            "url": "https://hydralinks.pages.dev/sources/xatab.json",
             "gamesCount": "7764",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
@@ -107,7 +107,7 @@
         {
             "title": "Free GOG",
             "description": "Delivering DRM-free games that have undergone thorough vetting before their release.",
-            "url": "https://hydralinks.cloud/sources/gog.json",
+            "url": "https://hydralinks.pages.dev/sources/gog.json",
             "gamesCount": "6554",
             "status": ["Trusted"],
             "addedDate": "2024-12-29"
@@ -215,14 +215,6 @@
             "gamesCount": "2902",
             "status": ["Use At Your Own Risk"],
             "addedDate": "2025-04-10"
-        },
-        {
-            "title": "Repack-Games",
-            "description": "Get games from various sources such as CODEX, P2P, and TENOKE, with great file hosters.",
-            "url": "https://hydralinks.cloud/sources/repack-games.json",
-            "gamesCount": "1605",
-            "status": ["Use At Your Own Risk"],
-            "addedDate": "2025-04-13"
         },
         {
             "title": "CPGRepacks",
