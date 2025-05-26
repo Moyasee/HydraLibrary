@@ -33,6 +33,9 @@ jobs:
           echo "VITE_FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}" >> .env
           echo "VITE_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}" >> .env
           echo "VITE_FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> .env
+          
+      - name: Set base path for GitHub Pages
+          run: echo "VITE_BASE_PATH=/HydraLibrary/" >> $GITHUB_ENV
 
       - name: Build
         run: npm run build
