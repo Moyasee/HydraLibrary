@@ -1,16 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Redirecting to library.hydra.wiki</title>
-  <link rel="canonical" href="https://library.hydra.wiki"/>
-  <meta http-equiv="refresh" content="0; url=https://library.hydra.wiki">
-  <script type="text/javascript">
-    window.location.href = "https://library.hydra.wiki";
-  </script>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+        var newDomain = "https://library.hydra.wiki";
+        var oldPathname = window.location.pathname; // e.g., /HydraLibrary/some/page.html or /HydraLibrary/
+        var repoBasePath = "/HydraLibrary"; // The base path of your GitHub Pages site (the repository name)
+
+        var targetPath;
+
+        if (oldPathname.startsWith(repoBasePath + "/")) {
+            // Captures anything after /HydraLibrary/ e.g. /some/page.html or just / if it was /HydraLibrary/
+            targetPath = oldPathname.substring(repoBasePath.length);
+        } else if (oldPathname === repoBasePath) {
+            // Handles the case where the path is exactly /HydraLibrary (no trailing slash)
+            targetPath = "/";
+        } else {
+            // Fallback for unexpected path structures, redirect to the root of the new domain.
+            targetPath = "/";
+        }
+        
+        // Ensure targetPath always starts with a / for constructing the new URL,
+        // as substring might leave it empty if oldPathname was just repoBasePath + "/"
+        if (!targetPath.startsWith("/")) {
+            targetPath = "/" + targetPath;
+        }
+
+        var newURL = newDomain + targetPath + window.location.search + window.location.hash;
+
+        // Dynamically set the canonical URL to point to the new equivalent page
+        var canonicalLink = document.createElement('link');
+        canonicalLink.rel = 'canonical';
+        canonicalLink.href = newURL;
+        document.head.appendChild(canonicalLink);
+
+        // Perform the redirect using replace to avoid adding the old URL to browser history
+        window.location.replace(newURL);
+    </script>
+    <!-- Fallback for browsers with JavaScript disabled -->
+    <noscript>
+        <meta http-equiv="refresh" content="0; url=https://library.hydra.wiki" />
+    </noscript>
 </head>
 <body>
-  <p>You are being redirected to the new site.</p>
-  <p>If you are not redirected automatically, please <a href="https://library.hydra.wiki">click here to go to library.hydra.wiki</a>.</p>
+    <p>You are being redirected to the new site.</p>
+    <p>If you are not redirected automatically, please <a id="redirect-link" href="https://library.hydra.wiki">click here to go to library.hydra.wiki</a>.</p>
+    <script type="text/javascript">
+        // Update the fallback link's href and text for users with JavaScript enabled,
+        // in case the redirect is slow or they interact with the page before it happens.
+        var fallbackLink = document.getElementById('redirect-link');
+        if (fallbackLink) {
+            fallbackLink.setAttribute('href', newURL); // newURL is from the script block above
+            fallbackLink.textContent = 'click here to go to ' + newURL;
+        }
+    </script>
 </body>
 </html>
