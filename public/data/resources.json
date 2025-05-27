@@ -247,6 +247,14 @@
             "gamesCount": "14713",
             "status": ["Use At Your Own Risk", "Russian"],
             "addedDate": "2025-05-27"
+        },
+        {
+            "title": "TheLastGame",
+            "description": "Games from Russian site thelastgame.ru",
+            "url": "https://raw.githubusercontent.com/Wexdor/thelastgame/refs/heads/main/games.json",
+            "gamesCount": "8300",
+            "status": ["Use At Your Own Risk", "Russian"],
+            "addedDate": "2025-05-27"
         }
     ]
 } 
