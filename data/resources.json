@@ -1,0 +1,252 @@
+{
+    "sources": [
+        {
+            "title": "AtopGames",
+            "description": "Unaltered pre-installed games sourced from multiple trustworthy names in the community.",
+            "url": "https://hydralinks.pages.dev/sources/atop-games.json",
+            "gamesCount": "1046",
+            "status": ["Trusted"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "SteamRip [DIRECT DOWNLOAD / NO TORRENT]",
+            "description": "Pre-installed games, uncompressed, and sourced reliably.",
+            "url": "https://hydralinks.pages.dev/sources/steamrip.json",
+            "gamesCount": "554",
+            "status": ["Trusted"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "DODI",
+            "description": "Renowned brand in pirated video games, this repacker is among the finest in the field",
+            "url": "https://hydralinks.pages.dev/sources/dodi.json",
+            "gamesCount": "2704",
+            "status": ["Trusted"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "Empress",
+            "description": "For games cracked by EMPRESS.",
+            "url": "https://hydralinks.pages.dev/sources/empress.json",
+            "gamesCount": "40",
+            "status": ["Trusted"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "FitGirl",
+            "description": "Home archivist to web's top game repacker: the ultimate source for trustworthy games.",
+            "url": "https://hydralinks.pages.dev/sources/fitgirl.json",
+            "gamesCount": "6147",
+            "status": ["Trusted"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "KaOsKrew",
+            "description": "Veteran rippers who, over the past two decades, have consistently created rips and repacks.",
+            "url": "https://hydralinks.pages.dev/sources/kaoskrew.json",
+            "gamesCount": "3008",
+            "status": ["Trusted"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "Online-Fix",
+            "description": "Grants online solutions to play multiplayer in specific games with others.",
+            "url": "https://hydralinks.pages.dev/sources/onlinefix.json",
+            "gamesCount": "1662",
+            "status": ["Trusted"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "Tiny-Repacks",
+            "description": "",
+            "url": "https://hydralinks.pages.dev/sources/tinyrepacks.json",
+            "gamesCount": "75",
+            "status": ["Trusted"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "ByXatab",
+            "description": "Esteemed within the realm of pirated video games, this site stands out as a prominent figure.",
+            "url": "https://hydralinks.pages.dev/sources/xatab.json",
+            "gamesCount": "7764",
+            "status": ["Trusted"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "RuTracker | All Categories",
+            "description": "The source created by Kekitu, for Hydra Launcher.",
+            "url": "https://raw.githubusercontent.com/KekitU/rutracker-hydra-links/main/all_categories.json",
+            "gamesCount": "39098",
+            "status": ["Safe For Use", "Russian"],
+            "addedDate": "2024-12-30"
+        },
+        {
+            "title": "David Kazumi",
+            "description": "David Kazumi's source, for Hydra Launcher. Well known across the Hydra Launcher community server.",
+            "url": "https://davidkazumi.github.io/fontekazumi.json",
+            "gamesCount": "1292",
+            "status": ["Safe For Use"],
+            "addedDate": "2024-12-30"
+        },
+        {
+            "title": "HydraSources(RUSSIAN)",
+            "description": "Source that was created by the russian guy called HydraSources, updating almost weekly. If you are a russian user, this is the source you should use.",
+            "url": "https://hydrasources.su/hydra.json",
+            "gamesCount": "860",
+            "status": ["Safe For Use", "Russian"],
+            "addedDate": "2024-12-30"
+        },
+        {
+            "title": "Shisuy's Source",
+            "description": "The source are getting games from the Repack-Games.com. Ensures fast and reliable downloads.",
+            "url": "https://raw.githubusercontent.com/Shisuiicaro/source/refs/heads/main/shisuyssource.json",
+            "gamesCount": "25445",
+            "status": ["Safe For Use"],
+            "addedDate": "2024-12-30"
+        },
+        {
+            "title": "Free GOG",
+            "description": "Delivering DRM-free games that have undergone thorough vetting before their release.",
+            "url": "https://hydralinks.pages.dev/sources/gog.json",
+            "gamesCount": "6554",
+            "status": ["Trusted"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "Wkeynhk Source",
+            "description": "Automatically updated source containing games from sites: RuTracker and Rutor",
+            "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/rutor.json",
+            "gamesCount": "61246",
+            "status": ["Safe For Use", "Russian"],
+            "addedDate": "2024-12-30"
+        },
+        {
+            "title": "AtopGames(RU)",
+            "description": "Unaltered pre-installed games sourced from multiple trustworthy names in the community.",
+            "url": "https://hydrasources.su/sources/atop-games.json",
+            "gamesCount": "1046",
+            "status": ["Trusted", "Russian"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "SteamRip(RU) [DIRECT DOWNLOAD / NO TORRENT]",
+            "description": "Pre-installed games with original content, uncompressed, and sourced reliably.",
+            "url": "https://hydrasources.su/sources/steamrip.json",
+            "gamesCount": "554",
+            "status": ["Trusted", "Russian"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "DODI(RU)",
+            "description": "Renowned brand in pirated video games, this repacker is among the finest in the field",
+            "url": "https://hydrasources.su/sources/dodi.json",
+            "gamesCount": "2704",
+            "status": ["Trusted", "Russian"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "Empress(RU)",
+            "description": "For games cracked by EMPRESS.",
+            "url": "https://hydrasources.su/sources/empress.json",
+            "gamesCount": "40",
+            "status": ["Trusted", "Russian"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "FitGirl(RU)",
+            "description": "Home archivist to web's top game repacker: the ultimate source for trustworthy games.",
+            "url": "https://hydrasources.su/sources/fitgirl.json",
+            "gamesCount": "6147",
+            "status": ["Trusted", "Russian"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "KaOsKrew(RU)",
+            "description": "Veteran rippers who, over the past two decades, have consistently created rips and repacks.",
+            "url": "https://hydrasources.su/sources/kaoskrew.json",
+            "gamesCount": "3008",
+            "status": ["Trusted", "Russian"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "Online-Fix(RU)",
+            "description": "Grants online solutions to play multiplayer in specific games with others.",
+            "url": "https://hydrasources.su/sources/onlinefix.json",
+            "gamesCount": "1662",
+            "status": ["Trusted", "Russian"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "Tiny-Repacks(RU)",
+            "description": "",
+            "url": "https://hydrasources.su/sources/tinyrepacks.json",
+            "gamesCount": "75",
+            "status": ["Trusted", "Russian"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "ByXatab(RU)",
+            "description": "Esteemed within the realm of pirated video games, this site stands out as a prominent figure.",
+            "url": "https://hydrasources.su/sources/xatab.json",
+            "gamesCount": "7764",
+            "status": ["Trusted", "Russian"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "Free GOG(RU)",
+            "description": "Delivering DRM-free games that have undergone thorough vetting before their release.",
+            "url": "https://hydrasources.su/sources/gog.json",
+            "gamesCount": "6654",
+            "status": ["Trusted", "Russian"],
+            "addedDate": "2024-12-29"
+        },
+        {
+            "title": "LinuxRulez!",
+            "description": "Repacks for Linuxoids; GNU/Linux Games; Linux P2P Games",
+            "url": "https://torrents.starserv.net/torrents/sources/torrminatorr_linuxrule",
+            "gamesCount": "2915",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2025-02-18"
+        },
+        {
+            "title": "Nexus",
+            "description": "fonte com diversos jogos de diversas categorias",
+            "url": "https://carlosguab.github.io/nexus.json",
+            "gamesCount": "2902",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2025-04-10"
+        },
+        {
+            "title": "CPGRepacks",
+            "description": "A collection of 200+ NSFW games. Contains adult content and is intended for users 18 and older.",
+            "url": "https://raw.githubusercontent.com/HyperNovaX/CPGREPACKS-Hydra-links/main/directDownloads.json",
+            "gamesCount": "200",
+            "status": ["Use At Your Own Risk", "NSFW"],
+            "addedDate": "2025-04-30"
+        },
+        {
+            "title": "Erotorrent.ru by sodalite",
+            "description": "russian torrent tracker that contains many NSFW torrent games",
+            "url": "https://raw.githubusercontent.com/s0d4lite52spb/sodalite-hydralinks/refs/heads/main/erotorrent.ru_list.json",
+            "gamesCount": "4500",
+            "status": ["Use At Your Own Risk", "NSFW", "Russian"],
+            "addedDate": "2025-05-01"
+        },
+        {
+            "title": "FreeTp.Org",
+            "description": "This repository contains all games (1700+) with online fixes from the FreeTP website for Hydra Launcher in JSON format.",
+            "url": "https://raw.githubusercontent.com/BadKiko/freetp-hydra-link/refs/heads/main/games.json",
+            "gamesCount": "1700",
+            "status": ["Use At Your Own Risk"],
+            "addedDate": "2025-05-07"
+        },
+        {
+            "title": "TapochekNet",
+            "description": "Source that contains many games from the TapochekNet website. Especially R.G. Mechanics",
+            "url": "https://hydra.ramus.cc/sources/tapochek.json",
+            "gamesCount": "14713",
+            "status": ["Use At Your Own Risk", "Russian"],
+            "addedDate": "2025-05-27"
+        }
+    ]
+} 
