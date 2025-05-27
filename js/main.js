@@ -943,10 +943,10 @@ function createSourceCard(source) {
                 icon: 'exclamation-triangle',
                 key: 'useAtOwnRisk'
             },
-            'russian': {
+            'works-in-russia': {
                 color: 'indigo',
                 icon: 'globe',
-                key: 'russian'
+                key: 'worksInRussia'
             },
             'nsfw': {
                 color: 'pink',

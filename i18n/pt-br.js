@@ -14,7 +14,7 @@ export default {
             trusted: 'Confiável',
             safeForUse: 'Seguro para Uso',
             useAtOwnRisk: 'Use por Sua Conta e Risco',
-            russian: 'Russo'
+            worksInRussia: 'Funciona na Rússia'
         },
         sort: {
             title: 'Ordenar Fontes',
@@ -61,7 +61,7 @@ export default {
         trusted: 'Confiável',
         safeForUse: 'Seguro para Uso',
         useAtOwnRisk: 'Não Verificado',
-        russian: 'Russo'
+        worksInRussia: 'Funciona na Rússia'
     },
     common: {
         install: 'Instalar',
@@ -115,7 +115,7 @@ export default {
                 title: 'Novo',
                 description: 'Fontes adicionadas recentemente que ainda estão sendo avaliadas pela comunidade.'
             },
-            russian: {
+            worksInRussia: {
                 title: 'Russo',
                 description: 'Fontes que funcionam na Rússia, permitindo que os usuários contornem a validação infinita de fontes no Hydra.'
             }

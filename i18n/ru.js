@@ -14,7 +14,7 @@ export default {
             trusted: 'Проверенный',
             safeForUse: 'Безопасный',
             useAtOwnRisk: 'Не проверенный',
-            russian: 'Русский'
+            worksInRussia: 'Работает в России'
         },
         sort: {
             title: 'Сортировка',
@@ -61,7 +61,7 @@ export default {
         trusted: 'Проверенный',
         safeForUse: 'Безопасный',
         useAtOwnRisk: 'Не проверенный',
-        russian: 'Русский'
+        worksInRussia: 'Работает в России'
     },
     common: {
         install: 'Установить',
@@ -130,7 +130,7 @@ export default {
                 title: 'Новый',
                 description: 'Недавно добавленные источники, которые всё ещё оцениваются сообществом.'
             },
-            russian: {
+            worksInRussia: {
                 title: 'Русский',
                 description: 'Источники, работающие в России, позволяющие пользователям обойти бесконечную проверку источников в Hydra.'
             }

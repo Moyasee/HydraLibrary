@@ -14,7 +14,7 @@ export default {
             trusted: 'Trusted',
             safeForUse: 'Safe For Use',
             useAtOwnRisk: 'Use At Your Own Risk',
-            russian: 'Russian'
+            worksInRussia: 'Works In Russia'
         },
         sort: {
             title: 'Sort Sources',
@@ -55,7 +55,7 @@ export default {
         trusted: 'Trusted',
         safeForUse: 'Safe For Use',
         useAtOwnRisk: 'Use At Your Own Risk',
-        russian: 'Russian'
+        worksInRussia: 'Works In Russia'
     },
     common: {
         install: 'Install',
@@ -109,8 +109,8 @@ export default {
                 title: 'New',
                 description: 'Recently added sources that are still being evaluated by the community.'
             },
-            russian: {
-                title: 'Russian',
+            worksInRussia: {
+                title: 'Works In Russia',
                 description: 'Sources that work in Russia, allowing users to bypass infinite source validating in Hydra.'
             }
         },
@@ -157,8 +157,8 @@ export default {
                 title: 'New',
                 description: 'Recently added sources that are still being evaluated by the community.'
             },
-            russian: {
-                title: 'Russian',
+            worksInRussia: {
+                title: 'Works In Russia',
                 description: 'Sources that work in Russia, allowing users to bypass Cloudflare restrictions in their country.'
             }
         },
