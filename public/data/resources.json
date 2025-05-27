@@ -239,6 +239,14 @@
             "gamesCount": "1700",
             "status": ["Use At Your Own Risk"],
             "addedDate": "2025-05-07"
+        },
+        {
+            "title": "TapochekNet",
+            "description": "Source that contains many games from the TapochekNet website. Especially R.G. Mechanics",
+            "url": "https://hydra.ramus.cc/sources/tapochek.json",
+            "gamesCount": "14713",
+            "status": ["Use At Your Own Risk", "Russian"],
+            "addedDate": "2025-05-27"
         }
     ]
 } 
