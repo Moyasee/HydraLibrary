@@ -116,7 +116,7 @@ export default {
                 description: 'Fontes adicionadas recentemente que ainda estão sendo avaliadas pela comunidade.'
             },
             worksInRussia: {
-                title: 'Russo',
+                title: 'Funciona na Rússia',
                 description: 'Fontes que funcionam na Rússia, permitindo que os usuários contornem a validação infinita de fontes no Hydra.'
             }
         },
