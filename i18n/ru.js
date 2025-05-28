@@ -276,6 +276,34 @@ export default {
         'CPGRepacks': {
             title: 'CPGRepacks',
             description: 'Коллекция из 200+ NSFW игр. Содержит контент для взрослых и предназначен для пользователей старше 18 лет.'
+        },
+        'RuTracker | Linux': {
+            title: 'RuTracker | Linux',
+            description: 'Автоматически обновляемый источник от Wkeynhk с играми для Linux с сайта RuTracker.'
+        },
+        'LinuxRulez!': {
+            title: 'LinuxRulez!',
+            description: 'Репаки для Linux; Игры для GNU/Linux; Linux P2P Игры'
+        },
+        'Nexus': {
+            title: 'Nexus',
+            description: 'Источник с различными играми из разных категорий'
+        },
+        'Erotorrent.ru by sodalite': {
+            title: 'Erotorrent.ru от sodalite',
+            description: 'Русский торрент-трекер, содержащий множество NSFW игр'
+        },
+        'FreeTp.Org': {
+            title: 'FreeTp.Org',
+            description: 'Коллекция всех игр (1700+) с онлайн-фиксами с сайта FreeTP для Hydra Launcher'
+        },
+        'TapochekNet': {
+            title: 'TapochekNet',
+            description: 'Источник, содержащий множество игр с сайта TapochekNet, особенно репаки от R.G. Mechanics.'
+        },
+        'TheLastGame': {
+            title: 'TheLastGame',
+            description: 'Коллекция игр с русского сайта thelastgame.ru.'
         }
     },
     index: {

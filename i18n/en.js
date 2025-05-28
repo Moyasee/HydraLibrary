@@ -224,13 +224,41 @@ export default {
             title: 'Empress',
             description: 'For games cracked by EMPRESS.'
         },
-        'wkeyhnk Source': {
-            title: 'wkeyhnk Source',
+        'Wkeynhk Source': {
+            title: 'Wkeynhk Source',
             description: 'Source created by wkeyhnk for Hydra Launcher which parses the rutor.info site.'
         },
         'CPGRepacks': {
             title: 'CPGRepacks',
             description: 'A collection of 200+ NSFW games. Contains adult content and is intended for users 18 and older.'
+        },
+        'Wkeynhk RuTracker | Linux': {
+            title: 'Wkeynhk RuTracker | Linux',
+            description: 'Automatically updated source from Wkeynhk containing games for Linux from the RuTracker site.'
+        },
+        'LinuxRulez!': {
+            title: 'LinuxRulez!',
+            description: 'Repacks for Linux users; GNU/Linux Games; Linux P2P Games.'
+        },
+        'Nexus': {
+            title: 'Nexus',
+            description: 'Source with various games from different categories.'
+        },
+        'Erotorrent.ru by sodalite': {
+            title: 'Erotorrent.ru by sodalite',
+            description: 'Russian torrent tracker that contains many NSFW torrent games.'
+        },
+        'FreeTp.Org': {
+            title: 'FreeTp.Org',
+            description: 'Collection of games with online fixes from the FreeTP website.'
+        },
+        'TapochekNet': {
+            title: 'TapochekNet',
+            description: 'Source containing many games from the TapochekNet website, especially R.G. Mechanics repacks.'
+        },
+        'TheLastGame': {
+            title: 'TheLastGame',
+            description: 'Collection of games from the Russian site thelastgame.ru.'
         }
     },
     index: {
