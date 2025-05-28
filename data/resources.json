@@ -255,6 +255,14 @@
             "gamesCount": "8300",
             "status": ["Use At Your Own Risk", "Works In Russia"],
             "addedDate": "2025-05-27"
+        },
+        {
+            "title": "RuTracker | Linux",
+            "description": "Automatically updated source from Wkeynhk containing games for Linux from the RuTracker site.",
+            "url": "https://raw.githubusercontent.com/Wkeynhk/RuTracker-Linux/refs/heads/main/rutrackerlinux.json",
+            "gamesCount": "3520",
+            "status": ["Safe For Use", "Works In Russia"],
+            "addedDate": "2025-05-28"
         }
     ]
 } 
