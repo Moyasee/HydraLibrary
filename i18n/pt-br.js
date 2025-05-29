@@ -278,7 +278,7 @@ export default {
             title: 'CPGRepacks',
             description: 'Uma coleção de mais de 200 jogos NSFW. Contém conteúdo adulto e é destinado a usuários maiores de 18 anos.'
         },
-        'RuTracker | Linux': {
+        'RuTracker | Linux only': {
             title: 'RuTracker | Linux',
             description: 'O Wkeynhk fonte atualizada automaticamente contendo jogos do site RuTracker para Linux.'
         },
@@ -298,13 +298,21 @@ export default {
             title: 'FreeTp.Org',
             description: 'Coleção de todos os jogos (1700+) com correções online do site FreeTP para Hydra Launcher'
         },
-        'TapochekNet': {
-            title: 'TapochekNet',
+        'TapochekNet | Windows, Linux, Mac games': {
+            title: 'TapochekNet | Windows, Linux, Mac games',
             description: 'Fonte contendo muitos jogos do site TapochekNet, especialmente repacks do R.G. Mechanics.'
         },
         'TheLastGame': {
             title: 'TheLastGame',
             description: 'Coleção de jogos do site russo thelastgame.ru.'
+        },
+        'GGVV Source | Linux': {
+            title: 'GGVV Source | Linux',
+            description: 'jogos gog linux'
+        },
+        'HydraSources.su | nnmclub': {
+            title: 'HydraSources.su | nnmclub',
+            description: 'Jogos do tracker russo nnmclub'
         }
     },
     index: {

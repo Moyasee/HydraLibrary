@@ -232,8 +232,8 @@ export default {
             title: 'CPGRepacks',
             description: 'A collection of 200+ NSFW games. Contains adult content and is intended for users 18 and older.'
         },
-        'Wkeynhk RuTracker | Linux': {
-            title: 'Wkeynhk RuTracker | Linux',
+        'RuTracker | Linux only': {
+            title: 'RuTracker | Linux',
             description: 'Automatically updated source from Wkeynhk containing games for Linux from the RuTracker site.'
         },
         'LinuxRulez!': {

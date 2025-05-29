@@ -85,7 +85,7 @@
             "description": "David Kazumi's source, for Hydra Launcher. Well known across the Hydra Launcher community server.",
             "url": "https://davidkazumi.github.io/fontekazumi.json",
             "gamesCount": "1292",
-            "status": ["Safe For Use"],
+            "status": ["Safe For Use", "Works In Russia"],
             "addedDate": "2024-12-30"
         },
         {
@@ -213,7 +213,7 @@
             "description": "fonte com diversos jogos de diversas categorias",
             "url": "https://carlosguab.github.io/nexus.json",
             "gamesCount": "2902",
-            "status": ["Use At Your Own Risk"],
+            "status": ["Use At Your Own Risk", "Works In Russia"],
             "addedDate": "2025-04-10"
         },
         {
@@ -237,11 +237,11 @@
             "description": "This repository contains all games (1700+) with online fixes from the FreeTP website for Hydra Launcher in JSON format.",
             "url": "https://raw.githubusercontent.com/BadKiko/freetp-hydra-link/refs/heads/main/games.json",
             "gamesCount": "1700",
-            "status": ["Use At Your Own Risk"],
+            "status": ["Use At Your Own Risk", "Works In Russia"],
             "addedDate": "2025-05-07"
         },
         {
-            "title": "TapochekNet",
+            "title": "TapochekNet | Windows, Linux, Mac games",
             "description": "Source that contains many games from the TapochekNet website. Especially R.G. Mechanics",
             "url": "https://hydra.ramus.cc/sources/tapochek.json",
             "gamesCount": "14713",
@@ -257,12 +257,28 @@
             "addedDate": "2025-05-27"
         },
         {
-            "title": "RuTracker | Linux",
+            "title": "RuTracker | Linux only",
             "description": "Automatically updated source from Wkeynhk containing games for Linux from the RuTracker site.",
             "url": "https://raw.githubusercontent.com/Wkeynhk/RuTracker-Linux/refs/heads/main/rutrackerlinux.json",
             "gamesCount": "3520",
             "status": ["Safe For Use", "Works In Russia"],
             "addedDate": "2025-05-28"
+        },
+        {
+            "title": "GGVV Source | Linux only",
+            "description": "gog linux games",
+            "url": "https://ggvv13.github.io/Linux-Games.json",
+            "gamesCount": "990",
+            "status": ["Use At Your Own Risk", "Works In Russia"],
+            "addedDate": "2025-05-29"
+        },
+        {
+            "title": "HydraSources.su | nnmclub",
+            "description": "Games from the russian tracker nnmclub",
+            "url": "hydrasources.su/nnmclub.json",
+            "gamesCount": "10010",
+            "status": ["Use At Your Own Risk", "Works In Russia"],
+            "addedDate": "2025-05-29"
         }
     ]
 } 
