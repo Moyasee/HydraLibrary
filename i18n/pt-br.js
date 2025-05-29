@@ -318,7 +318,7 @@ export default {
             description: "Acesse a mais completa coleção de fontes de jogos verificadas. Navegue por repositórios confiáveis e fique atualizado com as últimas adições.",
             cta: {
                 primary: "Explorar Biblioteca",
-                secondary: "Ver no GitHub"
+                secondary: "Telegram(Russo)"
             }
         },
         stats: {

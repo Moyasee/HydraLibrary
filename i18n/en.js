@@ -272,7 +272,7 @@ export default {
             description: "Access the most comprehensive collection of verified game sources. Browse through trusted repositories and stay up to date with the latest additions.",
             cta: {
                 primary: "Browse Library",
-                secondary: "View on GitHub"
+                secondary: "Telegram(RU)"
             }
         },
         stats: {
