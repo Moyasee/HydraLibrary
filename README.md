@@ -1,44 +1,76 @@
-<h1 align="center">🐉 HydraLibrary</h1>
-
+<!-- HEADER -->
 <p align="center">
-  <i>A safe and organized way to manage game sources for the Hydra Launcher.</i><br/>
-  <a href="https://moyasee.github.io/HydraLibrary/">🌐 Live Demo</a> •
-  <a href="https://moyasee.github.io/HydraLibrary/about.html?utm_source=chatgpt.com">🔎 Learn More</a>
+  <img src="https://img.shields.io/badge/HydraLibrary-Game%20Source%20Manager-blueviolet?style=for-the-badge&logo=dragon" alt="HydraLibrary"/>
 </p>
 
-<hr/>
+<h1 align="center" style="font-size: 3em;">🐉 HydraLibrary</h1>
 
-<h2>✨ What is HydraLibrary?</h2>
+<p align="center">
+  <i>A sleek, organized, and community-driven library of game sources for the Hydra Launcher.</i>
+</p>
+
+<p align="center">
+  <a href="https://library.hydra.wiki"><strong>🌐 Live Demo</strong></a> •
+  <a href="https://moyasee.github.io/HydraLibrary/about.html?utm_source=chatgpt.com"><strong>📖 About</strong></a>
+</p>
+
+<br/>
+
+<!-- ABOUT -->
+<h2>✨ Overview</h2>
 
 <p>
-  <strong>HydraLibrary</strong> is a comprehensive platform created to streamline access to game repositories for the Hydra Launcher. It offers a user-friendly interface for verifying, managing, and exploring a wide range of game sources.
+HydraLibrary is your one-stop destination for managing, verifying, and exploring game repositories tailored for the Hydra Launcher. Whether you're a casual gamer or a power user, HydraLibrary offers a clean and intuitive interface to navigate the world of custom sources safely.
+</p>
+
+<!-- FEATURES -->
+<h2>🔍 Features</h2>
+
+<ul>
+  <li><strong>🔐 Source Verification:</strong> 
+    <br/>A multi-tier trust system ensures safety:
+    <ul>
+      <li><span style="color:limegreen;"><strong>✔️ Trusted</strong></span> – Fully verified and secure</li>
+      <li><strong>🟡 Safe For Use</strong> – Community-approved, generally safe</li>
+      <li><strong>⚠️ Use At Your Own Risk</strong> – Unverified, be cautious</li>
+      <li><strong>🆕 New</strong> – Recently added, under community review</li>
+    </ul>
+  </li>
+  <li><strong>🎮 Game Source Management:</strong> 
+    <br/>Search, filter, and organize your Hydra sources effortlessly.</li>
+  <li><strong>🤝 Community-Driven:</strong> 
+    <br/>Let the community help verify and evaluate sources for the greater good.</li>
+</ul>
+
+<br/>
+
+<!-- DEMO -->
+<h2>🚀 Try It Out</h2>
+
+<p align="center">
+  <a href="https://library.hydra.wiki/HydraLibrary/">
+    <img src="https://img.shields.io/badge/Open-HydraLibrary-1e1e2f?style=for-the-badge&logo=github&logoColor=white" />
+  </a>
+</p>
+
+<br/>
+
+<!-- AUTHOR -->
+<h2>👨‍💻 About the Developer</h2>
+
+<p>
+  Created with passion by <strong>&lt; Moyase /&gt;</strong><br/>
+  Developer focused on building clean, open-source tools for the gaming community.
 </p>
 
 <ul>
-  <li><strong>🔐 Source Verification:</strong> A multi-tier trust system that classifies game sources into:
-    <ul>
-      <li><code>Trusted</code> – Thoroughly verified and secure.</li>
-      <li><code>Safe For Use</code> – Community-vouched, generally reliable.</li>
-      <li><code>Use At Your Own Risk</code> – Unverified, use with caution.</li>
-      <li><code>New</code> – Recently added, still under review.</li>
-    </ul>
-  </li>
-  <li><strong>🎮 Game Management:</strong> Easily search, filter, and sort through a large collection of games and sources.</li>
-  <li><strong>🤝 Community Contributions:</strong> Users help classify and rate sources to maintain overall safety and usability.</li>
+  <li><a href="https://moyasee.github.io/isitonhydra/">🎯 Is It On Hydra</a> – Check if a game is included in Hydra sources</li>
 </ul>
 
-<hr/>
-
-<h2>👨‍💻 Developer</h2>
-
-<p>
-  <strong>&lt; Moyase /&gt;</strong><br/>
-  Passionate about open-source tools and gaming. Creator of HydraLibrary and other projects like:<br/>
-  • <a href="https://moyasee.github.io/is-it-on-hydra/">Is It On Hydra</a>: Check if a game exists in Hydra sources.
-</p>
+<br/>
 
 <hr/>
 
 <p align="center">
-  🐲 Made with ❤️ for the Hydra community
+  <sub>🐲 Built with love for the Hydra community • Open Source Forever</sub>
 </p>
