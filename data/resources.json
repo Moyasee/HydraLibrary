@@ -233,14 +233,6 @@
             "addedDate": "2025-05-01"
         },
         {
-            "title": "FreeTp.Org",
-            "description": "This repository contains all games (1700+) with online fixes from the FreeTP website for Hydra Launcher in JSON format.",
-            "url": "https://raw.githubusercontent.com/BadKiko/freetp-hydra-link/refs/heads/main/games.json",
-            "gamesCount": "1700",
-            "status": ["Use At Your Own Risk", "Works In Russia"],
-            "addedDate": "2025-05-07"
-        },
-        {
             "title": "TapochekNet | Windows, Linux, Mac games",
             "description": "Source that contains many games from the TapochekNet website. Especially R.G. Mechanics",
             "url": "https://hydra.ramus.cc/sources/tapochek.json",
@@ -279,6 +271,14 @@
             "gamesCount": "10010",
             "status": ["Use At Your Own Risk", "Works In Russia"],
             "addedDate": "2025-05-29"
+        },
+        {
+            "title": "HydraSources.su | FreeTp.Org",
+            "description": "This source contains games with online fixes from the FreeTP website for Hydra Launcher",
+            "url": "https://hydrasources.su/freetp.json",
+            "gamesCount": "2273",
+            "status": ["Use At Your Own Risk", "Works In Russia"],
+            "addedDate": "2025-05-30"
         }
     ]
 } 
