@@ -248,8 +248,8 @@ export default {
             title: 'Erotorrent.ru by sodalite',
             description: 'Russian torrent tracker that contains many NSFW torrent games.'
         },
-        'FreeTp.Org': {
-            title: 'FreeTp.Org',
+        'HydraSources.su | FreeTp.Org': {
+            title: 'HydraSources.su | FreeTp.Org',
             description: 'Collection of games with online fixes from the FreeTP website.'
         },
         'TapochekNet': {

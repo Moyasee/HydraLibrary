@@ -293,8 +293,8 @@ export default {
             title: 'Erotorrent.ru от sodalite',
             description: 'Русский торрент-трекер, содержащий множество NSFW игр'
         },
-        'FreeTp.Org': {
-            title: 'FreeTp.Org',
+        'HydraSources.su | FreeTp.Org': {
+            title: 'HydraSources.su | FreeTp.Org',
             description: 'Коллекция всех игр (1700+) с онлайн-фиксами с сайта FreeTP для Hydra Launcher'
         },
         'TapochekNet | Windows, Linux, Mac games': {
