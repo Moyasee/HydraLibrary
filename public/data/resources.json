@@ -275,7 +275,7 @@
         {
             "title": "HydraSources.su | nnmclub",
             "description": "Games from the russian tracker nnmclub",
-            "url": "hydrasources.su/nnmclub.json",
+            "url": "https://hydrasources.su/nnmclub.json",
             "gamesCount": "10010",
             "status": ["Use At Your Own Risk", "Works In Russia"],
             "addedDate": "2025-05-29"
