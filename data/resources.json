@@ -209,14 +209,6 @@
             "addedDate": "2025-02-18"
         },
         {
-            "title": "Nexus",
-            "description": "fonte com diversos jogos de diversas categorias",
-            "url": "https://carlosguab.github.io/nexus.json",
-            "gamesCount": "2902",
-            "status": ["Use At Your Own Risk", "Works In Russia"],
-            "addedDate": "2025-04-10"
-        },
-        {
             "title": "CPGRepacks",
             "description": "A collection of 200+ NSFW games. Contains adult content and is intended for users 18 and older.",
             "url": "https://raw.githubusercontent.com/HyperNovaX/CPGREPACKS-Hydra-links/main/directDownloads.json",
