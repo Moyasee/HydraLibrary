@@ -241,7 +241,7 @@ export function showRatingModal(source) {
 
       const url = `https://free-google-translator.p.rapidapi.com/external-api/free-google-translator?from=auto&to=${targetLang}&query=${encodeURIComponent(text)}`;
       xhr.open('POST', url);
-      xhr.setRequestHeader('x-rapidapi-key', 'abf6c97c1fmshd564d1a91901fbap113d5cjsnb61ed881241e');
+      xhr.setRequestHeader('x-rapidapi-key', import.meta.env.VITE_RAPIDAPI_KEY || '');
       xhr.setRequestHeader('x-rapidapi-host', 'free-google-translator.p.rapidapi.com');
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.send(data);
