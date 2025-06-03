@@ -14,7 +14,7 @@ export default {
             trusted: 'Проверенный',
             safeForUse: 'Безопасный',
             useAtOwnRisk: 'Не проверенный',
-            worksInRussia: 'Работает в России'
+            worksInRussia: 'Работает в России',
         },
         sort: {
             title: 'Сортировка',
@@ -62,7 +62,8 @@ export default {
         trusted: 'Проверенный',
         safeForUse: 'Безопасный',
         useAtOwnRisk: 'Не проверенный',
-        worksInRussia: 'Работает в России'
+        worksInRussia: 'Работает в России',
+        nsfw: 'NSFW'
     },
     common: {
         install: 'Установить',

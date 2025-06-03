@@ -261,8 +261,11 @@ export function showRatingModal(source) {
       console.log('Processed comments:', allComments);
       
       // Render stars and average
-      renderStars(data.avg || 0);
-      modal.querySelector('#rating-modal-avg').textContent = data.avg ? `${data.avg} / 5` : 'No ratings yet';
+      const avgRating = parseFloat(data.avg) || 0;
+      renderStars(avgRating);
+      // Format to show 1-2 decimal places
+      const formattedRating = avgRating % 1 === 0 ? avgRating.toFixed(0) : avgRating.toFixed(avgRating * 10 % 1 === 0 ? 1 : 2);
+      modal.querySelector('#rating-modal-avg').textContent = data.avg ? `${formattedRating} / 5` : 'No ratings yet';
       modal.querySelector('#rating-modal-total').textContent = data.total ? `(${data.total} ${data.total === 1 ? 'review' : 'reviews'})` : '';
       
       renderComments(page);

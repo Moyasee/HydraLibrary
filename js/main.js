@@ -1039,7 +1039,6 @@ function createSourceCard(source) {
                 color: 'blue',
                 icon: 'check-circle',
                 key: 'safeForUse',
-                text: 'Safe for Use',
                 customClass: 'bg-blue-500/10 border-blue-500/20 text-blue-400 hover:bg-blue-500/20 hover:border-blue-500/30'
             },
             'use-at-your-own-risk': {
@@ -1052,13 +1051,12 @@ function createSourceCard(source) {
                 color: 'teal',
                 icon: 'globe-europe',
                 key: 'worksInRussia',
-                text: 'Works in Russia',
                 customClass: 'bg-teal-500/10 border-teal-500/20 text-teal-400 hover:bg-teal-500/20 hover:border-teal-500/30 '
             },
             'nsfw': {
                 color: 'purple',
                 icon: 'exclamation-circle',
-                text: 'NSFW',  // Direct text instead of translation key
+                key: 'nsfw',
                 customClass: 'bg-purple-500/10 border-purple-500/20 text-purple-400 hover:bg-purple-500/20 hover:border-purple-500/30 '
             }
         }[className] || {
@@ -1071,10 +1069,13 @@ function createSourceCard(source) {
         const baseClasses = `inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs backdrop-blur-sm status-badge ${statusMap.customClass || ''}`;
         const defaultClasses = `bg-${statusMap.color}-500/10 border border-${statusMap.color}-500/20 text-${statusMap.color}-400`;
         
+        // Always use the translation system for status text
+        const statusText = i18n.t(`status.${statusMap.key}`);
+        
         return `
             <span class="${statusMap.customClass ? baseClasses : `${baseClasses} ${defaultClasses}`}">
                 <i class="fas fa-${statusMap.icon} text-[10px]"></i>
-                ${statusMap.text || i18n.t(`status.${statusMap.key}`)}
+                ${statusText}
             </span>
         `;
     }).join('');

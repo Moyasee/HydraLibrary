@@ -62,7 +62,8 @@ export default {
         trusted: 'Confiável',
         safeForUse: 'Seguro para Uso',
         useAtOwnRisk: 'Não Verificado',
-        worksInRussia: 'Funciona na Rússia'
+        worksInRussia: 'Funciona na Rússia',
+        nsfw: 'NSFW'
     },
     common: {
         install: 'Instalar',
