@@ -207,6 +207,102 @@ export function showRatingModal(source) {
     if (e.target === modal.querySelector('.fixed.inset-0')) removeModal();
   };
 
+  // Function to translate text using RapidAPI Google Translate
+  async function translateText(text, targetLang = 'en') {
+    return new Promise((resolve, reject) => {
+      const data = JSON.stringify({
+        translate: 'rapidapi'
+      });
+
+      const xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
+
+      xhr.addEventListener('readystatechange', function() {
+        if (this.readyState === this.DONE) {
+          try {
+            const response = JSON.parse(this.responseText);
+            if (response && response.translation) {
+              resolve(response.translation);
+            } else if (response && response.status !== 200) {
+              throw new Error(response.business_message || 'Translation service error');
+            } else {
+              throw new Error('Invalid response from translation service');
+            }
+          } catch (error) {
+            console.error('Translation error:', error, this.responseText);
+            reject(error);
+          }
+        }
+      });
+
+      xhr.addEventListener('error', () => {
+        reject(new Error('Network error during translation'));
+      });
+
+      const url = `https://free-google-translator.p.rapidapi.com/external-api/free-google-translator?from=auto&to=${targetLang}&query=${encodeURIComponent(text)}`;
+      xhr.open('POST', url);
+      xhr.setRequestHeader('x-rapidapi-key', 'abf6c97c1fmshd564d1a91901fbap113d5cjsnb61ed881241e');
+      xhr.setRequestHeader('x-rapidapi-host', 'free-google-translator.p.rapidapi.com');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(data);
+    });
+  }
+
+  // Add click handler for translate buttons
+  modal.addEventListener('click', async (e) => {
+    const translateBtn = e.target.closest('.translate-comment');
+    if (!translateBtn || translateBtn.disabled) return;
+    
+    e.preventDefault();
+    const commentContainer = translateBtn.closest('div[class*="group relative"]');
+    const commentElement = commentContainer ? commentContainer.querySelector('.comment-text p') : null;
+    if (!commentElement) {
+      console.error('Could not find comment text element');
+      return;
+    }
+    // Get the original text from data attribute or current content
+    let originalText = translateBtn.getAttribute('data-original');
+    
+    if (translateBtn.classList.contains('active')) {
+      // Show original text
+      if (originalText) {
+        commentElement.textContent = `"${originalText}"`;
+        translateBtn.innerHTML = '<i class="fas fa-language text-xs"></i><span class="hidden sm:inline">Translate</span>';
+        translateBtn.classList.remove('active');
+        translateBtn.title = 'Translate this review';
+      }
+      translateBtn.disabled = false;
+      return;
+    }
+    
+    // Store the original text before translation
+    originalText = commentElement.textContent.trim().replace(/^"/, '').replace(/"$/, '');
+    translateBtn.setAttribute('data-original', originalText);
+    
+    // Show loading state
+    const originalButtonHTML = translateBtn.innerHTML;
+    translateBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i>';
+    translateBtn.title = 'Translating...';
+    translateBtn.disabled = true;
+    
+    try {
+      // Use RapidAPI Google Translate
+      const translatedText = await translateText(originalText, 'en');
+      commentElement.textContent = `"${translatedText}"`;
+      
+      // Update button state
+      translateBtn.innerHTML = '<i class="fas fa-undo text-xs"></i><span class="hidden sm:inline">Original</span>';
+      translateBtn.classList.add('active');
+      translateBtn.title = 'Show original text';
+      translateBtn.disabled = false;
+    } catch (error) {
+      console.error('Translation failed:', error);
+      commentElement.textContent = `"${originalText}"`;
+      translateBtn.innerHTML = originalButtonHTML;
+      translateBtn.title = 'Error translating. Click to try again.';
+    }
+  });
+
   // Initialize character counter
   const textarea = modal.querySelector('textarea[name="comment"]');
   const charCount = modal.querySelector('.char-count');
@@ -331,7 +427,16 @@ export function showRatingModal(source) {
                 </div>
               </div>
               
-              <div class="flex items-center gap-1.5">
+              <div class="flex items-center gap-2">
+                <button 
+                  class="translate-comment text-xs text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed"
+                  data-comment="${comment.message ? encodeURIComponent(comment.message) : ''}"
+                  title="Translate this review"
+                  ${!comment.message ? 'disabled' : ''}
+                >
+                  <i class="fas fa-language text-xs"></i>
+                  <span class="hidden sm:inline">Translate</span>
+                </button>
                 <div class="w-2 h-2 rounded-full ${(comment.rating || 0) >= 3 ? 'bg-emerald-500' : 'bg-amber-500'} shadow-pulse"></div>
                 <span class="text-xs ${(comment.rating || 0) >= 3 ? 'text-emerald-400' : 'text-amber-400'}">
                   ${(comment.rating || 0) >= 3 ? 'Positive' : 'Needs Improvement'}
@@ -340,10 +445,12 @@ export function showRatingModal(source) {
             </div>
             
             <!-- Comment text -->
-            <div class="pl-2 border-l-2 border-emerald-500/30">
-              <p class="text-sm text-white/80 leading-relaxed whitespace-pre-wrap">
-                "${comment.message ? sanitizeHTML(comment.message).replace(/\n/g, '<br>') : 'No comment provided'}" 
-              </p>
+            <div class="comment-container">
+              <div class="pl-2 border-l-2 border-emerald-500/30 comment-text">
+                <p class="text-sm text-white/80 leading-relaxed whitespace-pre-wrap" data-original="${comment.message ? sanitizeHTML(comment.message) : ''}">
+                  "${comment.message ? sanitizeHTML(comment.message).replace(/\n/g, '<br>') : 'No comment provided'}" 
+                </p>
+              </div>
             </div>
             
            
