@@ -71,6 +71,39 @@
     
 </head>
 <body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex flex-col text-gray-100">
+    <!-- Mobile Device Message -->
+    <div id="mobile-message" class="fixed inset-0 bg-gradient-to-br from-gray-900 to-black z-[9999] flex items-center justify-center p-6 text-center hidden">
+        <div class="relative max-w-md w-full mx-4">
+            <!-- Background Blur Effect -->
+            <div class="absolute inset-0 bg-black/30 backdrop-blur-xl rounded-2xl -z-10"></div>
+            <!-- Border Glow -->
+            <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/20 via-emerald-400/10 to-emerald-500/20 p-px -z-20">
+                <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-black/0"></div>
+            </div>
+            
+            <div class="p-8">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-400/10 mb-6 border border-emerald-500/20">
+                    <i class="fas fa-mobile-alt text-3xl text-emerald-400"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white mb-4">Mobile Access Not Supported</h2>
+                <p class="text-gray-300 mb-6 leading-relaxed">The Hydra Library is optimized for desktop and laptop computers. For the best experience, please visit us from a larger screen device.</p>
+                <div class="h-px w-full bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent my-6"></div>
+                <p class="text-emerald-400 text-sm font-medium">Thank you for your understanding.</p>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        @media (max-width: 767px) {
+            #mobile-message {
+                display: flex !important;
+                padding: 1.5rem;
+            }
+            body > *:not(#mobile-message) {
+                display: none !important;
+            }
+        }
+    </style>
     <!-- Preloader -->
     <div id="preloader" class="fixed inset-0 z-[9999] bg-[#0A0A0A] transition-all duration-700 ease-in-out">
         <!-- Particle Canvas -->
