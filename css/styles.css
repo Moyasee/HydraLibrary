@@ -1563,6 +1563,10 @@ video {
   border-color: rgb(234 179 8 / 0.2);
 }
 
+.border-emerald-500\/50 {
+  border-color: rgb(16 185 129 / 0.5);
+}
+
 .border-t-transparent {
   border-top-color: transparent;
 }
