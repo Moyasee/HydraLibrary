@@ -331,47 +331,161 @@ export function showRatingModal(source) {
     document.body.style.overflow = '';
   }
 
-  // Load ratings/comments
+    // Client-side caching and request management
+  const CACHE_TTL = 5 * 60 * 1000; // 5 minutes cache TTL
   let currentPage = 1;
   let currentSort = 'recent';
   let allComments = [];
   let totalReviews = 0;
+  let isLoading = false;
+  let lastFetchTime = 0;
+  let currentSource = source.title;
 
-  async function loadComments(page = 1) {
-    const list = modal.querySelector('#rating-comments-list');
-    list.innerHTML = '<div class="flex justify-center items-center py-6"><div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-emerald-400"></div></div>';
+  // Get cached data if available and not expired
+  function getCachedData() {
+    const cacheKey = `ratings_${encodeURIComponent(currentSource)}`;
+    const cached = localStorage.getItem(cacheKey);
+    if (!cached) return null;
+    
     try {
-      const url = `${RATING_API_URL}?source=${encodeURIComponent(source.title)}`;
+      const { data, timestamp } = JSON.parse(cached);
+      if (Date.now() - timestamp < CACHE_TTL) {
+        return data;
+      }
+    } catch (e) {
+      console.warn('Error reading cache:', e);
+    }
+    return null;
+  }
+
+  // Save data to cache
+  function saveToCache(data) {
+    try {
+      const cacheKey = `ratings_${encodeURIComponent(currentSource)}`;
+      const cacheData = {
+        data,
+        timestamp: Date.now()
+      };
+      localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+    } catch (e) {
+      console.warn('Error saving to cache:', e);
+    }
+  }
+
+  // Debounce function to prevent rapid API calls
+  function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  }
+
+  // Load comments with caching
+  async function loadComments(page = 1, forceRefresh = false) {
+    if (isLoading) return;
+    
+    const list = modal.querySelector('#rating-comments-list');
+    if (!list) return;
+    
+    // Show loading state
+    list.innerHTML = '<div class="flex justify-center items-center py-6"><div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-emerald-400"></div></div>';
+    
+    // Try to get from cache first if not forcing refresh
+    const cacheKey = `ratings_${encodeURIComponent(currentSource)}`;
+    const cachedData = forceRefresh ? null : getCachedData();
+    
+    if (cachedData) {
+      console.log('Using cached data for:', currentSource);
+      processCommentsData(cachedData, page);
+      
+      // Update in the background
+      if (Date.now() - lastFetchTime > CACHE_TTL) {
+        fetchComments(true);
+      }
+      return;
+    }
+    
+    // No valid cache, fetch fresh data
+    await fetchComments();
+  }
+  
+  // Debounced version of loadComments
+  const debouncedLoadComments = debounce(loadComments, 300);
+  
+  // Fetch comments from API
+  async function fetchComments(silent = false) {
+    if (isLoading) return;
+    
+    isLoading = true;
+    const list = modal.querySelector('#rating-comments-list');
+    
+    try {
+      const url = `${RATING_API_URL}?source=${encodeURIComponent(currentSource)}`;
       console.log('Fetching ratings from:', url);
-      const res = await fetch(url);
+      
+      const res = await fetch(url, {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
+      
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
+      
       const data = await res.json();
       console.log('Received ratings data:', data);
       
-      // Store all comments and total
-      allComments = Array.isArray(data.comments) ? data.comments : [];
-      totalReviews = data.total || 0;
+      // Save to cache
+      saveToCache(data);
+      lastFetchTime = Date.now();
       
-      console.log('Processed comments:', allComments);
+      // Process the data
+      processCommentsData(data, currentPage);
       
-      // Render stars and average
-      const avgRating = parseFloat(data.avg) || 0;
-      renderStars(avgRating);
-      // Format to show 1-2 decimal places
-      const formattedRating = avgRating % 1 === 0 ? avgRating.toFixed(0) : avgRating.toFixed(avgRating * 10 % 1 === 0 ? 1 : 2);
-      modal.querySelector('#rating-modal-avg').textContent = data.avg ? `${formattedRating} / 5` : 'No ratings yet';
-      modal.querySelector('#rating-modal-total').textContent = data.total ? `(${data.total} ${data.total === 1 ? 'review' : 'reviews'})` : '';
-      
-      renderComments(page);
     } catch(e) {
       console.error('Error loading comments:', e);
-      list.innerHTML = `
-        <div class="text-red-400 text-sm py-4 text-center">
-          Failed to load reviews. ${e.message}
-        </div>`;
+      if (!silent && list) {
+        list.innerHTML = `
+          <div class="text-red-400 text-sm py-4 text-center">
+            Failed to load reviews. ${e.message}
+          </div>`;
+      }
+    } finally {
+      isLoading = false;
     }
+  }
+  
+  // Process comments data and update UI
+  function processCommentsData(data, page) {
+    // Store all comments and total
+    allComments = Array.isArray(data.comments) ? data.comments : [];
+    totalReviews = data.total || 0;
+    
+    // Render stars and average
+    const avgRating = parseFloat(data.avg) || 0;
+    renderStars(avgRating);
+    
+    // Format to show 1-2 decimal places
+    const formattedRating = avgRating % 1 === 0 ? 
+      avgRating.toFixed(0) : 
+      avgRating.toFixed(avgRating * 10 % 1 === 0 ? 1 : 2);
+      
+    const avgElement = modal.querySelector('#rating-modal-avg');
+    const totalElement = modal.querySelector('#rating-modal-total');
+    
+    if (avgElement) {
+      avgElement.textContent = data.avg ? `${formattedRating} / 5` : 'No ratings yet';
+    }
+    if (totalElement) {
+      totalElement.textContent = data.total ? 
+        `(${data.total} ${data.total === 1 ? 'review' : 'reviews'})` : 
+        '';
+    }
+    
+    renderComments(page);
   }
 
   function renderComments(page = 1) {

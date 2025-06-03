@@ -507,48 +507,46 @@ async function fetchSources() {
         const data = await response.json();
         sources = data.sources;
 
-        // PRE-FETCH RATINGS FOR ALL SOURCES BEFORE RENDERING
-        console.log('Fetching ratings for all sources...');
-        await Promise.all(sources.map(async (src) => {
-            try {
-                console.log(`Fetching rating for source: ${src.title}`);
-                const url = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?source=${encodeURIComponent(src.title)}`;
-                console.log('API URL:', url);
-                
-                const resp = await fetch(url);
-                console.log('Response status:', resp.status);
-                
-                if (!resp.ok) {
-                    throw new Error(`HTTP error! status: ${resp.status}`);
-                }
-                
-                const data = await resp.json();
-                console.log(`Received rating for ${src.title}:`, JSON.stringify(data, null, 2));
-                
-                // Ensure we have valid rating data
-                const avg = data && typeof data.avg === 'number' ? parseFloat(data.avg) : 0;
-                const total = data && typeof data.total === 'number' ? parseInt(data.total) : 0;
-                
-                console.log(`Parsed rating for ${src.title}:`, { avg, total });
-                
-                // Ensure the rating object is set correctly
-                src.rating = { avg, total };
-                console.log(`Set rating for ${src.title}:`, JSON.stringify(src.rating, null, 2));
-                
-                // Return the updated source for debugging
-                return { title: src.title, rating: src.rating };
-            } catch (e) {
-                console.error(`Error fetching rating for ${src.title}:`, e);
-                src.rating = { avg: 0, total: 0 };
-                console.log(`Set default rating for ${src.title} due to error`);
-                return { title: src.title, rating: { avg: 0, total: 0 }, error: e.message };
-            }
-        }));
+        // PRE-FETCH RATINGS FOR ALL SOURCES USING BATCH ENDPOINT
+        console.log('Fetching ratings for all sources using batch endpoint...');
         
-        console.log('All ratings loaded, sources:', sources.map(s => ({
-            title: s.title,
-            rating: s.rating
-        })));
+        try {
+            // Extract all source titles
+            const sourceTitles = sources.map(src => src.title);
+            console.log(`Fetching ratings for ${sourceTitles.length} sources`);
+            
+            // Make a single batch request
+            const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles.map(encodeURIComponent).join(',')}`;
+            console.log('Batch API URL:', batchUrl);
+            
+            const resp = await fetch(batchUrl);
+            console.log('Batch response status:', resp.status);
+            
+            if (!resp.ok) {
+                throw new Error(`HTTP error! status: ${resp.status}`);
+            }
+            
+            const ratingsData = await resp.json();
+            console.log('Received batch ratings data:', JSON.stringify(ratingsData, null, 2));
+            
+            // Update each source with its rating
+            sources.forEach(src => {
+                const rating = ratingsData[src.title] || { avg: 0, total: 0 };
+                src.rating = {
+                    avg: parseFloat(rating.avg) || 0,
+                    total: parseInt(rating.total) || 0
+                };
+                console.log(`Set rating for ${src.title}:`, JSON.stringify(src.rating, null, 2));
+            });
+            
+            console.log('All ratings loaded via batch endpoint');
+        } catch (e) {
+            console.error('Error in batch ratings fetch:', e);
+            // Initialize with default ratings if batch fetch fails
+            sources.forEach(src => {
+                src.rating = { avg: 0, total: 0 };
+            });
+        }
         
         // Initialize the sort after all ratings are loaded
         initializeSorting();
@@ -683,19 +681,40 @@ async function loadSourceStats() {
                 });
                 
                 // Update the UI with cached data
-                await Promise.all(sources.map(async (src) => {
-                    try {
-                        // Use production API endpoint for ratings
-                        const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?source=${encodeURIComponent(src.title)}&page=1`);
-                        const data = await resp.json();
-                        ratingsMap[src.title] = {
-                            avg: typeof data.avg === 'number' ? data.avg : null,
-                            total: typeof data.total === 'number' ? data.total : 0
-                        };
-                    } catch (e) {
-                        ratingsMap[src.title] = { avg: null, total: 0 };
+                try {
+                    // Use batch endpoint to get all ratings at once
+                    const sourceTitles = sources.map(src => encodeURIComponent(src.title)).join(',');
+                    const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles}`);
+                    if (resp.ok) {
+                        const ratingsData = await resp.json();
+                        // Update ratings map with batch data
+                        sources.forEach(src => {
+                            const rating = ratingsData[src.title] || { avg: 0, total: 0 };
+                            ratingsMap[src.title] = {
+                                avg: parseFloat(rating.avg) || 0,
+                                total: parseInt(rating.total) || 0
+                            };
+                        });
+                    } else {
+                        throw new Error('Failed to fetch batch ratings');
                     }
-                }));
+                } catch (e) {
+                    console.error('Error fetching batch ratings:', e);
+                    // Fallback to individual requests if batch fails
+                    await Promise.all(sources.map(async (src) => {
+                        try {
+                            const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?source=${encodeURIComponent(src.title)}&page=1`);
+                            const data = await resp.json();
+                            ratingsMap[src.title] = {
+                                avg: typeof data.avg === 'number' ? data.avg : 0,
+                                total: typeof data.total === 'number' ? data.total : 0
+                            };
+                        } catch (e) {
+                            console.error(`Error fetching rating for ${src.title}:`, e);
+                            ratingsMap[src.title] = { avg: 0, total: 0 };
+                        }
+                    }));
+                }
                 
                 console.log('Using cached stats from localStorage');
                 return true;
@@ -2343,36 +2362,65 @@ function startActivityCleanup() {
 // Also update the displaySources function to refresh cards when language changes
 // Function to update rating display on a source card
 async function updateSourceCardRating(sourceTitle) {
-    try {
-        // Fetch the latest rating data from the server
-        const response = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?source=${encodeURIComponent(sourceTitle)}`);
-        if (!response.ok) throw new Error('Failed to fetch rating data');
-        
-        const data = await response.json();
+    // If we already have the source in our array, use that
+    const source = sources.find(s => s.title === sourceTitle);
+    if (source && source.rating) {
         const ratingData = {
-            avg: parseFloat(data.avg || 0),
-            total: parseInt(data.total || 0)
+            avg: parseFloat(source.rating.avg || 0),
+            total: parseInt(source.rating.total || 0)
         };
+        updateCardRatingForTitle(sourceTitle, ratingData);
+        return true;
+    }
+    
+    // If not, try to update all ratings at once
+    return updateAllSourceRatings();
+}
+
+// Update ratings for all sources at once
+async function updateAllSourceRatings() {
+    try {
+        if (!sources || sources.length === 0) return false;
         
-        // Also update the source object in the sources array
-        const source = sources.find(s => s.title === sourceTitle);
-        if (source) {
-            source.rating = ratingData;
-        }
+        // Get all unique source titles
+        const sourceTitles = [...new Set(sources.map(s => s.title))];
+        if (sourceTitles.length === 0) return false;
         
-        // Find all source cards that match the source title and update them
-        const cards = document.querySelectorAll('.source-card');
-        cards.forEach(card => {
-            if (card.dataset.name === sourceTitle) {
-                updateCardRatingDisplay(card, ratingData);
-            }
+        // Make a single batch request
+        const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles.map(encodeURIComponent).join(',')}`;
+        const response = await fetch(batchUrl);
+        
+        if (!response.ok) throw new Error('Failed to fetch batch rating data');
+        
+        const ratingsData = await response.json();
+        
+        // Update all sources with their ratings
+        sources.forEach(source => {
+            const rating = ratingsData[source.title] || { avg: 0, total: 0 };
+            source.rating = {
+                avg: parseFloat(rating.avg) || 0,
+                total: parseInt(rating.total) || 0
+            };
+            
+            // Update all cards for this source
+            updateCardRatingForTitle(source.title, source.rating);
         });
         
         return true;
     } catch (error) {
-        console.error('Error updating source card rating:', error);
+        console.error('Error updating all source ratings:', error);
         return false;
     }
+}
+
+// Helper to update card rating display by title
+function updateCardRatingForTitle(sourceTitle, ratingData) {
+    const cards = document.querySelectorAll('.source-card');
+    cards.forEach(card => {
+        if (card.dataset.name === sourceTitle) {
+            updateCardRatingDisplay(card, ratingData);
+        }
+    });
 }
 
 // Helper function to update the rating display on a single card
