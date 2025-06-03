@@ -14,7 +14,6 @@ export default defineConfig({
         main: 'index.html',
         library: 'library.html',
         about: 'about.html',
-        donate: 'donate.html',
         changelog: 'changelog.html'
       }
     }
