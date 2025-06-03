@@ -22,6 +22,7 @@ export default {
             mostCopies: 'По копиям',
             mostInstalls: 'По установкам',
             newest: 'Новые',
+            topRated: 'По рейтингу',
             nameAsc: 'По имени (А-Я)',
             nameDesc: 'По имени (Я-А)',
             new: 'Новые',

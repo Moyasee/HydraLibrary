@@ -53,7 +53,8 @@
     <meta name="msapplication-TileColor" content="#10b981">
     <meta name="theme-color" content="#10b981">
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta name="google-site-verification" content="IfxfsGr1vBDzJvp2_bhiKfrV6BN_kxRM56eMbKQ-r-4" />
     <!-- Google tag (gtag.js) -->
@@ -240,10 +241,10 @@
                         <div id="language-dropdown" 
                              class="absolute top-full mt-1 z-[100] hidden
                                     bg-[#111]/90 backdrop-blur-sm border border-white/5 
-                                    rounded-lg overflow-hidden w-[120px] sm:w-full
+                                    rounded-lg overflow-hidden w-[120px] sm:w-[100px]
                                     shadow-lg shadow-black/50">
                             <button type="button" 
-                                    class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
+                                    class="w-full px-3 py-2 text-sm text-white/70 hover:bg-white/10 
                                            transition-all duration-200 text-left" 
                                     data-lang="en">
                                 <span class="flex items-center gap-2">
@@ -252,7 +253,7 @@
                                 </span>
                             </button>
                             <button type="button" 
-                                    class="w-full px-4 py-2 text-sm text-white/70 hover:bg-white/10 
+                                    class="w-full px-3 py-2 text-sm text-white/70 hover:bg-white/10 
                                            transition-all duration-200 text-left" 
                                     data-lang="ru">
                                 <span class="flex items-center gap-2">
@@ -286,18 +287,11 @@
                                  text-white/40 pointer-events-none text-sm"></i>
                     </div>
                     <div class="flex items-center gap-2 shrink-0 ml-2 whitespace-nowrap">
-                        <a href="./donate.html"
-                            class="px-3 md:px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 
-                                   text-amber-400 hover:bg-amber-500/20 transition-all duration-200
-                                   flex items-center gap-1.5 text-sm shrink-0">
-                            <i class="fas fa-heart"></i>
-                            <span class="hidden sm:inline" data-i18n="header.donate">Donate</span>
-                        </a>
                         <a href="./about.html"
-                            class="px-3 md:px-4 py-2 rounded-lg bg-white/5 border border-white/10 
+                            class="px-3 py-2 sm:px-4 rounded-lg bg-white/5 border border-white/10 
                                    text-white/70 hover:bg-white/10 transition-all duration-200
-                                   flex items-center gap-1.5 text-sm shrink-0">
-                            <i class="fas fa-circle-info"></i>
+                                   flex items-center justify-center sm:justify-start gap-1.5 text-sm shrink-0">
+                            <i class="fas fa-info-circle"></i>
                             <span class="hidden sm:inline" data-i18n="header.about">About</span>
                         </a>
                         <button id="suggest-btn" 
@@ -314,92 +308,7 @@
             </nav>
         </div>
     </header>
-
-    <!-- About Modal -->
-    <div id="about-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-        <div class="bg-[#111]/90 border border-white/5 rounded-xl p-6 max-w-2xl mx-4 animate-fade-in">
-            <div class="flex items-start justify-between gap-4 mb-6">
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-book text-emerald-500 text-2xl"></i>
-                    <h2 class="text-xl font-medium text-white">About Hydra Library</h2>
-                </div>
-                <button id="close-about" class="text-white/40 hover:text-white/70 transition-colors duration-200">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="space-y-4 text-white/70 text-sm leading-relaxed">
-                <p>
-                    Hydra Library is a comprehensive game source management system designed to help users discover, organize, and access various game repositories safely and efficiently.
-                </p>
-                
-                <!-- Creator Information -->
-                <div class="border-t border-white/5 pt-4">
-                    <h3 class="text-white font-medium mb-2">Creator</h3>
-                    <div class="bg-black/20 rounded-lg p-4 border border-white/5">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                <i class="fas fa-code text-emerald-500 text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-white font-medium">Moyase</h4>
-                                <p class="text-white/60 text-xs">Developer & Designer</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-2">
-                            <a href="https://github.com/moyase" target="_blank" rel="noopener noreferrer" 
-                               class="flex-1 bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 rounded-lg px-3 py-2 text-xs transition-all duration-200 flex items-center justify-center gap-2">
-                                <i class="fab fa-github"></i>
-                                GitHub
-                            </a>
-                            <a href="https://linktr.ee/moyase" target="_blank" rel="noopener noreferrer"
-                               class="flex-1 bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 rounded-lg px-3 py-2 text-xs transition-all duration-200 flex items-center justify-center gap-2">
-                                <i class="fas fa-link"></i>
-                                Linktree
-                            </a>
-                            <a href="https://discord.gg/moyase" target="_blank" rel="noopener noreferrer"
-                               class="flex-1 bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 rounded-lg px-3 py-2 text-xs transition-all duration-200 flex items-center justify-center gap-2">
-                                <i class="fab fa-discord"></i>
-                                Discord
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border-t border-white/5 pt-4">
-                    <h3 class="text-white font-medium mb-2">Source Status Types:</h3>
-                    <ul class="space-y-2">
-                        <li class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                            <span class="text-white/90">Trusted - Verified and safe sources</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                            <span class="text-white/90">Safe For Use - Community-verified sources</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                            <span class="text-white/90">Use At Your Own Risk - Unverified sources</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                            <span class="text-white/90">New - Recently added sources</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="border-t border-white/5 pt-4">
-                    <h3 class="text-white font-medium mb-2">Features:</h3>
-                    <ul class="list-disc list-inside space-y-1">
-                        <li>Advanced filtering system</li>
-                        <li>Source status indicators</li>
-                        <li>Game count tracking</li>
-                        <li>Safe copy and install options</li>
-                        <li>Risk warnings for unverified sources</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- Suggest Modal -->
     <div id="suggest-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
@@ -460,7 +369,7 @@
     </div>
 
     <!-- Main Content -->
-    <main class="flex-1 px-4 py-6 mt-4">
+    <main class="flex-1 px-4 py-3">
         <div class="max-w-[1920px] mx-auto w-full min-h-[calc(100vh-12rem)] flex flex-col">
             <div class="flex flex-row-reverse gap-6 flex-1">
                 <!-- Status Filters -->
@@ -543,6 +452,10 @@
                                                 <i class="fas fa-download text-[10px] text-emerald-500"></i>
                                                 <span class="text-white/70 text-sm" data-i18n="filters.sort.mostInstalls">Most Installs</span>
                                             </button>
+                                            <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="top-rated">
+                                                <i class="fas fa-star text-[10px] text-amber-400"></i>
+                                                <span class="text-white/70 text-sm" data-i18n="filters.sort.topRated">Top Rated</span>
+                                            </button>
                                         </div>
                                     </div>
 
@@ -622,7 +535,7 @@
                     </div>
 
                     <!-- Pagination -->
-                    <div class="mt-6 flex justify-center">
+                    <div class="mt-4 flex justify-center">
                         <div id="pagination" class="inline-flex items-center gap-1 bg-[#111]/40 backdrop-blur-sm border border-white/5 rounded-lg p-1">
                             <!-- Pagination content -->
                         </div>
@@ -747,6 +660,16 @@
                                     </div>
                                 </button>
 
+                                <!-- Top Rated Sort -->
+                                <button class="sort-option" data-sort="top-rated">
+                                    <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <div class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                                            <i class="fas fa-star text-amber-400"></i>
+                                        </div>
+                                        <span class="text-white/70 text-sm" data-i18n="filters.sort.topRated">Top Rated</span>
+                                    </div>
+                                </button>
+
                                 <!-- Newest Sort -->
                                 <button class="sort-option" data-sort="newest">
                                     <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
@@ -830,6 +753,7 @@
     </div>
 
     <script src="js/main.js" type="module"></script>
+<script src="js/rating-modal.js" type="module"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",

@@ -22,6 +22,7 @@ export default {
             mostCopies: 'Mais Cópias',
             mostInstalls: 'Mais Instalações',
             newest: 'Mais Recentes',
+            topRated: 'Melhor Avaliado',
             nameAsc: 'Por Nome (A-Z)',
             nameDesc: 'Por Nome (Z-A)',
             new: 'Novo',

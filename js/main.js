@@ -261,36 +261,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Add this new function to handle sort options
+// Initialize sorting functionality
 function initializeSorting() {
-    // Handle sort option clicks
-    document.querySelectorAll('.sort-option').forEach(option => {
-        option.addEventListener('click', () => {
-            // Remove active state from all options
-            document.querySelectorAll('.sort-option').forEach(btn => {
-                btn.classList.remove('bg-white/10', 'text-white');
-                btn.classList.add('text-white/70');
+    try {
+        console.log('Initializing sorting...');
+        
+        // Set up click handlers for sort options
+        document.querySelectorAll('.sort-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const sortType = option.getAttribute('data-sort');
+                console.log('Sort option clicked:', sortType);
+                
+                if (sortType) {
+                    // Update the active sort UI and save preference
+                    updateActiveSortUI(sortType);
+                    
+                    // Close mobile filters if open
+                    const mobileFilters = document.getElementById('mobile-filters');
+                    if (mobileFilters && !mobileFilters.classList.contains('hidden')) {
+                        mobileFilters.classList.add('hidden');
+                        document.body.style.overflow = 'auto';
+                    }
+                    
+                    // Re-display sources with the new sort
+                    displaySources();
+                }
             });
-            
-            // Add active state to clicked option
-            option.classList.remove('text-white/70');
-            option.classList.add('bg-white/10', 'text-white');
-            
-            // Store the current sort type and update display
-            const sortType = option.dataset.sort;
-            localStorage.setItem('currentSort', sortType);
-            displaySources();
         });
-    });
-
-    // Apply saved sort on page load
-    const savedSort = localStorage.getItem('currentSort');
-    if (savedSort) {
-        const savedOption = document.querySelector(`.sort-option[data-sort="${savedSort}"]`);
-        if (savedOption) {
-            savedOption.classList.remove('text-white/70');
-            savedOption.classList.add('bg-white/10', 'text-white');
-        }
+        
+        // Initialize with the saved sort preference or default
+        const savedSort = localStorage.getItem('currentSort') || 'hot';
+        console.log('Initial sort type:', savedSort);
+        
+        // Update UI to reflect the current sort
+        updateActiveSortUI(savedSort);
+        
+        // Log initial sort state
+        console.log('Sorting initialized with type:', savedSort);
+        
+    } catch (error) {
+        console.error('Error initializing sorting:', error);
     }
 }
 
@@ -493,17 +506,92 @@ async function fetchSources() {
         const response = await fetch('data/resources.json');
         const data = await response.json();
         sources = data.sources;
+
+        // PRE-FETCH RATINGS FOR ALL SOURCES BEFORE RENDERING
+        console.log('Fetching ratings for all sources...');
+        await Promise.all(sources.map(async (src) => {
+            try {
+                console.log(`Fetching rating for source: ${src.title}`);
+                const url = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?source=${encodeURIComponent(src.title)}`;
+                console.log('API URL:', url);
+                
+                const resp = await fetch(url);
+                console.log('Response status:', resp.status);
+                
+                if (!resp.ok) {
+                    throw new Error(`HTTP error! status: ${resp.status}`);
+                }
+                
+                const data = await resp.json();
+                console.log(`Received rating for ${src.title}:`, JSON.stringify(data, null, 2));
+                
+                // Ensure we have valid rating data
+                const avg = data && typeof data.avg === 'number' ? parseFloat(data.avg) : 0;
+                const total = data && typeof data.total === 'number' ? parseInt(data.total) : 0;
+                
+                console.log(`Parsed rating for ${src.title}:`, { avg, total });
+                
+                // Ensure the rating object is set correctly
+                src.rating = { avg, total };
+                console.log(`Set rating for ${src.title}:`, JSON.stringify(src.rating, null, 2));
+                
+                // Return the updated source for debugging
+                return { title: src.title, rating: src.rating };
+            } catch (e) {
+                console.error(`Error fetching rating for ${src.title}:`, e);
+                src.rating = { avg: 0, total: 0 };
+                console.log(`Set default rating for ${src.title} due to error`);
+                return { title: src.title, rating: { avg: 0, total: 0 }, error: e.message };
+            }
+        }));
         
-        // Display sources immediately without waiting for Firebase
-        displaySources(sources);
-        updateFilterCounts();
+        console.log('All ratings loaded, sources:', sources.map(s => ({
+            title: s.title,
+            rating: s.rating
+        })));
         
-        // Try to fetch stats for all sources from Firebase, but don't block rendering
-        loadSourceStats().catch(() => {
-            console.log('Firebase stats loading failed, continuing with local data only');
-        });
+        // Initialize the sort after all ratings are loaded
+        initializeSorting();
+        
+        // Display sources with the current sort applied
+        displaySources();
+        
+        // Load stats from Firebase
+        loadSourceStats();
+        
     } catch (error) {
-        // Handle error silently
+        console.error('Error loading sources:', error);
+        
+        // Show error message
+        const container = document.getElementById('sources-container');
+        if (container) {
+            container.innerHTML = `
+                <div class="col-span-full text-center py-10 px-4">
+                    <div class="text-red-400 text-4xl mb-4">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Error Loading Sources</h3>
+                    <p class="text-white/70 mb-4">${error.message}</p>
+                    <button onclick="location.reload()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors">
+                        <i class="fas fa-sync-alt mr-2"></i> Try Again
+                    </button>
+                </div>
+            `;
+        }
+    } finally {
+        // Hide preloader after a minimum display time
+        setTimeout(() => {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    
+                    // Force a re-render after preloader hides
+                    displaySources();
+                }, 300);
+            }
+        }, 500);
     }
 }
 
@@ -595,9 +683,19 @@ async function loadSourceStats() {
                 });
                 
                 // Update the UI with cached data
-                sources.forEach(source => {
-                    updateSourceStats(source.url, source.stats);
-                });
+                await Promise.all(sources.map(async (src) => {
+                    try {
+                        // Use production API endpoint for ratings
+                        const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?source=${encodeURIComponent(src.title)}&page=1`);
+                        const data = await resp.json();
+                        ratingsMap[src.title] = {
+                            avg: typeof data.avg === 'number' ? data.avg : null,
+                            total: typeof data.total === 'number' ? data.total : 0
+                        };
+                    } catch (e) {
+                        ratingsMap[src.title] = { avg: null, total: 0 };
+                    }
+                }));
                 
                 console.log('Using cached stats from localStorage');
                 return true;
@@ -745,7 +843,7 @@ function showAgeVerification(callback) {
                     );
                     opacity: 0.03;
                 "></div>
-                
+
                 <!-- Animated gradient -->
                 <div class="absolute inset-0 animate-gradient-shift" style="
                     background: linear-gradient(45deg, 
@@ -755,11 +853,11 @@ function showAgeVerification(callback) {
                         rgba(255,0,0,0.1) 100%
                     );
                 "></div>
-                
+
                 <!-- Pulsing border -->
                 <div class="absolute inset-0 border border-red-500/20 rounded-xl animate-pulse-border"></div>
             </div>
-            
+
             <!-- Content -->
             <div class="relative p-4 sm:p-6">
                 <div class="flex items-start gap-3 sm:gap-4">
@@ -825,6 +923,7 @@ function showAgeVerification(callback) {
     });
 }
 
+import { showRatingModal } from './rating-modal.js';
 // Add source translations
 const sourceTranslations = {
     en: {
@@ -906,6 +1005,8 @@ const sourceTranslations = {
 };
 
 function createSourceCard(source) {
+    // Accepts source.rating: { avg, total }
+
     const currentLang = i18n.getCurrentLocale();
     const translations = i18n.translations[currentLang]?.sources || {};
     const translation = translations[source.title] || {
@@ -931,27 +1032,34 @@ function createSourceCard(source) {
             'trusted': {
                 color: 'emerald',
                 icon: 'shield',
-                key: 'trusted'
+                key: 'trusted',
+                customClass: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/30 '
             },
             'safe-for-use': {
-                color: 'teal',
+                color: 'blue',
                 icon: 'check-circle',
-                key: 'safeForUse'
+                key: 'safeForUse',
+                text: 'Safe for Use',
+                customClass: 'bg-blue-500/10 border-blue-500/20 text-blue-400 hover:bg-blue-500/20 hover:border-blue-500/30'
             },
             'use-at-your-own-risk': {
                 color: 'red',
                 icon: 'exclamation-triangle',
-                key: 'useAtOwnRisk'
+                key: 'useAtOwnRisk',
+                customClass: 'bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/30 '
             },
             'works-in-russia': {
-                color: 'indigo',
-                icon: 'globe',
-                key: 'worksInRussia'
+                color: 'teal',
+                icon: 'globe-europe',
+                key: 'worksInRussia',
+                text: 'Works in Russia',
+                customClass: 'bg-teal-500/10 border-teal-500/20 text-teal-400 hover:bg-teal-500/20 hover:border-teal-500/30 '
             },
             'nsfw': {
-                color: 'pink',
+                color: 'purple',
                 icon: 'exclamation-circle',
-                text: 'NSFW'  // Direct text instead of translation key
+                text: 'NSFW',  // Direct text instead of translation key
+                customClass: 'bg-purple-500/10 border-purple-500/20 text-purple-400 hover:bg-purple-500/20 hover:border-purple-500/30 '
             }
         }[className] || {
             color: 'gray',
@@ -959,10 +1067,12 @@ function createSourceCard(source) {
             key: className
         };
 
+        // Use custom class if provided, otherwise use default styling
+        const baseClasses = `inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs backdrop-blur-sm status-badge ${statusMap.customClass || ''}`;
+        const defaultClasses = `bg-${statusMap.color}-500/10 border border-${statusMap.color}-500/20 text-${statusMap.color}-400`;
+        
         return `
-            <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md 
-                         bg-${statusMap.color}-500/10 border border-${statusMap.color}-500/20 
-                         text-${statusMap.color}-400 text-xs backdrop-blur-sm status-badge">
+            <span class="${statusMap.customClass ? baseClasses : `${baseClasses} ${defaultClasses}`}">
                 <i class="fas fa-${statusMap.icon} text-[10px]"></i>
                 ${statusMap.text || i18n.t(`status.${statusMap.key}`)}
             </span>
@@ -1017,16 +1127,35 @@ function createSourceCard(source) {
                             ${translation.description}
                         </p>
                     </div>
+                    
                 </div>
 
                 <!-- Stats and date (fixed at bottom) -->
-                <div class="mt-2 pt-4 border-t border-white/5">
-                    <div class="flex items-center justify-between text-white/40 text-xs">
-                        <span class="flex items-center gap-1.5 mr-2">
-                            <i class="fas fa-calendar-alt text-[10px]"></i>
-                            ${i18n.t('common.added')} ${formatDate(source.addedDate)}
+                <div class="mt-2 pt-2 text-white/40 relative">
+                    
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="hidden lg:flex items-center gap-1.5 text-white/40 text-[10px] sm:text-xs">
+                            <i class="fas fa-calendar-alt text-[10px] hidden sm:inline"></i>
+                            <span class="whitespace-nowrap">${formatDate(source.addedDate)}</span>
                         </span>
-                        <div class="source-stats flex items-center gap-3">
+                    
+                        <!-- Rating display area - absolutely positioned on the right -->
+                    <div class="right-0 flex items-center gap-1 px-2 py-0.5 bg-[#111] rounded-full border border-white/10 cursor-pointer group/rating transition-all duration-300 transform hover:scale-105 hover:bg-[#1a1a1a] hover:shadow-lg hover:shadow-amber-500/10 hover:border-amber-400/30" 
+                         style="user-select:none; min-width: 80px;" 
+                         title="View & rate this source">
+                        <div class="relative inline-flex items-center" data-rating-stars-container>
+                            <span class="text-gray-500/50 text-sm" data-rating-stars-bg>★★★★★</span>
+                            <span class="absolute left-0 top-0 overflow-hidden text-amber-400 text-sm transition-all duration-500" 
+                                  data-rating-stars-active style="width: 0%;">★★★★★</span>
+                        </div>
+                        <span class="text-white/70 text-xs font-medium group-hover/rating:text-amber-400 transition-colors duration-300" 
+                              data-rating-avg>–</span>
+                        <span class="text-white/40 text-[10px] group-hover/rating:text-white/60 transition-colors duration-300" 
+                              data-rating-total></span>
+                    
+                    </div>
+                        <div class="source-stats flex items-center gap-3 text-xs">
                             <span class="flex items-center gap-1.5 ${recentActivity > 0 ? 'text-red-400' : ''}
                                        transition-colors duration-300">
                                 <i class="fas fa-fire text-[10px]"></i>
@@ -1070,6 +1199,17 @@ function createSourceCard(source) {
             </div>
         </div>
     `;
+
+    // Add event listeners for rating area
+    const ratingArea = card.querySelector('[data-rating-stars-container]')?.parentElement;
+    if (ratingArea) {
+        ratingArea.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showRatingModal(source);
+        });
+        // Initialize the rating display
+        updateCardRatingDisplay(card, source.rating);
+    }
 
     // Add event listeners for install and copy buttons
     const installBtn = card.querySelector('.install-btn');
@@ -1219,37 +1359,107 @@ window.addEventListener('resize', () => {
 
 // Add this function to sort sources
 function sortSources(sourcesToSort, sortType) {
+    console.log(`Sorting sources by: ${sortType}`);
+    
     return [...sourcesToSort].sort((a, b) => {
-        switch(sortType) {
-            case 'hot':
-                const aActivity = a.stats?.recentActivity || 0;
-                const bActivity = b.stats?.recentActivity || 0;
-                return bActivity - aActivity;
-                
-            case 'new':
-                // Sort by addedDate in descending order (newest first)
-                return new Date(b.addedDate) - new Date(a.addedDate);
-                
-            case 'most-copies':
-                const aCopies = a.stats?.copies || 0;
-                const bCopies = b.stats?.copies || 0;
-                return bCopies - aCopies;
-                
-            case 'most-installs':
-                const aInstalls = a.stats?.installs || 0;
-                const bInstalls = b.stats?.installs || 0;
-                return bInstalls - aInstalls;
-                
-            case 'name-asc':
-                return a.title.localeCompare(b.title);
-                
-            case 'name-desc':
-                return b.title.localeCompare(a.title);
-                
-            default:
-                return 0;
+        try {
+            switch(sortType) {
+                case 'hot':
+                    const aActivity = a.stats?.recentActivity || 0;
+                    const bActivity = b.stats?.recentActivity || 0;
+                    return bActivity - aActivity;
+                    
+                case 'new':
+                    // Sort by addedDate in descending order (newest first)
+                    return new Date(b.addedDate || 0) - new Date(a.addedDate || 0);
+                    
+                case 'most-copies':
+                    const aCopies = a.stats?.copies || 0;
+                    const bCopies = b.stats?.copies || 0;
+                    return bCopies - aCopies;
+                    
+                case 'most-installs':
+                    const aInstalls = a.stats?.installs || 0;
+                    const bInstalls = b.stats?.installs || 0;
+                    return bInstalls - aInstalls;
+                    
+                case 'top-rated':
+                    // Debug log for rating data
+                    console.log(`Comparing ratings: ${a.title} (${a.rating?.avg || 0}) vs ${b.title} (${b.rating?.avg || 0})`);
+                    console.log(`Full rating data for ${a.title}:`, a.rating);
+                    console.log(`Full rating data for ${b.title}:`, b.rating);
+                    
+                    const aRating = a.rating?.avg || 0;
+                    const bRating = b.rating?.avg || 0;
+                    
+                    // If ratings are equal, sort by number of ratings (more ratings first)
+                    if (aRating === bRating) {
+                        const aCount = a.rating?.total || 0;
+                        const bCount = b.rating?.total || 0;
+                        console.log(`Ratings equal (${aRating}), comparing counts: ${aCount} vs ${bCount}`);
+                        return bCount - aCount;
+                    }
+                    
+                    console.log(`Sorting by rating: ${bRating} - ${aRating} = ${bRating - aRating}`);
+                    return bRating - aRating;
+                    
+                case 'name-asc':
+                    return (a.title || '').localeCompare(b.title || '');
+                    
+                case 'name-desc':
+                    return (b.title || '').localeCompare(a.title || '');
+                    
+                default:
+                    return 0;
+            }
+        } catch (error) {
+            console.error('Error in sort function:', error);
+            console.error('Sort type:', sortType);
+            console.error('Source A:', a);
+            console.error('Source B:', b);
+            return 0;
         }
     });
+}
+
+// Function to update the active sort UI state
+function updateActiveSortUI(sortType) {
+    try {
+        console.log('Updating active sort UI for:', sortType);
+        
+        // Update mobile sort button text
+        const mobileSortButton = document.querySelector('.mobile-sort-button span');
+        if (mobileSortButton) {
+            const sortText = document.querySelector(`.sort-option[data-sort="${sortType}"]`)?.textContent || 'Sort';
+            mobileSortButton.textContent = sortText;
+        }
+        
+        // Update active state for sort options
+        document.querySelectorAll('.sort-option').forEach(option => {
+            const isActive = option.getAttribute('data-sort') === sortType;
+            option.classList.toggle('bg-white/10', isActive);
+            option.classList.toggle('text-white', isActive);
+            option.classList.toggle('text-white/70', !isActive);
+            
+            // Update checkmark visibility
+            const checkIcon = option.querySelector('i.fa-check');
+            if (checkIcon) {
+                checkIcon.style.opacity = isActive ? '1' : '0';
+            }
+        });
+        
+        // Close mobile sort dropdown if open
+        const sortDropdown = document.getElementById('sort-dropdown');
+        if (sortDropdown && !sortDropdown.classList.contains('hidden')) {
+            sortDropdown.classList.add('hidden');
+        }
+        
+        // Save the current sort preference
+        localStorage.setItem('currentSort', sortType);
+        
+    } catch (error) {
+        console.error('Error updating sort UI:', error);
+    }
 }
 
 // Update the displaySources function
@@ -1259,38 +1469,83 @@ function displaySources(sourcesToDisplay = null) {
     
     container.innerHTML = '';
     
-    // Get filtered sources if not provided
-    let filteredSources = sourcesToDisplay || filterSources();
-    
-    // Apply current sort if any
-    const currentSortType = localStorage.getItem('currentSort');
-    if (currentSortType) {
-        filteredSources = sortSources(filteredSources, currentSortType);
+    try {
+        // Get filtered sources if not provided
+        let filteredSources = sourcesToDisplay || filterSources();
+        
+        console.log(`Displaying ${filteredSources.length} filtered sources`);
+        
+        // Apply current sort if any
+        const currentSortType = localStorage.getItem('currentSort') || 'hot'; // Default to 'hot' if not set
+        console.log('Current sort type:', currentSortType);
+        
+        if (currentSortType) {
+            // Debug log to check rating data before sorting
+            console.log('Before sorting - first few sources:', filteredSources.slice(0, 3).map(s => ({
+                title: s.title,
+                rating: s.rating,
+                hasRating: !!(s.rating?.avg || s.rating?.total)
+            })));
+            
+            try {
+                filteredSources = sortSources(filteredSources, currentSortType);
+                
+                // Debug log to check sorting results
+                console.log('After sorting - first few sources:', filteredSources.slice(0, 3).map(s => ({
+                    title: s.title,
+                    rating: s.rating,
+                    sortKey: currentSortType === 'top-rated' ? 
+                        `${s.rating?.avg || 0} (${s.rating?.total || 0} ratings)` : 
+                        (s[currentSortType] || 'N/A')
+                })));
+                
+                // Update the active sort UI
+                updateActiveSortUI(currentSortType);
+                
+            } catch (sortError) {
+                console.error('Error during sorting:', sortError);
+                // Fall back to default sort if there's an error
+                filteredSources = sortSources(filteredSources, 'hot');
+            }
+        }
+        
+        // Update current layout
+        currentLayout = getLayoutType();
+        
+        const cardsPerPage = getCardsPerPage();
+        const totalPages = Math.ceil(filteredSources.length / cardsPerPage);
+        currentPage = Math.min(Math.max(1, currentPage), totalPages);
+        
+        const start = (currentPage - 1) * cardsPerPage;
+        const end = Math.min(start + cardsPerPage, filteredSources.length);
+        const sourcesForCurrentPage = filteredSources.slice(start, end);
+        
+        sourcesForCurrentPage.forEach(source => {
+            const card = createSourceCard(source);
+            container.appendChild(card);
+        });
+        
+        updatePagination(totalPages);
+        
+        // Update translations for newly added content
+        i18n.updatePageContent();
+        
+    } catch (error) {
+        console.error('Error in displaySources:', error);
+        // Show error message to user
+        container.innerHTML = `
+            <div class="col-span-full text-center py-10 px-4">
+                <div class="text-red-400 text-4xl mb-4">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">Error Loading Content</h3>
+                <p class="text-white/70 mb-4">${error.message || 'An unknown error occurred'}</p>
+                <button onclick="location.reload()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors">
+                    <i class="fas fa-sync-alt mr-2"></i> Try Again
+                </button>
+            </div>
+        `;
     }
-    
-    // Debug log to check stats
-    console.log('Displaying sources with stats:', filteredSources);
-    
-    // Update current layout
-    currentLayout = getLayoutType();
-    
-    const cardsPerPage = getCardsPerPage();
-    const totalPages = Math.ceil(filteredSources.length / cardsPerPage);
-    currentPage = Math.min(Math.max(1, currentPage), totalPages);
-    
-    const start = (currentPage - 1) * cardsPerPage;
-    const end = Math.min(start + cardsPerPage, filteredSources.length);
-    const sourcesForCurrentPage = filteredSources.slice(start, end);
-    
-    sourcesForCurrentPage.forEach(source => {
-        const card = createSourceCard(source);
-        container.appendChild(card);
-    });
-    
-    updatePagination(totalPages);
-    
-    // Update translations for newly added content
-    i18n.updatePageContent();
 }
 
 function getCardsPerPage() {
@@ -1603,7 +1858,7 @@ function formatDate(dateString) {
         return t('common.date.daysAgo', { days: diffDays });
     } else {
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return `${t('common.date.on')} ${date.toLocaleDateString(i18n.getCurrentLocale(), options)}`;
+        return date.toLocaleDateString(i18n.getCurrentLocale(), options);
     }
 }
 
@@ -2085,6 +2340,93 @@ function startActivityCleanup() {
 }
 
 // Also update the displaySources function to refresh cards when language changes
+// Function to update rating display on a source card
+async function updateSourceCardRating(sourceTitle) {
+    try {
+        // Fetch the latest rating data from the server
+        const response = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?source=${encodeURIComponent(sourceTitle)}`);
+        if (!response.ok) throw new Error('Failed to fetch rating data');
+        
+        const data = await response.json();
+        const ratingData = {
+            avg: parseFloat(data.avg || 0),
+            total: parseInt(data.total || 0)
+        };
+        
+        // Also update the source object in the sources array
+        const source = sources.find(s => s.title === sourceTitle);
+        if (source) {
+            source.rating = ratingData;
+        }
+        
+        // Find all source cards that match the source title and update them
+        const cards = document.querySelectorAll('.source-card');
+        cards.forEach(card => {
+            if (card.dataset.name === sourceTitle) {
+                updateCardRatingDisplay(card, ratingData);
+            }
+        });
+        
+        return true;
+    } catch (error) {
+        console.error('Error updating source card rating:', error);
+        return false;
+    }
+}
+
+// Helper function to update the rating display on a single card
+function updateCardRatingDisplay(card, ratingData) {
+    console.log('Updating card rating display for:', card.dataset.name, 'with data:', JSON.stringify(ratingData, null, 2));
+    
+    const starsActive = card.querySelector('[data-rating-stars-active]');
+    const avgEl = card.querySelector('[data-rating-avg]');
+    const totalEl = card.querySelector('[data-rating-total]');
+    const commentEl = card.querySelector('[data-rating-comment]');
+    
+    console.log('Found elements:', { 
+        starsActive: !!starsActive, 
+        avgEl: !!avgEl, 
+        totalEl: !!totalEl, 
+        commentEl: !!commentEl 
+    });
+    
+    if (starsActive && avgEl && totalEl) {
+        if (ratingData && (typeof ratingData.avg === 'number' || ratingData.avg === 0)) {
+            const starPercentage = (ratingData.avg / 5) * 100;
+            const roundedPercentage = Math.round(starPercentage / 10) * 10;
+            
+            console.log(`Setting rating: avg=${ratingData.avg}, total=${ratingData.total}, starPercentage=${starPercentage}%, rounded=${roundedPercentage}%`);
+            
+            starsActive.style.width = `${roundedPercentage}%`;
+            avgEl.textContent = ratingData.avg > 0 ? ratingData.avg.toFixed(1) : '–';
+            totalEl.textContent = ratingData.total > 0 ? `(${ratingData.total})` : '';
+            
+            if (commentEl) {
+                commentEl.style.display = ratingData.total > 0 ? 'inline-block' : 'none';
+                console.log(`Comment icon display set to: ${commentEl.style.display}`);
+            }
+        } else {
+            // Default state when no ratings exist
+            console.log('No valid rating data, setting default state');
+            starsActive.style.width = '0%';
+            avgEl.textContent = '–';
+            totalEl.textContent = '';
+            if (commentEl) {
+                commentEl.style.display = 'none';
+            }
+        }
+    } else {
+        console.error('Missing required rating elements on card:', { 
+            starsActive: !!starsActive, 
+            avgEl: !!avgEl, 
+            totalEl: !!totalEl 
+        });
+    }
+}
+
+// Make the rating update function available globally
+window.updateSourceCardRating = updateSourceCardRating;
+
 document.addEventListener('languageChanged', () => {
     displaySources(); // This will recreate all cards with the new language
 });
