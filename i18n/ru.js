@@ -5,6 +5,7 @@ export default {
         searchMobile: 'Поиск',
         about: 'О проекте',
         suggest: 'Предложить источник',
+        supportMe: 'Поддержать',
         donate: 'Поддержать'
     },
     filters: {

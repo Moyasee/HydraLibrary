@@ -5,6 +5,7 @@ export default {
         searchMobile: 'Pesquisar',
         about: 'Sobre',
         suggest: 'Sugerir Fonte',
+        supportMe: 'Apoie-me',
         donate: 'Apoio'
     },
     filters: {
