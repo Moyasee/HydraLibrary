@@ -269,6 +269,9 @@ export function showRatingModal(source) {
                 </div>
               </div>
               
+              <!-- reCAPTCHA Widget -->
+              <div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LfzGlYrAAAAAJpX_kgLFmRcX_As-5i8_Tf4IoTo" data-callback="onRecaptchaSuccess" data-expired-callback="onRecaptchaExpired" data-error-callback="onRecaptchaError"></div>
+              
               <div class="flex items-center justify-between pt-1">
                 <div class="text-xs text-white/60 flex items-center">
                   <i class="fas fa-shield-alt text-emerald-400/70 mr-1.5 text-xs"></i>
@@ -292,8 +295,73 @@ export function showRatingModal(source) {
       </div>
     </div>
   `;
+  // Add modal to DOM
   document.body.appendChild(modal);
   document.body.style.overflow = 'hidden';
+  
+  // ReCAPTCHA callbacks
+  window.onRecaptchaSuccess = function() {
+    const submitBtn = document.querySelector('#submit-rating-form button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = false;
+  };
+  
+  window.onRecaptchaExpired = function() {
+    const submitBtn = document.querySelector('#submit-rating-form button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+  };
+  
+  window.onRecaptchaError = function() {
+    const submitBtn = document.querySelector('#submit-rating-form button[type="submit"]');
+    const errorElement = document.getElementById('rating-form-error');
+    if (submitBtn) submitBtn.disabled = true;
+    if (errorElement) {
+      errorElement.textContent = 'reCAPTCHA verification failed. Please try again.';
+      errorElement.classList.remove('hidden');
+    }
+  };
+  
+  // Initialize reCAPTCHA after the modal is in the DOM
+  const loadRecaptcha = () => {
+    if (typeof grecaptcha === 'undefined') {
+      // If grecaptcha is not loaded yet, try again shortly
+      setTimeout(loadRecaptcha, 100);
+      return;
+    }
+    
+    // Add a style for the reCAPTCHA container
+    const style = document.createElement('style');
+    style.textContent = `
+      .g-recaptcha {
+        transform-origin: 0 0;
+        margin: 10px 0;
+        max-width: 100%;
+      }
+      .g-recaptcha > div > div {
+        width: 100% !important;
+        height: auto !important;
+      }
+      .g-recaptcha iframe {
+        max-width: 100% !important;
+        transform: scale(0.85);
+        transform-origin: 0 0;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Explicitly render the reCAPTCHA widget with compact size
+    grecaptcha.render('g-recaptcha', {
+      'sitekey': '6LfzGlYrAAAAAJpX_kgLFmRcX_As-5i8_Tf4IoTo',
+      'callback': window.onRecaptchaSuccess,
+      'expired-callback': window.onRecaptchaExpired,
+      'error-callback': window.onRecaptchaError,
+      'theme': 'dark',
+    });
+    
+    console.log('reCAPTCHA initialized with compact size');
+  };
+  
+  // Start loading reCAPTCHA
+  loadRecaptcha();
 
   // Close modal logic
   modal.querySelector('.close-rating-modal').onclick = removeModal;
@@ -809,12 +877,24 @@ export function showRatingModal(source) {
   // Form submission
   const form = modal.querySelector('#submit-rating-form');
   const errorDiv = modal.querySelector('#rating-form-error');
+  const submitBtn = form.querySelector('button[type="submit"]');
+  
+  // Disable submit button by default until reCAPTCHA is verified
+  submitBtn.disabled = true;
+  
   form.onsubmit = async e => {
     e.preventDefault();
     
     // Reset error state
     errorDiv.textContent = '';
     errorDiv.className = 'text-sm text-rose-400 mt-2';
+    
+    // Verify reCAPTCHA
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (!recaptchaResponse) {
+      errorDiv.textContent = 'Please complete the reCAPTCHA verification.';
+      return;
+    }
     
     // Get form data with null checks
     const fd = new FormData(form);
@@ -851,10 +931,9 @@ export function showRatingModal(source) {
     }
     
     // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
     const originalBtnText = submitBtn.innerHTML;
     submitBtn.disabled = true;
-    submitBtn.innerHTML = 'Submitting...';
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
     
     try {
       const res = await fetch(RATING_API_URL, {
@@ -865,9 +944,13 @@ export function showRatingModal(source) {
           nickname,
           rating: Number(rating),
           message,
-          ipHash
+          ipHash,
+          recaptchaResponse: grecaptcha.getResponse()
         })
       });
+      
+      // Reset reCAPTCHA after successful submission
+      grecaptcha.reset();
       
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
@@ -878,6 +961,9 @@ export function showRatingModal(source) {
       form.reset();
       errorDiv.className = 'text-sm text-emerald-400 mt-2';
       errorDiv.textContent = 'Thank you! Your review has been submitted for moderation.';
+      
+      // Disable submit button again after successful submission
+      submitBtn.disabled = true;
       
       // Store submission in localStorage to prevent duplicates
       localStorage.setItem(key, '1');
@@ -896,13 +982,14 @@ export function showRatingModal(source) {
         loadComments(1); // Always go to first page to see the new comment
       }, 1000);
       
-    } catch (error) {
-      console.error('Submission error:', error);
-      errorDiv.textContent = error.message || 'Failed to submit. Please try again.';
-      return;
-    } finally {
+    } catch (err) {
+      console.error('Error submitting review:', err);
+      errorDiv.textContent = err.message || 'Failed to submit. Please try again.';
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalBtnText;
+      
+      // Reset reCAPTCHA on error
+      grecaptcha.reset();
     }
   };
 }
