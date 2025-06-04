@@ -507,46 +507,46 @@ async function fetchSources() {
         const data = await response.json();
         sources = data.sources;
 
-        // PRE-FETCH RATINGS FOR ALL SOURCES USING BATCH ENDPOINT
-        console.log('Fetching ratings for all sources using batch endpoint...');
+        // // PRE-FETCH RATINGS FOR ALL SOURCES USING BATCH ENDPOINT
+        // console.log('Fetching ratings for all sources using batch endpoint...');
         
-        try {
-            // Extract all source titles
-            const sourceTitles = sources.map(src => src.title);
-            console.log(`Fetching ratings for ${sourceTitles.length} sources`);
+        // try {
+        //     // Extract all source titles
+        //     const sourceTitles = sources.map(src => src.title);
+        //     console.log(`Fetching ratings for ${sourceTitles.length} sources`);
             
-            // Make a single batch request
-            const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles.map(encodeURIComponent).join(',')}`;
-            console.log('Batch API URL:', batchUrl);
+        //     // Make a single batch request
+        //     const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles.map(encodeURIComponent).join(',')}`;
+        //     console.log('Batch API URL:', batchUrl);
             
-            const resp = await fetch(batchUrl);
-            console.log('Batch response status:', resp.status);
+        //     const resp = await fetch(batchUrl);
+        //     console.log('Batch response status:', resp.status);
             
-            if (!resp.ok) {
-                throw new Error(`HTTP error! status: ${resp.status}`);
-            }
+        //     if (!resp.ok) {
+        //         throw new Error(`HTTP error! status: ${resp.status}`);
+        //     }
             
-            const ratingsData = await resp.json();
-            console.log('Received batch ratings data:', JSON.stringify(ratingsData, null, 2));
+        //     const ratingsData = await resp.json();
+        //     console.log('Received batch ratings data:', JSON.stringify(ratingsData, null, 2));
             
-            // Update each source with its rating
-            sources.forEach(src => {
-                const rating = ratingsData[src.title] || { avg: 0, total: 0 };
-                src.rating = {
-                    avg: parseFloat(rating.avg) || 0,
-                    total: parseInt(rating.total) || 0
-                };
-                console.log(`Set rating for ${src.title}:`, JSON.stringify(src.rating, null, 2));
-            });
+        //     // Update each source with its rating
+        //     sources.forEach(src => {
+        //         const rating = ratingsData[src.title] || { avg: 0, total: 0 };
+        //         src.rating = {
+        //             avg: parseFloat(rating.avg) || 0,
+        //             total: parseInt(rating.total) || 0
+        //         };
+        //         console.log(`Set rating for ${src.title}:`, JSON.stringify(src.rating, null, 2));
+        //     });
             
-            console.log('All ratings loaded via batch endpoint');
-        } catch (e) {
-            console.error('Error in batch ratings fetch:', e);
-            // Initialize with default ratings if batch fetch fails
-            sources.forEach(src => {
-                src.rating = { avg: 0, total: 0 };
-            });
-        }
+        //     console.log('All ratings loaded via batch endpoint');
+        // } catch (e) {
+        //     console.error('Error in batch ratings fetch:', e);
+        //     // Initialize with default ratings if batch fetch fails
+        //     sources.forEach(src => {
+        //         src.rating = { avg: 0, total: 0 };
+        //     });
+        // }
         
         // Initialize the sort after all ratings are loaded
         initializeSorting();
