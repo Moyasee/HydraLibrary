@@ -2,6 +2,71 @@
 // Requires: FontAwesome, Tailwind, and i18n
 
 const RATING_API_URL = 'https://libraryratingsdb.zxcsixx.workers.dev/api/ratings'; // Update if your worker is on a custom domain
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+// Client-side cache for ratings
+const ratingsCache = {
+  data: {},
+  lastUpdated: {},
+  
+  // Get cached data if valid
+  get: function(source) {
+    const cached = this.data[source];
+    const lastUpdated = this.lastUpdated[source];
+    
+    if (cached && lastUpdated && (Date.now() - lastUpdated) < CACHE_TTL) {
+      return Promise.resolve(cached);
+    }
+    return null;
+  },
+  
+  // Set cache data
+  set: function(source, data) {
+    this.data[source] = data;
+    this.lastUpdated[source] = Date.now();
+    return data;
+  },
+  
+  // Batch get multiple sources, returns object with cached and uncached sources
+  batchGet: function(sources) {
+    const result = {
+      cached: {},
+      uncached: []
+    };
+    
+    sources.forEach(source => {
+      const cached = this.get(source);
+      if (cached) {
+        result.cached[source] = cached;
+      } else {
+        result.uncached.push(source);
+      }
+    });
+    
+    return result;
+  },
+  
+  // Batch set multiple sources
+  batchSet: function(data) {
+    Object.entries(data).forEach(([source, ratingData]) => {
+      this.set(source, ratingData);
+    });
+  }
+};
+
+// Function to fetch multiple ratings in a single request
+async function fetchBatchRatings(sources) {
+  if (!sources.length) return {};
+  
+  try {
+    const response = await fetch(`${RATING_API_URL}?batch=true&sources=${sources.join(',')}`);
+    if (!response.ok) throw new Error('Failed to fetch ratings');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching batch ratings:', error);
+    return {};
+  }
+}
 
 // Format timestamp to relative time (e.g., "2 hours ago")
 function timeAgo(timestamp) {
@@ -43,6 +108,35 @@ function hashIP(ip) {
     localStorage.setItem('hydra_rating_hash', hash);
   }
   return hash;
+}
+
+// Function to update the rating display on a card
+function updateCardRatingDisplay(card, ratingData) {
+  if (!card || !ratingData) return;
+  
+  const ratingElement = card.querySelector('.source-rating');
+  const ratingCountElement = card.querySelector('.rating-count');
+  
+  if (ratingElement) {
+    ratingElement.textContent = ratingData.average ? ratingData.average.toFixed(1) : 'N/A';
+    
+    // Update star display
+    const starContainer = ratingElement.closest('.rating-display');
+    if (starContainer) {
+      const stars = Math.round(ratingData.average || 0);
+      let starsHtml = '';
+      for (let i = 1; i <= 5; i++) {
+        starsHtml += i <= stars 
+          ? '<i class="fas fa-star text-amber-400"></i> ' 
+          : '<i class="far fa-star text-amber-400/30"></i> ';
+      }
+      starContainer.innerHTML = starsHtml;
+    }
+  }
+  
+  if (ratingCountElement) {
+    ratingCountElement.textContent = ratingData.count ? `(${ratingData.count})` : '';
+  }
 }
 
 export function showRatingModal(source) {
@@ -248,25 +342,30 @@ export function showRatingModal(source) {
     });
   }
 
-  // Add click handler for translate buttons
-  modal.addEventListener('click', async (e) => {
+  // Function to handle comment translation
+  async function handleTranslateClick(e) {
+    // Find the closest translate button from the click target
     const translateBtn = e.target.closest('.translate-comment');
     if (!translateBtn || translateBtn.disabled) return;
     
     e.preventDefault();
-    const commentContainer = translateBtn.closest('div[class*="group relative"]');
+    e.stopPropagation();
+    
+    // Find the comment container and text element
+    const commentContainer = translateBtn.closest('.border-b');
     const commentElement = commentContainer ? commentContainer.querySelector('.comment-text p') : null;
     if (!commentElement) {
       console.error('Could not find comment text element');
       return;
     }
+    
     // Get the original text from data attribute or current content
     let originalText = translateBtn.getAttribute('data-original');
     
+    // If already translated, toggle back to original
     if (translateBtn.classList.contains('active')) {
-      // Show original text
       if (originalText) {
-        commentElement.textContent = `"${originalText}"`;
+        commentElement.textContent = originalText;
         translateBtn.innerHTML = '<i class="fas fa-language text-xs"></i><span class="hidden sm:inline">Translate</span>';
         translateBtn.classList.remove('active');
         translateBtn.title = 'Translate this review';
@@ -276,7 +375,7 @@ export function showRatingModal(source) {
     }
     
     // Store the original text before translation
-    originalText = commentElement.textContent.trim().replace(/^"/, '').replace(/"$/, '');
+    originalText = commentElement.textContent.trim();
     translateBtn.setAttribute('data-original', originalText);
     
     // Show loading state
@@ -288,20 +387,27 @@ export function showRatingModal(source) {
     try {
       // Use RapidAPI Google Translate
       const translatedText = await translateText(originalText, 'en');
-      commentElement.textContent = `"${translatedText}"`;
+      commentElement.textContent = translatedText;
       
       // Update button state
       translateBtn.innerHTML = '<i class="fas fa-undo text-xs"></i><span class="hidden sm:inline">Original</span>';
       translateBtn.classList.add('active');
       translateBtn.title = 'Show original text';
-      translateBtn.disabled = false;
     } catch (error) {
       console.error('Translation failed:', error);
-      commentElement.textContent = `"${originalText}"`;
-      translateBtn.innerHTML = originalButtonHTML;
+      commentElement.textContent = originalText;
+      translateBtn.innerHTML = '<i class="fas fa-exclamation-triangle text-xs"></i><span class="hidden sm:inline">Error</span>';
       translateBtn.title = 'Error translating. Click to try again.';
+    } finally {
+      translateBtn.disabled = false;
     }
-  });
+  }
+  
+  // Add delegated event listener to the comments container
+  const commentsContainer = modal.querySelector('#rating-comments-list');
+  if (commentsContainer) {
+    commentsContainer.addEventListener('click', handleTranslateClick);
+  }
 
   // Initialize character counter
   const textarea = modal.querySelector('textarea[name="comment"]');
@@ -410,249 +516,268 @@ export function showRatingModal(source) {
     await fetchComments();
   }
   
+  // Process and display comments data
+  function processCommentsData(data, page = 1) {
+    const list = modal.querySelector('#rating-comments-list');
+    if (!list) return;
+    
+    // Clear loading state
+    list.innerHTML = '';
+    
+    // Update the source rating display
+    if (data.avg !== undefined) {
+      const avgRating = parseFloat(data.avg).toFixed(1);
+      const totalRatings = parseInt(data.total) || 0;
+      
+      // Update the rating display in the modal header
+      const ratingStars = modal.querySelector('#rating-modal-stars');
+      const ratingAvg = modal.querySelector('#rating-modal-avg');
+      const ratingTotal = modal.querySelector('#rating-modal-total');
+      
+      if (ratingStars) {
+        ratingStars.innerHTML = '';
+        const fullStars = Math.round(parseFloat(data.avg));
+        ratingStars.innerHTML = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+      }
+      
+      if (ratingAvg) {
+        ratingAvg.textContent = `${avgRating} out of 5`;
+      }
+      
+      if (ratingTotal) {
+        ratingTotal.textContent = `${totalRatings} ${totalRatings === 1 ? 'review' : 'reviews'}`;
+      }
+    }
+    
+    if (!data.comments || data.comments.length === 0) {
+      list.innerHTML = `
+        <div class="text-center py-6 text-gray-400">
+          No reviews yet. Be the first to leave a review!
+        </div>
+      `;
+      return;
+    }
+    
+    // Save the data to cache
+    saveToCache(data);
+    
+    // Update pagination info if available
+    if (data.pagination) {
+      totalReviews = data.pagination.total || 0;
+      updatePagination();
+    }
+    
+    // Render comments
+    data.comments.forEach(comment => {
+      if (!comment) return;
+      
+      const commentEl = document.createElement('div');
+      commentEl.className = 'border-b border-gray-700 py-4';
+      
+      // Format the timestamp
+      const timestamp = comment.timestamp ? new Date(comment.timestamp).getTime() : Date.now();
+      
+      commentEl.innerHTML = `
+        <div class="flex items-start justify-between mb-2">
+          <div class="flex items-center">
+            <div class="text-yellow-400 text-sm">
+              ${'★'.repeat(Math.round(comment.rating || 0))}${'☆'.repeat(5 - Math.round(comment.rating || 0))}
+            </div>
+            <span class="ml-2 text-sm text-gray-400">${(comment.rating || 0).toFixed(1)}</span>
+          </div>
+          <span class="text-xs text-gray-500">${timeAgo(timestamp)}</span>
+        </div>
+        <div class="text-sm text-gray-300 mb-2 comment-text">
+          <p>${sanitizeHTML(comment.message || comment.comment || '')}</p>
+        </div>
+        <div class="flex justify-between items-center text-xs text-gray-500">
+          <span>${comment.nickname || 'Anonymous'}</span>
+          <button class="translate-comment text-emerald-400 hover:text-emerald-300 text-xs flex items-center gap-1" 
+                  title="Translate to English">
+            <i class="fas fa-language text-xs"></i>
+            <span class="hidden sm:inline">Translate</span>
+          </button>
+        </div>
+      `;
+      list.appendChild(commentEl);
+    });
+  }
+  
+  // Update pagination UI
+  function updatePagination() {
+    const pagination = modal.querySelector('.pagination');
+    if (!pagination) return;
+    
+    const totalPages = Math.ceil(totalReviews / 10); // Assuming 10 comments per page
+    
+    let paginationHTML = `
+      <div class="flex justify-between items-center text-sm">
+        <button 
+          class="px-3 py-1 rounded ${currentPage <= 1 ? 'text-gray-500 cursor-not-allowed' : 'text-emerald-400 hover:bg-gray-700'}"
+          ${currentPage <= 1 ? 'disabled' : ''}
+          onclick="document.querySelector('.rating-modal')._vm.loadPage(${currentPage - 1})"
+        >
+          Previous
+        </button>
+        <div class="text-gray-400">
+          Page ${currentPage} of ${totalPages}
+        </div>
+        <button 
+          class="px-3 py-1 rounded ${currentPage >= totalPages ? 'text-gray-500 cursor-not-allowed' : 'text-emerald-400 hover:bg-gray-700'}"
+          ${currentPage >= totalPages ? 'disabled' : ''}
+          onclick="document.querySelector('.rating-modal')._vm.loadPage(${currentPage + 1})"
+        >
+          Next
+        </button>
+      </div>
+    `;
+    
+    pagination.innerHTML = paginationHTML;
+  }
+  
+  // Load a specific page of comments
+  window.loadPage = (page) => {
+    if (!currentCommentsData) return;
+    const totalPages = Math.ceil((currentCommentsData.comments?.length || 0) / COMMENTS_PER_PAGE);
+    if (page < 1 || page > totalPages) return;
+    currentPage = page;
+    updateDisplayedComments();
+  };
+  
+  // Make loadPage available on the modal for pagination
+  modal._vm = { loadPage: window.loadPage };
+  
   // Debounced version of loadComments
   const debouncedLoadComments = debounce(loadComments, 300);
   
-  // Fetch comments from API
+  // Fetch all comments at once with caching
   async function fetchComments(silent = false) {
     if (isLoading) return;
     
     isLoading = true;
-    const list = modal.querySelector('#rating-comments-list');
+    const commentsContainer = modal.querySelector('#rating-comments-list');
+    if (!silent && commentsContainer) {
+      commentsContainer.innerHTML = '<div class="text-center py-4 text-gray-400">Loading comments...</div>';
+    }
+    
+    const cacheKey = `comments_${currentSource}`; // Single cache key for all comments
+    const cacheExpiry = 5 * 60 * 1000; // 5 minutes
+    
+    // Try to get from cache first
+    const cachedData = ratingsCache.get(cacheKey);
+    if (cachedData && (Date.now() - cachedData.timestamp < cacheExpiry)) {
+      currentCommentsData = cachedData;
+      updateDisplayedComments();
+      isLoading = false;
+      return;
+    }
     
     try {
-      const url = `${RATING_API_URL}?source=${encodeURIComponent(currentSource)}`;
-      console.log('Fetching ratings from:', url);
+      // Get both rating and all comments in one go
+      const response = await fetch(`${RATING_API_URL}?source=${encodeURIComponent(currentSource)}&all=true`);
+      if (!response.ok) throw new Error(`Failed to fetch comments: ${response.statusText}`);
       
-      const res = await fetch(url, {
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
+      const data = await response.json();
+      
+      // Store the complete data
+      currentCommentsData = {
+        ...data,
+        comments: data.comments || [],
+        pagination: {
+          total: data.comments?.length || 0,
+          page: 1,
+          limit: data.comments?.length || 0,
+          totalPages: 1
         }
-      });
+      };
       
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      
-      const data = await res.json();
-      console.log('Received ratings data:', data);
-      
-      // Save to cache
-      saveToCache(data);
+      // Update cache
+      ratingsCache.set(cacheKey, { ...currentCommentsData, timestamp: Date.now() });
       lastFetchTime = Date.now();
       
-      // Process the data
-      processCommentsData(data, currentPage);
-      
-    } catch(e) {
-      console.error('Error loading comments:', e);
-      if (!silent && list) {
-        list.innerHTML = `
-          <div class="text-red-400 text-sm py-4 text-center">
-            Failed to load reviews. ${e.message}
-          </div>`;
+      // Sort and display comments
+      updateDisplayedComments();
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      // If we have stale cache, use it
+      if (cachedData) {
+        currentCommentsData = cachedData;
+        updateDisplayedComments();
+      } else if (!silent && commentsContainer) {
+        commentsContainer.innerHTML = `
+          <div class="text-red-500 text-center py-4">
+            Failed to load comments. Please try again later.
+            ${error.message ? `<div class="text-xs mt-1">${error.message}</div>` : ''}
+          </div>
+        `;
       }
     } finally {
       isLoading = false;
     }
   }
+
+  // Store the current comments data for client-side sorting and pagination
+  let currentCommentsData = null;
+  const COMMENTS_PER_PAGE = 10;
   
-  // Process comments data and update UI
-  function processCommentsData(data, page) {
-    // Store all comments and total
-    allComments = Array.isArray(data.comments) ? data.comments : [];
-    totalReviews = data.total || 0;
+  // Sort and paginate comments client-side
+  function updateDisplayedComments() {
+    if (!currentCommentsData) return;
     
-    // Render stars and average
-    const avgRating = parseFloat(data.avg) || 0;
-    renderStars(avgRating);
+    // Sort comments based on current sort option
+    let sortedComments = [...(currentCommentsData.comments || [])];
     
-    // Format to show 1-2 decimal places
-    const formattedRating = avgRating % 1 === 0 ? 
-      avgRating.toFixed(0) : 
-      avgRating.toFixed(avgRating * 10 % 1 === 0 ? 1 : 2);
-      
-    const avgElement = modal.querySelector('#rating-modal-avg');
-    const totalElement = modal.querySelector('#rating-modal-total');
-    
-    if (avgElement) {
-      avgElement.textContent = data.avg ? `${formattedRating} / 5` : 'No ratings yet';
-    }
-    if (totalElement) {
-      totalElement.textContent = data.total ? 
-        `(${data.total} ${data.total === 1 ? 'review' : 'reviews'})` : 
-        '';
-    }
-    
-    renderComments(page);
-  }
-
-  function renderComments(page = 1) {
-    const list = document.getElementById('rating-comments-list');
-    if (!list) return;
-    
-    // Ensure allComments is an array
-    const comments = Array.isArray(allComments) ? [...allComments] : [];
-    const currentSort = document.getElementById('rating-sort-select')?.value || 'recent';
-    
-    // Sort comments
-    const sortedComments = [...comments].sort((a, b) => {
-      if (currentSort === 'recent') {
-        return new Date(b.timestamp || 0) - new Date(a.timestamp || 0);
-      } else if (currentSort === 'low') {
-        return (a.rating || 0) - (b.rating || 0) || new Date(b.timestamp || 0) - new Date(a.timestamp || 0);
-      } else if (currentSort === 'high') {
-        return (b.rating || 0) - (a.rating || 0) || new Date(b.timestamp || 0) - new Date(a.timestamp || 0);
-      }
-      return 0;
-    });
-    
-    // Pagination
-    const pageSize = 10;
-    const totalPages = Math.ceil(sortedComments.length / pageSize);
-    const currentPage = Math.min(Math.max(1, page), totalPages || 1);
-    const pagedComments = sortedComments.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-    
-    // Render comments
-    list.innerHTML = pagedComments.length > 0 ? 
-      pagedComments.map(comment => `
-        <div class="group relative p-4 rounded-xl bg-gradient-to-br from-gray-900/50 to-gray-900/30 border border-white/5 hover:border-white/10 transition-all duration-300 overflow-hidden">
-          <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          
-          <div class="relative">
-            <!-- Header with user info and rating -->
-            <div class="flex items-start justify-between mb-2">
-              <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-sm font-medium">
-                  ${comment.nickname ? sanitizeHTML(comment.nickname.charAt(0).toUpperCase()) : '?'}
-                </div>
-                <div>
-                  <div class="font-medium text-white/90">${comment.nickname ? sanitizeHTML(comment.nickname) : 'Anonymous'}</div>
-                  <div class="flex items-center gap-1 mt-0.5">
-                    <div class="text-amber-400 text-xs flex">
-                      ${'★'.repeat(comment.rating || 0)}${'☆'.repeat(5 - (comment.rating || 0))}
-                    </div>
-                    <span class="text-xs text-white/40">•</span>
-                    <span class="text-xs text-white/50" title="${sanitizeHTML(new Date(comment.timestamp || Date.now()).toLocaleString())}">
-                      ${sanitizeHTML(timeAgo(comment.timestamp || Date.now()))} 
-                    </span>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="flex items-center gap-2">
-                <button 
-                  class="translate-comment text-xs text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed"
-                  data-comment="${comment.message ? encodeURIComponent(comment.message) : ''}"
-                  title="Translate this review"
-                  ${!comment.message ? 'disabled' : ''}
-                >
-                  <i class="fas fa-language text-xs"></i>
-                  <span class="hidden sm:inline">Translate</span>
-                </button>
-                <div class="w-2 h-2 rounded-full ${(comment.rating || 0) >= 3 ? 'bg-emerald-500' : 'bg-amber-500'} shadow-pulse"></div>
-                <span class="text-xs ${(comment.rating || 0) >= 3 ? 'text-emerald-400' : 'text-amber-400'}">
-                  ${(comment.rating || 0) >= 3 ? 'Positive' : 'Needs Improvement'}
-                </span>
-              </div>
-            </div>
-            
-            <!-- Comment text -->
-            <div class="comment-container">
-              <div class="pl-2 border-l-2 border-emerald-500/30 comment-text">
-                <p class="text-sm text-white/80 leading-relaxed whitespace-pre-wrap" data-original="${comment.message ? sanitizeHTML(comment.message) : ''}">
-                  "${comment.message ? sanitizeHTML(comment.message).replace(/\n/g, '<br>') : 'No comment provided'}" 
-                </p>
-              </div>
-            </div>
-            
-           
-          </div>
-        </div>
-      `).join('') : 
-      `
-      <div class="flex flex-col items-center justify-center py-12 px-4 text-center">
-        <div class="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center mb-4">
-          <i class="far fa-comment-alt text-2xl text-emerald-400/60"></i>
-        </div>
-        <h4 class="text-white/90 font-medium mb-1">No Reviews Yet</h4>
-        <p class="text-white/60 text-sm max-w-xs">Be the first to share your experience with this source!</p>
-      </div>
-      `;
-    
-    // Add pagination if needed
-    if (totalPages > 1) {
-      let pagination = '<div class="flex flex-wrap gap-2 justify-center mt-6 pt-4 border-t border-white/5">';
-      
-      // Previous button
-      if (currentPage > 1) {
-        pagination += `
-          <button class="px-3 py-1.5 text-xs rounded-md bg-black/40 text-white/70 border border-white/5 hover:bg-black/60 hover:text-white transition-colors" 
-                  data-page="${currentPage - 1}">
-            <i class="fas fa-chevron-left mr-1"></i> Previous
-          </button>`;
-      }
-      
-      // Page numbers
-      const maxVisiblePages = 5;
-      let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-      
-      if (endPage - startPage + 1 < maxVisiblePages) {
-        startPage = Math.max(1, endPage - maxVisiblePages + 1);
-      }
-      
-      for (let i = startPage; i <= endPage; i++) {
-        pagination += `
-          <button class="px-3 py-1.5 min-w-[2.25rem] text-xs rounded-md transition-all duration-200 ${
-            i === currentPage 
-              ? 'bg-emerald-500/90 text-white font-medium shadow-lg shadow-emerald-500/20' 
-              : 'bg-black/40 text-white/70 border border-white/5 hover:bg-black/60 hover:text-white'
-          }" data-page="${i}">
-            ${i}
-          </button>`;
-      }
-      
-      // Next button
-      if (currentPage < totalPages) {
-        pagination += `
-          <button class="px-3 py-1.5 text-xs rounded-md bg-black/40 text-white/70 border border-white/5 hover:bg-black/60 hover:text-white transition-colors" 
-                  data-page="${currentPage + 1}">
-            Next <i class="fas fa-chevron-right ml-1"></i>
-          </button>`;
-      }
-      
-      pagination += '</div>';
-      list.insertAdjacentHTML('afterend', pagination);
-      
-      // Add event listeners to pagination buttons
-      document.querySelectorAll('#rating-comments-list + div [data-page]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const targetPage = parseInt(btn.dataset.page);
-          if (!isNaN(targetPage) && targetPage >= 1 && targetPage <= totalPages) {
-            renderComments(targetPage);
-            window.scrollTo({
-              top: list.offsetTop - 20,
-              behavior: 'smooth'
-            });
-          }
+    // Apply sorting
+    switch(currentSort) {
+      case 'recent':
+        sortedComments.sort((a, b) => {
+          const timeA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+          const timeB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+          return timeB - timeA; // Newest first
         });
-      });
+        break;
+        
+      case 'high':
+        sortedComments.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        break;
+        
+      case 'low':
+        sortedComments.sort((a, b) => (a.rating || 0) - (b.rating || 0));
+        break;
     }
+    
+    // Update pagination info
+    const totalComments = sortedComments.length;
+    const totalPages = Math.ceil(totalComments / COMMENTS_PER_PAGE) || 1;
+    currentPage = Math.min(Math.max(1, currentPage), totalPages);
+    
+    // Get current page comments
+    const startIdx = (currentPage - 1) * COMMENTS_PER_PAGE;
+    const paginatedComments = sortedComments.slice(startIdx, startIdx + COMMENTS_PER_PAGE);
+    
+    // Update the display
+    processCommentsData({
+      ...currentCommentsData,
+      comments: paginatedComments,
+      pagination: {
+        total: totalComments,
+        page: currentPage,
+        limit: COMMENTS_PER_PAGE,
+        totalPages: totalPages
+      }
+    }, currentPage);
   }
-
+  
   // Initialize sorting dropdown
   function initSorting() {
     const sortSelect = modal.querySelector('#rating-sort-select');
     if (sortSelect) {
       sortSelect.value = currentSort;
-      sortSelect.onchange = e => {
+      sortSelect.addEventListener('change', (e) => {
         currentSort = e.target.value;
-        currentPage = 1;
-        renderComments(currentPage);
-      };
+        currentPage = 1; // Reset to first page when changing sort
+        updateDisplayedComments();
+      });
     }
   }
   
@@ -718,6 +843,13 @@ export function showRatingModal(source) {
       errorDiv.textContent = 'You have already submitted a review for this source.';
       return;
     }
+    
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Submitting...';
+    
     try {
       const res = await fetch(RATING_API_URL, {
         method: 'POST',
@@ -730,23 +862,41 @@ export function showRatingModal(source) {
           ipHash
         })
       });
+      
       if (!res.ok) {
-        const msg = await res.text();
-        errorDiv.textContent = msg || 'Failed to submit.';
-        return;
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Failed to submit. Please try again.');
       }
-      localStorage.setItem(key, '1');
+      
+      // Clear form and show success message
       form.reset();
-      errorDiv.textContent = 'Submitted for moderation!';
+      errorDiv.className = 'text-sm text-emerald-400 mt-2';
+      errorDiv.textContent = 'Thank you! Your review has been submitted for moderation.';
       
-      // Update the source card rating display by fetching fresh data from the server
+      // Store submission in localStorage to prevent duplicates
+      localStorage.setItem(key, '1');
+      
+      // Invalidate cache for this source's comments
+      const cacheKey = `comments_${source.title}_${currentPage}_${currentSort}`;
+      ratingsCache.set(cacheKey, null);
+      
+      // Update the source card rating display
       if (window.updateSourceCardRating) {
-        await window.updateSourceCardRating(source.title);
+        window.updateSourceCardRating(source.title);
       }
       
-      loadComments(currentPage);
-    } catch(e) {
-      errorDiv.textContent = 'Failed to submit.';
+      // Reload comments after a short delay
+      setTimeout(() => {
+        loadComments(1); // Always go to first page to see the new comment
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Submission error:', error);
+      errorDiv.textContent = error.message || 'Failed to submit. Please try again.';
+      return;
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
     }
   };
 }

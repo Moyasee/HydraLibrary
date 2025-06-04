@@ -507,46 +507,93 @@ async function fetchSources() {
         const data = await response.json();
         sources = data.sources;
 
-        // // PRE-FETCH RATINGS FOR ALL SOURCES USING BATCH ENDPOINT
-        // console.log('Fetching ratings for all sources using batch endpoint...');
+        // Client-side cache for ratings (5 minutes TTL)
+        const RATINGS_CACHE_KEY = 'hydra_ratings_cache';
+        const RATINGS_CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
         
-        // try {
-        //     // Extract all source titles
-        //     const sourceTitles = sources.map(src => src.title);
-        //     console.log(`Fetching ratings for ${sourceTitles.length} sources`);
+        // Get cached ratings if they exist and are fresh
+        const getCachedRatings = () => {
+            try {
+                const cached = localStorage.getItem(RATINGS_CACHE_KEY);
+                if (!cached) return null;
+                
+                const { timestamp, data } = JSON.parse(cached);
+                if (Date.now() - timestamp < RATINGS_CACHE_TTL) {
+                    return data;
+                }
+            } catch (e) {
+                console.error('Error reading from cache:', e);
+            }
+            return null;
+        };
+        
+        // Save ratings to cache
+        const cacheRatings = (data) => {
+            try {
+                localStorage.setItem(RATINGS_CACHE_KEY, JSON.stringify({
+                    timestamp: Date.now(),
+                    data: data
+                }));
+            } catch (e) {
+                console.error('Error saving to cache:', e);
+            }
+        };
+        
+        // Check cache first
+        const cachedRatings = getCachedRatings();
+        if (cachedRatings) {
+            console.log('Using cached ratings data');
+            sources.forEach(src => {
+                const rating = cachedRatings[src.title] || { avg: 0, total: 0 };
+                src.rating = {
+                    avg: parseFloat(rating.avg) || 0,
+                    total: parseInt(rating.total) || 0
+                };
+            });
+            return;
+        }
+        
+        // If no cache, fetch from API
+        console.log('Fetching fresh ratings data...');
+        try {
+            // Extract all source titles
+            const sourceTitles = [...new Set(sources.map(src => src.title))]; // Remove duplicates
+            console.log(`Fetching ratings for ${sourceTitles.length} sources`);
             
-        //     // Make a single batch request
-        //     const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles.map(encodeURIComponent).join(',')}`;
-        //     console.log('Batch API URL:', batchUrl);
+            // Make a single batch request
+            const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles.map(encodeURIComponent).join(',')}`;
+            console.log('Batch API URL:', batchUrl);
             
-        //     const resp = await fetch(batchUrl);
-        //     console.log('Batch response status:', resp.status);
+            const resp = await fetch(batchUrl);
+            console.log('Batch response status:', resp.status);
             
-        //     if (!resp.ok) {
-        //         throw new Error(`HTTP error! status: ${resp.status}`);
-        //     }
+            if (!resp.ok) {
+                throw new Error(`HTTP error! status: ${resp.status}`);
+            }
             
-        //     const ratingsData = await resp.json();
-        //     console.log('Received batch ratings data:', JSON.stringify(ratingsData, null, 2));
+            const ratingsData = await resp.json();
+            console.log('Received batch ratings data');
             
-        //     // Update each source with its rating
-        //     sources.forEach(src => {
-        //         const rating = ratingsData[src.title] || { avg: 0, total: 0 };
-        //         src.rating = {
-        //             avg: parseFloat(rating.avg) || 0,
-        //             total: parseInt(rating.total) || 0
-        //         };
-        //         console.log(`Set rating for ${src.title}:`, JSON.stringify(src.rating, null, 2));
-        //     });
+            // Cache the response
+            cacheRatings(ratingsData);
             
-        //     console.log('All ratings loaded via batch endpoint');
-        // } catch (e) {
-        //     console.error('Error in batch ratings fetch:', e);
-        //     // Initialize with default ratings if batch fetch fails
-        //     sources.forEach(src => {
-        //         src.rating = { avg: 0, total: 0 };
-        //     });
-        // }
+            // Update each source with its rating
+            sources.forEach(src => {
+                const rating = ratingsData[src.title] || { avg: 0, total: 0 };
+                src.rating = {
+                    avg: parseFloat(rating.avg) || 0,
+                    total: parseInt(rating.total) || 0
+                };
+            });
+            
+            console.log('All ratings loaded via batch endpoint');
+        } catch (e) {
+            console.error('Error in batch ratings fetch:', e);
+            // Initialize with default ratings if batch fetch fails
+            sources.forEach(src => {
+                src.rating = { avg: 0, total: 0 };
+            });
+        }
         
         // Initialize the sort after all ratings are loaded
         initializeSorting();
@@ -680,41 +727,41 @@ async function loadSourceStats() {
                     };
                 });
                 
-                // // Update the UI with cached data
-                // try {
-                //     // Use batch endpoint to get all ratings at once
-                //     const sourceTitles = sources.map(src => encodeURIComponent(src.title)).join(',');
-                //     const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles}`);
-                //     if (resp.ok) {
-                //         const ratingsData = await resp.json();
-                //         // Update ratings map with batch data
-                //         sources.forEach(src => {
-                //             const rating = ratingsData[src.title] || { avg: 0, total: 0 };
-                //             ratingsMap[src.title] = {
-                //                 avg: parseFloat(rating.avg) || 0,
-                //                 total: parseInt(rating.total) || 0
-                //             };
-                //         });
-                //     } else {
-                //         throw new Error('Failed to fetch batch ratings');
-                //     }
-                // } catch (e) {
-                //     console.error('Error fetching batch ratings:', e);
-                //     // Fallback to individual requests if batch fails
-                //     await Promise.all(sources.map(async (src) => {
-                //         try {
-                //             const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?source=${encodeURIComponent(src.title)}&page=1`);
-                //             const data = await resp.json();
-                //             ratingsMap[src.title] = {
-                //                 avg: typeof data.avg === 'number' ? data.avg : 0,
-                //                 total: typeof data.total === 'number' ? data.total : 0
-                //             };
-                //         } catch (e) {
-                //             console.error(`Error fetching rating for ${src.title}:`, e);
-                //             ratingsMap[src.title] = { avg: 0, total: 0 };
-                //         }
-                //     }));
-                // }
+                // Update the UI with cached data
+                try {
+                    // Use batch endpoint to get all ratings at once
+                    const sourceTitles = sources.map(src => encodeURIComponent(src.title)).join(',');
+                    const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles}`);
+                    if (resp.ok) {
+                        const ratingsData = await resp.json();
+                        // Update ratings map with batch data
+                        sources.forEach(src => {
+                            const rating = ratingsData[src.title] || { avg: 0, total: 0 };
+                            ratingsMap[src.title] = {
+                                avg: parseFloat(rating.avg) || 0,
+                                total: parseInt(rating.total) || 0
+                            };
+                        });
+                    } else {
+                        throw new Error('Failed to fetch batch ratings');
+                    }
+                } catch (e) {
+                    console.error('Error fetching batch ratings:', e);
+                    // Fallback to individual requests if batch fails
+                    await Promise.all(sources.map(async (src) => {
+                        try {
+                            const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?source=${encodeURIComponent(src.title)}&page=1`);
+                            const data = await resp.json();
+                            ratingsMap[src.title] = {
+                                avg: typeof data.avg === 'number' ? data.avg : 0,
+                                total: typeof data.total === 'number' ? data.total : 0
+                            };
+                        } catch (e) {
+                            console.error(`Error fetching rating for ${src.title}:`, e);
+                            ratingsMap[src.title] = { avg: 0, total: 0 };
+                        }
+                    }));
+                }
                 
                 console.log('Using cached stats from localStorage');
                 return true;
@@ -2382,17 +2429,76 @@ async function updateAllSourceRatings() {
     try {
         if (!sources || sources.length === 0) return false;
         
+        // Client-side cache for ratings (5 minutes TTL)
+        const RATINGS_CACHE_KEY = 'hydra_ratings_cache';
+        const RATINGS_CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+        
+        // Get cached ratings if they exist and are fresh
+        const getCachedRatings = () => {
+            try {
+                const cached = localStorage.getItem(RATINGS_CACHE_KEY);
+                if (!cached) return null;
+                
+                const { timestamp, data } = JSON.parse(cached);
+                if (Date.now() - timestamp < RATINGS_CACHE_TTL) {
+                    return data;
+                }
+            } catch (e) {
+                console.error('Error reading from cache:', e);
+            }
+            return null;
+        };
+        
+        // Save ratings to cache
+        const cacheRatings = (data) => {
+            try {
+                localStorage.setItem(RATINGS_CACHE_KEY, JSON.stringify({
+                    timestamp: Date.now(),
+                    data: data
+                }));
+            } catch (e) {
+                console.error('Error saving to cache:', e);
+            }
+        };
+        
+        // Check cache first
+        const cachedRatings = getCachedRatings();
+        if (cachedRatings) {
+            console.log('Using cached ratings data in updateAllSourceRatings');
+            sources.forEach(source => {
+                const rating = cachedRatings[source.title] || { avg: 0, total: 0 };
+                source.rating = {
+                    avg: parseFloat(rating.avg) || 0,
+                    total: parseInt(rating.total) || 0
+                };
+                updateCardRatingForTitle(source.title, source.rating);
+            });
+            return true;
+        }
+        
+        // If no cache, fetch from API
+        console.log('Fetching fresh ratings data in updateAllSourceRatings...');
+        
         // Get all unique source titles
         const sourceTitles = [...new Set(sources.map(s => s.title))];
         if (sourceTitles.length === 0) return false;
         
         // Make a single batch request
         const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles.map(encodeURIComponent).join(',')}`;
-        const response = await fetch(batchUrl);
+        console.log('Batch API URL in updateAllSourceRatings:', batchUrl);
         
-        if (!response.ok) throw new Error('Failed to fetch batch rating data');
+        const response = await fetch(batchUrl);
+        console.log('Batch response status in updateAllSourceRatings:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
         const ratingsData = await response.json();
+        console.log('Received batch ratings data in updateAllSourceRatings');
+        
+        // Cache the response
+        cacheRatings(ratingsData);
         
         // Update all sources with their ratings
         sources.forEach(source => {
@@ -2401,14 +2507,17 @@ async function updateAllSourceRatings() {
                 avg: parseFloat(rating.avg) || 0,
                 total: parseInt(rating.total) || 0
             };
-            
-            // Update all cards for this source
             updateCardRatingForTitle(source.title, source.rating);
         });
         
         return true;
     } catch (error) {
-        console.error('Error updating all source ratings:', error);
+        console.error('Error in updateAllSourceRatings:', error);
+        // Initialize with default ratings if fetch fails
+        sources.forEach(source => {
+            source.rating = { avg: 0, total: 0 };
+            updateCardRatingForTitle(source.title, source.rating);
+        });
         return false;
     }
 }
