@@ -10,7 +10,22 @@
     <meta name="description" content="Stay updated with the latest changes and improvements to the Hydra Library platform. View our changelog for new features, sources, and updates.">
     
     <!-- Your existing tags -->
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/styles.css?v=1.0.0">
+    <script>
+        // Clear cache and force reload on first visit
+        if (!localStorage.getItem('cacheCleared')) {
+            // Clear all caches
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) caches.delete(name);
+                });
+            }
+            // Set a flag to prevent clearing on every page load
+            localStorage.setItem('cacheCleared', 'true');
+            // Force reload the page to ensure fresh content
+            window.location.reload(true);
+        }
+    </script>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon.png">

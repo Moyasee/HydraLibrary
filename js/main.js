@@ -2424,83 +2424,94 @@ async function updateSourceCardRating(sourceTitle) {
     return updateAllSourceRatings();
 }
 
-// Update ratings for all sources at once
+// Update ratings for all sources at once with optimized batch fetching
 async function updateAllSourceRatings() {
-    try {
-        if (!sources || sources.length === 0) return false;
-        
-        // Client-side cache for ratings (5 minutes TTL)
-        const RATINGS_CACHE_KEY = 'hydra_ratings_cache';
-        const RATINGS_CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
-        
-        // Get cached ratings if they exist and are fresh
-        const getCachedRatings = () => {
-            try {
-                const cached = localStorage.getItem(RATINGS_CACHE_KEY);
-                if (!cached) return null;
-                
-                const { timestamp, data } = JSON.parse(cached);
-                if (Date.now() - timestamp < RATINGS_CACHE_TTL) {
-                    return data;
-                }
-            } catch (e) {
-                console.error('Error reading from cache:', e);
+    if (!sources || sources.length === 0) return false;
+    
+    // Client-side cache for ratings (5 minutes TTL)
+    const RATINGS_CACHE_KEY = 'hydra_ratings_cache';
+    const RATINGS_CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+    
+    // Get cached ratings if they exist and are fresh
+    const getCachedRatings = () => {
+        try {
+            const cached = localStorage.getItem(RATINGS_CACHE_KEY);
+            if (!cached) return null;
+            
+            const { timestamp, data } = JSON.parse(cached);
+            if (Date.now() - timestamp < RATINGS_CACHE_TTL) {
+                return data;
             }
-            return null;
-        };
-        
-        // Save ratings to cache
-        const cacheRatings = (data) => {
-            try {
-                localStorage.setItem(RATINGS_CACHE_KEY, JSON.stringify({
-                    timestamp: Date.now(),
-                    data: data
-                }));
-            } catch (e) {
-                console.error('Error saving to cache:', e);
-            }
-        };
-        
-        // Check cache first
-        const cachedRatings = getCachedRatings();
-        if (cachedRatings) {
-            console.log('Using cached ratings data in updateAllSourceRatings');
-            sources.forEach(source => {
-                const rating = cachedRatings[source.title] || { avg: 0, total: 0 };
-                source.rating = {
-                    avg: parseFloat(rating.avg) || 0,
-                    total: parseInt(rating.total) || 0
-                };
-                updateCardRatingForTitle(source.title, source.rating);
-            });
-            return true;
+        } catch (e) {
+            console.error('Error reading from cache:', e);
         }
+        return null;
+    };
+    
+    // Save ratings to cache
+    const cacheRatings = (data) => {
+        try {
+            localStorage.setItem(RATINGS_CACHE_KEY, JSON.stringify({
+                timestamp: Date.now(),
+                data: data
+            }));
+        } catch (e) {
+            console.error('Error saving to cache:', e);
+        }
+    };
+    
+    // Check cache first
+    const cachedRatings = getCachedRatings();
+    if (cachedRatings) {
+        console.log('Using cached ratings data');
+        sources.forEach(source => {
+            const rating = cachedRatings[source.title] || { avg: 0, total: 0 };
+            source.rating = {
+                avg: parseFloat(rating.avg) || 0,
+                total: parseInt(rating.total) || 0
+            };
+            updateCardRatingForTitle(source.title, source.rating);
+        });
+        return true;
+    }
+    
+    // If no cache, fetch from API
+    console.log('Fetching fresh ratings data...');
+    
+    // Get all unique source titles
+    const sourceTitles = [...new Set(sources.map(s => s.title))];
+    if (sourceTitles.length === 0) return false;
+    
+    try {
+        // Make a single batch request for all sources
+        const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings/batch`;
+        console.log('Making batch API request to:', batchUrl);
         
-        // If no cache, fetch from API
-        console.log('Fetching fresh ratings data in updateAllSourceRatings...');
+        const response = await fetch(batchUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                sources: sourceTitles,
+                fields: ['avg', 'total']
+            })
+        });
         
-        // Get all unique source titles
-        const sourceTitles = [...new Set(sources.map(s => s.title))];
-        if (sourceTitles.length === 0) return false;
-        
-        // Make a single batch request
-        const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles.map(encodeURIComponent).join(',')}`;
-        console.log('Batch API URL in updateAllSourceRatings:', batchUrl);
-        
-        const response = await fetch(batchUrl);
-        console.log('Batch response status in updateAllSourceRatings:', response.status);
+        console.log('Batch response status:', response.status);
         
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            console.error('Failed to fetch batch ratings:', response.status, response.statusText);
+            return false;
         }
         
         const ratingsData = await response.json();
-        console.log('Received batch ratings data in updateAllSourceRatings');
+        console.log('Received batch ratings data for', Object.keys(ratingsData).length, 'sources');
         
         // Cache the response
         cacheRatings(ratingsData);
         
-        // Update all sources with their ratings
+        // Update sources with the new ratings
         sources.forEach(source => {
             const rating = ratingsData[source.title] || { avg: 0, total: 0 };
             source.rating = {
@@ -2513,11 +2524,6 @@ async function updateAllSourceRatings() {
         return true;
     } catch (error) {
         console.error('Error in updateAllSourceRatings:', error);
-        // Initialize with default ratings if fetch fails
-        sources.forEach(source => {
-            source.rating = { avg: 0, total: 0 };
-            updateCardRatingForTitle(source.title, source.rating);
-        });
         return false;
     }
 }
