@@ -47,6 +47,56 @@
         gtag('config', 'G-TMMPJ1FL95');
     </script>
     <style>
+        /* Custom gradient background for milestone */
+        .milestone-gradient {
+            background: linear-gradient(135deg, rgba(76, 29, 149, 0.4) 0%, rgba(30, 58, 138, 0.4) 100%);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        /* Trophy icon container */
+        .trophy-container {
+            background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .trophy-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 0.75rem;
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        /* Custom gradient text style */
+        .gradient-text {
+            background: linear-gradient(90deg, #a78bfa 0%, #60a5fa 50%, #a78bfa 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Milestone badge */
+        .milestone-badge {
+            background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        /* Ensure gradient text works */
+        .milestone-gradient-text {
+            background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
         .layout-container {
             display: flex;
             gap: 24px;
@@ -131,7 +181,7 @@
     </style>
   <script type="module" crossorigin src="/HydraLibrary/assets/index-DklScFds.js"></script>
   <script type="module" crossorigin src="/HydraLibrary/assets/main-DH6VwQgD.js"></script>
-  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/about-BvRCLTTd.css">
+  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/about-CJSWhE_3.css">
 </head>
 <body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex flex-col text-gray-100">
     <!-- Header -->
@@ -189,7 +239,83 @@
             <!-- Main Changelog Content -->
             <div class="main-content">
                 <div class="space-y-8">
-
+                    <!-- 1,000,000 Installs Celebration -->
+                    <div class="milestone-gradient rounded-xl border border-purple-500/20 overflow-hidden opacity-0 animate-[fadeUp_0.6s_ease-out_forwards] hover:translate-y-[-3px] transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
+                        <div class="p-6">
+                            <div class="flex items-start gap-4">
+                                <div class="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-purple-500 to-blue-500 relative overflow-hidden group">
+                                    <i class="fas fa-trophy text-white text-xl relative z-10 transition-transform duration-300 group-hover:scale-110"></i>
+                                    <div class="absolute inset-0 bg-white/20 rounded-xl animate-[trophyPulse_4s_cubic-bezier(0.4,0,0.6,1)_infinite]"></div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <h2 class="text-2xl font-bold gradient-text animate-[textShine_3s_linear_infinite] flex items-center">
+                                            1,000,000+ Installs Milestone Reached! 
+                                            <span class="ml-2 text-2xl animate-bounce inline-block">🎉</span>
+                                        </h2>
+                                        <span class="milestone-badge px-2.5 py-1 rounded-full text-xs font-semibold transform transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-purple-500/30">Milestone</span>
+                                    </div>
+                                    <div class="prose prose-invert max-w-none">
+                                        <p class="text-white/80 leading-relaxed text-sm transition-opacity duration-500 delay-100 opacity-0 animate-[fadeUp_0.6s_ease-out_0.1s_forwards]">
+                                            We are absolutely thrilled to announce that Hydra Library has surpassed <span class="font-bold text-white">1,000,000 installs</span> across all platforms! This incredible milestone wouldn't have been possible without your amazing support and trust in our platform.
+                                        </p>
+                                        
+                                        <!-- New Feature: Source Feedback -->
+                                        <div class="mt-6 p-4 rounded-lg bg-white/5 border border-white/10">
+                                            <h4 class="text-white font-medium flex items-center gap-2 text-lg">
+                                                <i class="fas fa-comment-alt text-blue-400"></i>
+                                                New: Source Feedback System
+                                            </h4>
+                                            <p class="mt-2 text-sm text-white/70">
+                                                To celebrate this milestone and make Hydra Library even better, we've introduced a new way for you to share your thoughts directly about each source!
+                                            </p>
+                                            <div class="mt-4 space-y-3">
+                                                <div class="flex items-start gap-3 p-3 bg-black/20 rounded-lg border border-white/5">
+                                                    <div class="shrink-0 w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                                                        <i class="fas fa-lightbulb text-blue-400 text-sm"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h5 class="font-medium text-white">How It Works</h5>
+                                                        <p class="text-xs text-white/60 mt-1">
+                                                            Now you can leave feedback, report issues, or suggest improvements for any source directly from the library interface. Your input helps us maintain and improve source quality for everyone!
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-start gap-3 p-3 bg-black/20 rounded-lg border border-white/5">
+                                                    <div class="shrink-0 w-8 h-8 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center">
+                                                        <i class="fas fa-hand-holding-heart text-green-400 text-sm"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h5 class="font-medium text-white">Your Voice Matters</h5>
+                                                        <p class="text-xs text-white/60 mt-1">
+                                                            We read every piece of feedback and use it to prioritize updates and improvements. Let us know what you love, what could be better, or if you encounter any issues.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-4 pt-4 border-t border-white/5">
+                                                <p class="text-xs text-center text-white/50">
+                                                    Thank you for being part of our journey to 1,000,000 installs. Here's to many more! 🎊
+                                                </p>
+                                            </div>
+                                            
+                                            <!-- Donation Section -->
+                                            <div class="mt-6 pt-6 border-t border-white/10">
+                                                <p class="text-white/80 mb-4">
+                                                    Enjoying Hydra Library? Support future development with a donation!
+                                                </p>
+                                                <a href="https://ko-fi.com/moyasee" target="_blank" rel="noopener noreferrer" 
+                                                   class="inline-flex items-center px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition-colors duration-200 font-medium">
+                                                    <i class="fas fa-mug-hot mr-2"></i>
+                                                    Support on Ko-fi
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Important Notice -->
                     <div class="bg-[#111]/40 backdrop-blur-sm rounded-xl border border-amber-500/20 overflow-hidden">
