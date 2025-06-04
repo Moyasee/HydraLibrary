@@ -34,6 +34,21 @@
     <!-- Styles and Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <script>
+        // Clear cache and force reload on first visit
+        if (!localStorage.getItem('cacheCleared')) {
+            // Clear all caches
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) caches.delete(name);
+                });
+            }
+            // Set a flag to prevent clearing on every page load
+            localStorage.setItem('cacheCleared', 'true');
+            // Force reload the page to ensure fresh content
+            window.location.reload(true);
+        }
+    </script>
     <link rel="icon" href="favicon/favicon_48x48.png" type="image/png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon_32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon_16x16.png">
@@ -99,9 +114,9 @@
     <meta name="msapplication-TileColor" content="#10b981">
     <meta name="theme-color" content="#10b981">
     
-  <script type="module" crossorigin src="/HydraLibrary/assets/main-BhlxrLaU.js"></script>
-  <link rel="modulepreload" crossorigin href="/HydraLibrary/assets/index-yATyr8au.js">
-  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/index-BvRCLTTd.css">
+  <script type="module" crossorigin src="/HydraLibrary/assets/main-DwCphpAM.js"></script>
+  <link rel="modulepreload" crossorigin href="/HydraLibrary/assets/index-DklScFds.js">
+  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/about-BvRCLTTd.css">
 </head>
 <body class="bg-black min-h-screen text-gray-100 overflow-x-hidden">
     <!-- Mobile Device Message -->

@@ -41,6 +41,21 @@
     <meta name="googlebot" content="index, follow">
 
     <!-- Your existing tags -->
+    <script>
+        // Clear cache and force reload on first visit
+        if (!localStorage.getItem('cacheCleared')) {
+            // Clear all caches
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) caches.delete(name);
+                });
+            }
+            // Set a flag to prevent clearing on every page load
+            localStorage.setItem('cacheCleared', 'true');
+            // Force reload the page to ensure fresh content
+            window.location.reload(true);
+        }
+    </script>
     
     <!-- Favicon -->
     <link rel="icon" href="/favicon_48x48.png" type="image/png">
@@ -68,9 +83,9 @@
     </script>
 
     
-  <script type="module" crossorigin src="/HydraLibrary/assets/index-yATyr8au.js"></script>
-  <script type="module" crossorigin src="/HydraLibrary/assets/main-Du90Rdkb.js"></script>
-  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/index-BvRCLTTd.css">
+  <script type="module" crossorigin src="/HydraLibrary/assets/index-DklScFds.js"></script>
+  <script type="module" crossorigin src="/HydraLibrary/assets/main-DH6VwQgD.js"></script>
+  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/about-BvRCLTTd.css">
 </head>
 <body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex flex-col text-gray-100">
     <!-- Mobile Device Message -->
