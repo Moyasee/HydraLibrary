@@ -2425,7 +2425,7 @@ async function updateSourceCardRating(sourceTitle) {
 }
 
 // Update ratings for all sources at once
-async function updateAllSourceRatings(forceRefresh = false) {
+async function updateAllSourceRatings() {
     try {
         if (!sources || sources.length === 0) return false;
         
@@ -2440,7 +2440,7 @@ async function updateAllSourceRatings(forceRefresh = false) {
                 if (!cached) return null;
                 
                 const { timestamp, data } = JSON.parse(cached);
-                if (Date.now() - timestamp < RATINGS_CACHE_TTL && !forceRefresh) {
+                if (Date.now() - timestamp < RATINGS_CACHE_TTL) {
                     return data;
                 }
             } catch (e) {
@@ -2461,25 +2461,23 @@ async function updateAllSourceRatings(forceRefresh = false) {
             }
         };
         
-        // Check cache first if not forcing refresh
-        if (!forceRefresh) {
-            const cachedRatings = getCachedRatings();
-            if (cachedRatings) {
-                console.log('Using cached ratings data in updateAllSourceRatings');
-                sources.forEach(source => {
-                    const rating = cachedRatings[source.title] || { avg: 0, total: 0 };
-                    source.rating = {
-                        avg: parseFloat(rating.avg) || 0,
-                        total: parseInt(rating.total) || 0
-                    };
-                    updateCardRatingForTitle(source.title, source.rating);
-                });
-                return true;
-            }
+        // Check cache first
+        const cachedRatings = getCachedRatings();
+        if (cachedRatings) {
+            console.log('Using cached ratings data in updateAllSourceRatings');
+            sources.forEach(source => {
+                const rating = cachedRatings[source.title] || { avg: 0, total: 0 };
+                source.rating = {
+                    avg: parseFloat(rating.avg) || 0,
+                    total: parseInt(rating.total) || 0
+                };
+                updateCardRatingForTitle(source.title, source.rating);
+            });
+            return true;
         }
         
-        // If no cache or force refresh, fetch from API
-        console.log(forceRefresh ? 'Force refreshing ratings data...' : 'Fetching fresh ratings data in updateAllSourceRatings...');
+        // If no cache, fetch from API
+        console.log('Fetching fresh ratings data in updateAllSourceRatings...');
         
         // Get all unique source titles
         const sourceTitles = [...new Set(sources.map(s => s.title))];
@@ -2487,44 +2485,38 @@ async function updateAllSourceRatings(forceRefresh = false) {
         
         // Make a single batch request
         const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles.map(encodeURIComponent).join(',')}`;
+        console.log('Batch API URL in updateAllSourceRatings:', batchUrl);
         
-        try {
-            const response = await fetch(batchUrl);
-            console.log('Batch response status in updateAllSourceRatings:', response.status);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const ratingsData = await response.json();
-            console.log('Received batch ratings data in updateAllSourceRatings');
-            
-            // Cache the response
-            cacheRatings(ratingsData);
-            
-            // Update all sources with their ratings
-            sources.forEach(source => {
-                const rating = ratingsData[source.title] || { avg: 0, total: 0 };
-                source.rating = {
-                    avg: parseFloat(rating.avg) || 0,
-                    total: parseInt(rating.total) || 0
-                };
-                updateCardRatingForTitle(source.title, source.rating);
-            });
-            
-            return true;
-        } catch (fetchError) {
-            console.error('Error fetching ratings:', fetchError);
-            throw fetchError; // Re-throw to be caught by outer catch
+        const response = await fetch(batchUrl);
+        console.log('Batch response status in updateAllSourceRatings:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        
+        const ratingsData = await response.json();
+        console.log('Received batch ratings data in updateAllSourceRatings');
+        
+        // Cache the response
+        cacheRatings(ratingsData);
+        
+        // Update all sources with their ratings
+        sources.forEach(source => {
+            const rating = ratingsData[source.title] || { avg: 0, total: 0 };
+            source.rating = {
+                avg: parseFloat(rating.avg) || 0,
+                total: parseInt(rating.total) || 0
+            };
+            updateCardRatingForTitle(source.title, source.rating);
+        });
+        
+        return true;
     } catch (error) {
         console.error('Error in updateAllSourceRatings:', error);
         // Initialize with default ratings if fetch fails
         sources.forEach(source => {
-            if (!source.rating) {
-                source.rating = { avg: 0, total: 0 };
-                updateCardRatingForTitle(source.title, source.rating);
-            }
+            source.rating = { avg: 0, total: 0 };
+            updateCardRatingForTitle(source.title, source.rating);
         });
         return false;
     }

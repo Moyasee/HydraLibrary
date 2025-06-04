@@ -635,11 +635,13 @@ export function showRatingModal(source) {
     pagination.innerHTML = paginationHTML;
   }
   
-  // Load a specific page of comments
+  // Load a specific page of comments (client-side)
   window.loadPage = (page) => {
-    if (!currentCommentsData) return;
-    const totalPages = Math.ceil((currentCommentsData.comments?.length || 0) / COMMENTS_PER_PAGE);
+    if (!currentCommentsData || !currentCommentsData.comments) return;
+    
+    const totalPages = Math.ceil(currentCommentsData.comments.length / 10);
     if (page < 1 || page > totalPages) return;
+    
     currentPage = page;
     updateDisplayedComments();
   };
@@ -650,7 +652,7 @@ export function showRatingModal(source) {
   // Debounced version of loadComments
   const debouncedLoadComments = debounce(loadComments, 300);
   
-  // Fetch all comments at once with caching
+  // Fetch all comments from API with caching
   async function fetchComments(silent = false) {
     if (isLoading) return;
     
@@ -669,85 +671,43 @@ export function showRatingModal(source) {
       currentCommentsData = cachedData;
       updateDisplayedComments();
       isLoading = false;
-      
-      // Refresh in background if cache is stale
-      const isCacheStale = (Date.now() - cachedData.timestamp) > (cacheExpiry / 2);
-      if (isCacheStale) {
-        console.log('Cache is stale, refreshing in background...');
-        fetchComments(true).catch(console.error);
-      }
       return;
     }
     
     try {
-      // Check if we have a batch request in progress
-      if (!window._batchRatingRequests) {
-        window._batchRatingRequests = {};
-      }
+      // Get all comments at once (no pagination)
+      const response = await fetch(`${RATING_API_URL}?source=${encodeURIComponent(currentSource)}&all=true`);
+      if (!response.ok) throw new Error(`Failed to fetch comments: ${response.statusText}`);
       
-      // If we already have a request for this source in progress, wait for it
-      if (window._batchRatingRequests[cacheKey]) {
-        console.log('Batch request already in progress, waiting...');
-        await window._batchRatingRequests[cacheKey];
-        
-        // After waiting, check cache again
-        const freshCachedData = ratingsCache.get(cacheKey);
-        if (freshCachedData) {
-          currentCommentsData = freshCachedData;
-          updateDisplayedComments();
-          isLoading = false;
-          return;
+      const data = await response.json();
+      
+      // Store all comments data
+      currentCommentsData = {
+        ...data,
+        comments: data.comments || [],
+        pagination: {
+          total: data.comments?.length || 0,
+          page: 1,
+          totalPages: 1,
+          perPage: data.comments?.length || 0
         }
-      }
+      };
       
-      // Create a new promise for this request
-      window._batchRatingRequests[cacheKey] = (async () => {
-        try {
-          // Get both rating and all comments in one go
-          const response = await fetch(`${RATING_API_URL}?source=${encodeURIComponent(currentSource)}&all=true`);
-          if (!response.ok) throw new Error(`Failed to fetch comments: ${response.statusText}`);
-          
-          const data = await response.json();
-          
-          // Store the complete data
-          const result = {
-            ...data,
-            comments: data.comments || [],
-            pagination: {
-              total: data.comments?.length || 0,
-              page: 1,
-              limit: data.comments?.length || 0,
-              totalPages: 1
-            },
-            timestamp: Date.now()
-          };
-          
-          // Update cache
-          ratingsCache.set(cacheKey, result);
-          lastFetchTime = Date.now();
-          
-          return result;
-        } finally {
-          // Clean up the request
-          delete window._batchRatingRequests[cacheKey];
-        }
-      })();
+      // Update cache
+      ratingsCache.set(cacheKey, { ...currentCommentsData, timestamp: Date.now() });
+      lastFetchTime = Date.now();
       
-      // Wait for the request to complete
-      currentCommentsData = await window._batchRatingRequests[cacheKey];
-      
-      // Sort and display comments
+      // Update the display
       updateDisplayedComments();
     } catch (error) {
       console.error('Error fetching comments:', error);
-      
-      // If we have stale data, use it
+      // If we have stale cache, use it
       if (cachedData) {
         currentCommentsData = cachedData;
         updateDisplayedComments();
-      } else if (commentsContainer) {
+      } else if (!silent && commentsContainer) {
         commentsContainer.innerHTML = `
-          <div class="text-center py-4 text-red-400">
+          <div class="text-red-500 text-center py-4">
             Failed to load comments. Please try again later.
             ${error.message ? `<div class="text-xs mt-1">${error.message}</div>` : ''}
           </div>
@@ -757,64 +717,68 @@ export function showRatingModal(source) {
       isLoading = false;
     }
   }
-
-  // Store the current comments data for client-side sorting and pagination
-  let currentCommentsData = null;
-  const COMMENTS_PER_PAGE = 10;
   
-  // Sort and paginate comments client-side
+  // Update displayed comments based on current page and sort
   function updateDisplayedComments() {
-    if (!currentCommentsData) return;
+    if (!currentCommentsData || !currentCommentsData.comments) return;
     
     // Sort comments based on current sort option
-    let sortedComments = [...(currentCommentsData.comments || [])];
+    const sortedComments = sortComments([...currentCommentsData.comments], currentSort);
     
-    // Apply sorting
-    switch(currentSort) {
+    // Calculate pagination
+    const perPage = 10; // Show 10 comments per page
+    const totalPages = Math.ceil(sortedComments.length / perPage);
+    const startIdx = (currentPage - 1) * perPage;
+    const paginatedComments = sortedComments.slice(startIdx, startIdx + perPage);
+    
+    // Update pagination info
+    currentCommentsData.pagination = {
+      total: sortedComments.length,
+      page: currentPage,
+      totalPages: totalPages,
+      perPage: perPage
+    };
+    
+    // Process and display the current page of comments
+    processCommentsData({
+      ...currentCommentsData,
+      comments: paginatedComments,
+      pagination: currentCommentsData.pagination
+    }, currentPage);
+  }
+
+  // Store the current comments data for client-side sorting
+  let currentCommentsData = null;
+  
+  // Sort comments client-side
+  function sortComments(comments, sortBy) {
+    if (!comments) return [];
+    
+    const sorted = [...comments];
+    
+    switch(sortBy) {
       case 'recent':
-        sortedComments.sort((a, b) => {
+        return sorted.sort((a, b) => {
           const timeA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
           const timeB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
           return timeB - timeA; // Newest first
         });
-        break;
         
       case 'high':
-        sortedComments.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-        break;
+        return sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0)); // Highest rating first
         
       case 'low':
-        sortedComments.sort((a, b) => (a.rating || 0) - (b.rating || 0));
-        break;
+        return sorted.sort((a, b) => (a.rating || 0) - (b.rating || 0)); // Lowest rating first
+        
+      default:
+        return sorted;
     }
-    
-    // Update pagination info
-    const totalComments = sortedComments.length;
-    const totalPages = Math.ceil(totalComments / COMMENTS_PER_PAGE) || 1;
-    currentPage = Math.min(Math.max(1, currentPage), totalPages);
-    
-    // Get current page comments
-    const startIdx = (currentPage - 1) * COMMENTS_PER_PAGE;
-    const paginatedComments = sortedComments.slice(startIdx, startIdx + COMMENTS_PER_PAGE);
-    
-    // Update the display
-    processCommentsData({
-      ...currentCommentsData,
-      comments: paginatedComments,
-      pagination: {
-        total: totalComments,
-        page: currentPage,
-        limit: COMMENTS_PER_PAGE,
-        totalPages: totalPages
-      }
-    }, currentPage);
   }
   
   // Initialize sorting dropdown
   function initSorting() {
     const sortSelect = modal.querySelector('#rating-sort-select');
     if (sortSelect) {
-      sortSelect.value = currentSort;
       sortSelect.addEventListener('change', (e) => {
         currentSort = e.target.value;
         currentPage = 1; // Reset to first page when changing sort
