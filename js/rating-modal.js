@@ -669,43 +669,85 @@ export function showRatingModal(source) {
       currentCommentsData = cachedData;
       updateDisplayedComments();
       isLoading = false;
+      
+      // Refresh in background if cache is stale
+      const isCacheStale = (Date.now() - cachedData.timestamp) > (cacheExpiry / 2);
+      if (isCacheStale) {
+        console.log('Cache is stale, refreshing in background...');
+        fetchComments(true).catch(console.error);
+      }
       return;
     }
     
     try {
-      // Get both rating and all comments in one go
-      const response = await fetch(`${RATING_API_URL}?source=${encodeURIComponent(currentSource)}&all=true`);
-      if (!response.ok) throw new Error(`Failed to fetch comments: ${response.statusText}`);
+      // Check if we have a batch request in progress
+      if (!window._batchRatingRequests) {
+        window._batchRatingRequests = {};
+      }
       
-      const data = await response.json();
-      
-      // Store the complete data
-      currentCommentsData = {
-        ...data,
-        comments: data.comments || [],
-        pagination: {
-          total: data.comments?.length || 0,
-          page: 1,
-          limit: data.comments?.length || 0,
-          totalPages: 1
+      // If we already have a request for this source in progress, wait for it
+      if (window._batchRatingRequests[cacheKey]) {
+        console.log('Batch request already in progress, waiting...');
+        await window._batchRatingRequests[cacheKey];
+        
+        // After waiting, check cache again
+        const freshCachedData = ratingsCache.get(cacheKey);
+        if (freshCachedData) {
+          currentCommentsData = freshCachedData;
+          updateDisplayedComments();
+          isLoading = false;
+          return;
         }
-      };
+      }
       
-      // Update cache
-      ratingsCache.set(cacheKey, { ...currentCommentsData, timestamp: Date.now() });
-      lastFetchTime = Date.now();
+      // Create a new promise for this request
+      window._batchRatingRequests[cacheKey] = (async () => {
+        try {
+          // Get both rating and all comments in one go
+          const response = await fetch(`${RATING_API_URL}?source=${encodeURIComponent(currentSource)}&all=true`);
+          if (!response.ok) throw new Error(`Failed to fetch comments: ${response.statusText}`);
+          
+          const data = await response.json();
+          
+          // Store the complete data
+          const result = {
+            ...data,
+            comments: data.comments || [],
+            pagination: {
+              total: data.comments?.length || 0,
+              page: 1,
+              limit: data.comments?.length || 0,
+              totalPages: 1
+            },
+            timestamp: Date.now()
+          };
+          
+          // Update cache
+          ratingsCache.set(cacheKey, result);
+          lastFetchTime = Date.now();
+          
+          return result;
+        } finally {
+          // Clean up the request
+          delete window._batchRatingRequests[cacheKey];
+        }
+      })();
+      
+      // Wait for the request to complete
+      currentCommentsData = await window._batchRatingRequests[cacheKey];
       
       // Sort and display comments
       updateDisplayedComments();
     } catch (error) {
       console.error('Error fetching comments:', error);
-      // If we have stale cache, use it
+      
+      // If we have stale data, use it
       if (cachedData) {
         currentCommentsData = cachedData;
         updateDisplayedComments();
-      } else if (!silent && commentsContainer) {
+      } else if (commentsContainer) {
         commentsContainer.innerHTML = `
-          <div class="text-red-500 text-center py-4">
+          <div class="text-center py-4 text-red-400">
             Failed to load comments. Please try again later.
             ${error.message ? `<div class="text-xs mt-1">${error.message}</div>` : ''}
           </div>
