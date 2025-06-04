@@ -680,41 +680,41 @@ async function loadSourceStats() {
                     };
                 });
                 
-                // Update the UI with cached data
-                try {
-                    // Use batch endpoint to get all ratings at once
-                    const sourceTitles = sources.map(src => encodeURIComponent(src.title)).join(',');
-                    const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles}`);
-                    if (resp.ok) {
-                        const ratingsData = await resp.json();
-                        // Update ratings map with batch data
-                        sources.forEach(src => {
-                            const rating = ratingsData[src.title] || { avg: 0, total: 0 };
-                            ratingsMap[src.title] = {
-                                avg: parseFloat(rating.avg) || 0,
-                                total: parseInt(rating.total) || 0
-                            };
-                        });
-                    } else {
-                        throw new Error('Failed to fetch batch ratings');
-                    }
-                } catch (e) {
-                    console.error('Error fetching batch ratings:', e);
-                    // Fallback to individual requests if batch fails
-                    await Promise.all(sources.map(async (src) => {
-                        try {
-                            const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?source=${encodeURIComponent(src.title)}&page=1`);
-                            const data = await resp.json();
-                            ratingsMap[src.title] = {
-                                avg: typeof data.avg === 'number' ? data.avg : 0,
-                                total: typeof data.total === 'number' ? data.total : 0
-                            };
-                        } catch (e) {
-                            console.error(`Error fetching rating for ${src.title}:`, e);
-                            ratingsMap[src.title] = { avg: 0, total: 0 };
-                        }
-                    }));
-                }
+                // // Update the UI with cached data
+                // try {
+                //     // Use batch endpoint to get all ratings at once
+                //     const sourceTitles = sources.map(src => encodeURIComponent(src.title)).join(',');
+                //     const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles}`);
+                //     if (resp.ok) {
+                //         const ratingsData = await resp.json();
+                //         // Update ratings map with batch data
+                //         sources.forEach(src => {
+                //             const rating = ratingsData[src.title] || { avg: 0, total: 0 };
+                //             ratingsMap[src.title] = {
+                //                 avg: parseFloat(rating.avg) || 0,
+                //                 total: parseInt(rating.total) || 0
+                //             };
+                //         });
+                //     } else {
+                //         throw new Error('Failed to fetch batch ratings');
+                //     }
+                // } catch (e) {
+                //     console.error('Error fetching batch ratings:', e);
+                //     // Fallback to individual requests if batch fails
+                //     await Promise.all(sources.map(async (src) => {
+                //         try {
+                //             const resp = await fetch(`https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?source=${encodeURIComponent(src.title)}&page=1`);
+                //             const data = await resp.json();
+                //             ratingsMap[src.title] = {
+                //                 avg: typeof data.avg === 'number' ? data.avg : 0,
+                //                 total: typeof data.total === 'number' ? data.total : 0
+                //             };
+                //         } catch (e) {
+                //             console.error(`Error fetching rating for ${src.title}:`, e);
+                //             ratingsMap[src.title] = { avg: 0, total: 0 };
+                //         }
+                //     }));
+                // }
                 
                 console.log('Using cached stats from localStorage');
                 return true;
