@@ -271,6 +271,14 @@
             "gamesCount": "2273",
             "status": ["Use At Your Own Risk", "Works In Russia"],
             "addedDate": "2025-05-30"
+        },
+        {
+            "title": "Trash-xrl Source",
+            "description": "This source is focused on games from online-fix, making them availible to download through GoFile",
+            "url": "https://trash-xrl.github.io/Fonte%20teste.json",
+            "gamesCount": "83",
+            "status": ["Use At Your Own Risk", "Works In Russia"],
+            "addedDate": "2025-06-04"
         }
     ]
 } 
