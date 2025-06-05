@@ -891,7 +891,7 @@ export function showRatingModal(source) {
       
       // Generate IP hash for rate limiting
       const ipHash = await hashIP(); // Using the existing hashIP function
-      const key = `hydra_rating_${currentSourceId}_${ipHash}`;
+      const key = `hydra_rating_${currentSource}_${ipHash}`;
       
       // Show loading state
       submitBtn.disabled = true;
@@ -900,7 +900,7 @@ export function showRatingModal(source) {
       
       // Prepare form data
       const formData = {
-        source: currentSourceId,
+        source: currentSource,
         nickname,
         rating: Number(rating),
         message: comment, // Use the comment variable that we got from the form
