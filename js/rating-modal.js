@@ -927,7 +927,7 @@ export function showRatingModal(source) {
       }
       
       // Generate IP hash for rate limiting
-      const ipHash = await generateIpHash();
+      const ipHash = await hashIP();
       const key = `hydra_rating_${currentSourceId}_${ipHash}`;
       
       // Show loading state
