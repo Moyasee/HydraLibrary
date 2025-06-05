@@ -915,7 +915,10 @@ export function showRatingModal(source) {
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
       const rating = parseInt(data.rating, 10);
-      const message = data.comment.trim();
+      const message = data.comment ? data.comment.trim() : '';
+      const nickname = data.nickname ? data.nickname.trim() : 'Anonymous';
+      
+      console.log('Form data:', { rating, message, nickname, hasCaptcha: !!data['cf-turnstile-response'] });
       
       // Basic validation
       if (isNaN(rating) || rating < 1 || rating > 5) {
@@ -939,28 +942,41 @@ export function showRatingModal(source) {
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
       errorDiv.classList.add('hidden');
       
-      // Prepare form data
+      // Prepare form data - ensure field names match server expectations
       const submitData = {
         source: currentSourceId,
         rating: rating,
-        comment: message,
-        ipHash,
+        nickname: nickname,
+        message: message,
+        ipHash: ipHash,
         'cf-turnstile-response': data['cf-turnstile-response']
       };
       
+      console.log('Submitting rating data:', submitData);
+      
       // Submit to API
-      const response = await fetch(RATING_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(submitData),
-      });
+      let response;
+      let result;
       
-      const result = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(result.error || 'Failed to submit rating');
+      try {
+        response = await fetch(RATING_API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(submitData),
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Server responded with error:', errorText);
+          throw new Error(errorText || `Server error: ${response.status} ${response.statusText}`);
+        }
+        
+        result = await response.json();
+      } catch (error) {
+        console.error('Error submitting rating:', error);
+        throw new Error(`Failed to submit rating: ${error.message}`);
       }
       
       // Show success message
