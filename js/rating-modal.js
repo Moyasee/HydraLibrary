@@ -334,6 +334,25 @@ export function showRatingModal(source) {
     }
   `;
   document.head.appendChild(style);
+  
+  // Initialize Turnstile widget
+  const initTurnstile = () => {
+    if (window.turnstile) {
+      window.turnstile.render('.cf-turnstile', {
+        sitekey: '0x4AAAAAABgPUEsL6w8fjG-Z',
+        callback: window.onTurnstileSuccess,
+        'expired-callback': window.onTurnstileExpired,
+        'error-callback': window.onTurnstileError,
+        theme: 'dark'
+      });
+    } else {
+      // If Turnstile script isn't loaded yet, try again shortly
+      setTimeout(initTurnstile, 100);
+    }
+  };
+  
+  // Start initialization
+  initTurnstile();
 
   // Close modal logic
   modal.querySelector('.close-rating-modal').onclick = removeModal;
