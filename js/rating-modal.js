@@ -878,14 +878,20 @@ export function showRatingModal(source) {
     
     // Reset error state
     errorDiv.textContent = '';
-    errorDiv.className = 'text-sm text-rose-400 mt-2';
+    errorDiv.className = 'mt-1 text-red-400 text-xs min-h-[20px] bg-red-900/30 rounded py-1.5 px-2 border border-red-900/20';
     
     try {
       // Get form data with null checks
       const fd = new FormData(form);
       const nickname = (fd.get('nickname') || '').trim();
       const rating = fd.get('rating');
-      const message = (fd.get('message') || '').trim();
+      const message = (fd.get('comment') || '').trim();
+      
+      // Verify Turnstile token first
+      const turnstileResponse = document.querySelector('[name="cf-turnstile-response"]')?.value;
+      if (!turnstileResponse) {
+        throw new Error('Please complete the CAPTCHA verification');
+      }
       
       // Basic validation
       if (!nickname) {
@@ -898,20 +904,13 @@ export function showRatingModal(source) {
         throw new Error('Please enter a message with at least 3 words');
       }
       
-      // Verify Turnstile token
-      const turnstileResponse = document.querySelector('[name="cf-turnstile-response"]');
-      if (!turnstileResponse || !turnstileResponse.value) {
-        throw new Error('Please complete the verification');
-      }
-      
-      // Generate IP hash for rate limiting
-      const ipHash = await generateIpHash();
-      const key = `hydra_rating_${currentSourceId}_${ipHash}`;
-      
       // Show loading state
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
       errorDiv.classList.add('hidden');
+      
+      // Generate IP hash for rate limiting
+      const ipHash = await hashIP();
       
       // Prepare form data
       const formData = {
@@ -920,7 +919,7 @@ export function showRatingModal(source) {
         rating: Number(rating),
         message,
         ipHash,
-        turnstileResponse: turnstileResponse ? turnstileResponse.value : ''
+        turnstileResponse: turnstileResponse || ''
       };
       
       // Submit to API
