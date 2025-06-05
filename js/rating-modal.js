@@ -889,107 +889,93 @@ export function showRatingModal(source) {
     errorDiv.textContent = '';
     errorDiv.className = 'text-sm text-rose-400 mt-2';
     
-    // Verify reCAPTCHA
-    const recaptchaResponse = grecaptcha.getResponse();
-    if (!recaptchaResponse) {
-      errorDiv.textContent = 'Please complete the reCAPTCHA verification.';
-      return;
-    }
-    
-    // Get form data with null checks
-    const fd = new FormData(form);
-    const nickname = (fd.get('nickname') || '').trim();
-    const rating = fd.get('rating');
-    const message = (fd.get('comment') || '').trim(); // Changed from 'message' to 'comment'
-    
-    // Validation
-    if (!nickname) {
-      errorDiv.textContent = 'Please enter a nickname.';
-      return;
-    }
-    
-    if (!rating || isNaN(rating) || rating < 1 || rating > 5) {
-      errorDiv.textContent = 'Please select a valid rating between 1 and 5.';
-      return;
-    }
-    
-    if (!message) {
-      errorDiv.textContent = 'Please enter a message.';
-      return;
-    }
-    
-    if (message.split(/\s+/).length < 3) {
-      errorDiv.textContent = 'Message must be at least 3 words long.';
-      return;
-    }
-    // Prevent spam: only one per source per hash
-    const ipHash = hashIP();
-    const key = `hydra_rating_${source.title}_${ipHash}`;
-    if (localStorage.getItem(key)) {
-      errorDiv.textContent = 'You have already submitted a review for this source.';
-      return;
-    }
-    
-    // Show loading state
-    const originalBtnText = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
-    
     try {
-      const res = await fetch(RATING_API_URL, {
+      // Get form data with null checks
+      const fd = new FormData(form);
+      const nickname = (fd.get('nickname') || '').trim();
+      const rating = fd.get('rating');
+      const message = (fd.get('message') || '').trim();
+      
+      // Basic validation
+      if (!nickname) {
+        throw new Error('Please enter a nickname');
+      }
+      if (!rating || isNaN(rating) || rating < 1 || rating > 5) {
+        throw new Error('Please select a valid rating between 1 and 5');
+      }
+      if (!message || message.split(/\s+/).length < 3) {
+        throw new Error('Please enter a message with at least 3 words');
+      }
+      
+      // Verify reCAPTCHA
+      const recaptchaResponse = grecaptcha.getResponse();
+      if (!recaptchaResponse) {
+        throw new Error('Please complete the reCAPTCHA verification');
+      }
+      
+      // Generate IP hash for rate limiting
+      const ipHash = await generateIpHash();
+      const key = `hydra_rating_${currentSourceId}_${ipHash}`;
+      
+      // Show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
+      errorDiv.classList.add('hidden');
+      
+      // Prepare form data
+      const formData = {
+        source: currentSourceId,
+        nickname,
+        rating: Number(rating),
+        message,
+        ipHash,
+        recaptchaResponse
+      };
+      
+      // Submit to API
+      const response = await fetch(RATING_API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          source: source.title,
-          nickname,
-          rating: Number(rating),
-          message,
-          ipHash,
-          recaptchaResponse: grecaptcha.getResponse()
-        })
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
       
-      // Reset reCAPTCHA after successful submission
-      grecaptcha.reset();
+      const result = await response.json();
       
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Failed to submit. Please try again.');
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to submit rating');
       }
       
-      // Clear form and show success message
+      // Show success message
+      showNotification('Rating submitted successfully! It will be visible after moderation.', 'success');
+      
+      // Close the modal after a short delay
+      setTimeout(removeModal, 1500);
+      
+      // Clear form
       form.reset();
-      errorDiv.className = 'text-sm text-emerald-400 mt-2';
-      errorDiv.textContent = 'Thank you! Your review has been submitted for moderation.';
       
-      // Disable submit button again after successful submission
-      submitBtn.disabled = true;
-      
-      // Store submission in localStorage to prevent duplicates
-      localStorage.setItem(key, '1');
-      
-      // Invalidate cache for this source's comments
-      const cacheKey = `comments_${source.title}_${currentPage}_${currentSort}`;
-      ratingsCache.set(cacheKey, null);
-      
-      // Update the source card rating display
-      if (window.updateSourceCardRating) {
-        window.updateSourceCardRating(source.title);
+      // Reset reCAPTCHA
+      if (window.grecaptcha) {
+        window.grecaptcha.reset();
       }
       
-      // Reload comments after a short delay
-      setTimeout(() => {
-        loadComments(1); // Always go to first page to see the new comment
-      }, 1000);
-      
-    } catch (err) {
-      console.error('Error submitting review:', err);
-      errorDiv.textContent = err.message || 'Failed to submit. Please try again.';
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalBtnText;
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+      errorDiv.textContent = error.message || 'Failed to submit rating. Please try again.';
+      errorDiv.classList.remove('hidden');
       
       // Reset reCAPTCHA on error
-      grecaptcha.reset();
+      if (window.grecaptcha) {
+        window.grecaptcha.reset();
+      }
+    } finally {
+      // Reset button state
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Submit Review';
+      }
     }
   };
 }
