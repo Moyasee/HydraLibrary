@@ -870,7 +870,7 @@ export function showRatingModal(source) {
       const fd = new FormData(form);
       const nickname = (fd.get('nickname') || '').trim();
       const rating = fd.get('rating');
-      const message = (fd.get('message') || '').trim();
+      const comment = (fd.get('comment') || '').trim();
       
       // Basic validation
       if (!nickname) {
@@ -879,7 +879,7 @@ export function showRatingModal(source) {
       if (!rating || isNaN(rating) || rating < 1 || rating > 5) {
         throw new Error('Please select a valid rating between 1 and 5');
       }
-      if (!message || message.split(/\s+/).length < 3) {
+      if (!comment || comment.split(/\s+/).length < 3) {
         throw new Error('Please enter a message with at least 3 words');
       }
       
@@ -903,7 +903,7 @@ export function showRatingModal(source) {
         source: currentSourceId,
         nickname,
         rating: Number(rating),
-        message,
+        message: comment, // Use the comment variable that we got from the form
         ipHash,
         turnstileToken
       };
