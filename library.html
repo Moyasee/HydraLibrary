@@ -802,11 +802,10 @@
         </div>
     </div>
 
-    <!-- Cloudflare Turnstile must load first and not as a module -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <!-- Our scripts -->
     <script src="js/main.js" type="module"></script>
     <script src="js/rating-modal.js" type="module"></script>
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <!-- Ko-fi Widget Script -->
     <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
     <script type="application/ld+json">

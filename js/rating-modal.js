@@ -139,11 +139,7 @@ function updateCardRatingDisplay(card, ratingData) {
   }
 }
 
-let currentSourceId = '';
-
 export function showRatingModal(source) {
-  // Set the current source ID when modal is opened
-  currentSourceId = source.id || source.url || '';
   // Remove any existing modal
   document.querySelectorAll('.rating-modal').forEach(m => m.remove());
 
@@ -274,8 +270,7 @@ export function showRatingModal(source) {
               </div>
               
               <!-- Cloudflare Turnstile Widget -->
-              <div class="cf-turnstile" data-sitekey="0x4AAAAAABgPUEsL6w8fjG-Z" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" data-error-callback="onTurnstileError" data-theme="dark"></div>
-              <input type="hidden" name="cf-turnstile-response" class="cf-turnstile-response">
+              <div id="cf-turnstile-container" class="cf-turnstile" data-sitekey="0x4AAAAAABgPUEsL6w8fjG-Z" data-theme="dark"></div>
               
               <div class="flex items-center justify-between pt-1">
                 <div class="text-xs text-white/60 flex items-center">
@@ -301,88 +296,48 @@ export function showRatingModal(source) {
     </div>
   `;
   // Add modal to DOM
-  // Turnstile callbacks - defined first to avoid reference errors
-  const onTurnstileSuccess = function(token) {
-    const submitBtn = document.querySelector('#submit-rating-form button[type="submit"]');
-    const responseInput = document.querySelector('.cf-turnstile-response');
-    if (submitBtn) submitBtn.disabled = false;
-    if (responseInput) responseInput.value = token;
-  };
-  
-  const onTurnstileExpired = function() {
-    const submitBtn = document.querySelector('#submit-rating-form button[type="submit"]');
-    const responseInput = document.querySelector('.cf-turnstile-response');
-    if (submitBtn) submitBtn.disabled = true;
-    if (responseInput) responseInput.value = '';
-  };
-  
-  const onTurnstileError = function() {
-    const submitBtn = document.querySelector('#submit-rating-form button[type="submit"]');
-    const errorElement = document.getElementById('rating-form-error');
-    const responseInput = document.querySelector('.cf-turnstile-response');
-    
-    if (submitBtn) submitBtn.disabled = true;
-    if (responseInput) responseInput.value = '';
-    if (errorElement) {
-      errorElement.textContent = 'CAPTCHA verification failed. Please try again.';
-      errorElement.classList.remove('hidden');
-    }
-  };
-
   document.body.appendChild(modal);
   document.body.style.overflow = 'hidden';
   
-  // Initialize Turnstile widget when the modal is fully rendered
+  // Turnstile callbacks
+  let turnstileWidgetId = null;
+  
+  // Initialize Turnstile after the modal is in the DOM
   const initTurnstile = () => {
-    const turnstileElement = modal.querySelector('.cf-turnstile');
-    if (window.turnstile && turnstileElement) {
-      try {
-        turnstile.render(turnstileElement, {
-          sitekey: '0x4AAAAAABgPUEsL6w8fjG-Z',
-          callback: onTurnstileSuccess,
-          'expired-callback': onTurnstileExpired,
-          'error-callback': onTurnstileError,
-          theme: 'dark'
-        });
-        console.log('Turnstile widget initialized');
-      } catch (error) {
-        console.error('Error initializing Turnstile:', error);
-      }
-    } else {
-      console.warn('Turnstile not available or element not found');
+    if (typeof turnstile === 'undefined') {
+      // If turnstile is not loaded yet, try again shortly
+      setTimeout(initTurnstile, 100);
+      return;
     }
+    
+    // Render the Turnstile widget
+    turnstileWidgetId = turnstile.render('#cf-turnstile-container', {
+      sitekey: '0x4AAAAAABgPUEsL6w8fjG-Z',
+      theme: 'dark',
+      callback: function(token) {
+        const submitBtn = document.querySelector('#submit-rating-form button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = false;
+      },
+      'expired-callback': function() {
+        const submitBtn = document.querySelector('#submit-rating-form button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = true;
+      },
+      'error-callback': function() {
+        const submitBtn = document.querySelector('#submit-rating-form button[type="submit"]');
+        const errorElement = document.getElementById('rating-form-error');
+        if (submitBtn) submitBtn.disabled = true;
+        if (errorElement) {
+          errorElement.textContent = 'Cloudflare Turnstile verification failed. Please try again.';
+          errorElement.classList.remove('hidden');
+        }
+      }
+    });
+    
+    console.log('Turnstile initialized');
   };
   
-  // Initialize Turnstile after a short delay to ensure the modal is fully rendered
-  if (window.turnstile) {
-    initTurnstile();
-  } else {
-    // If turnstile isn't loaded yet, wait for it
-    const turnstileCheck = setInterval(() => {
-      if (window.turnstile) {
-        clearInterval(turnstileCheck);
-        initTurnstile();
-      }
-    }, 100);
-  }
-  
-
-  
-  // Add styles for Turnstile widget
-  const style = document.createElement('style');
-  style.textContent = `
-    .cf-turnstile {
-      margin: 10px 0;
-      max-width: 100%;
-      min-height: 65px;
-      display: flex;
-      justify-content: center;
-    }
-    .cf-turnstile iframe {
-      max-width: 100% !important;
-    }
-  `;
-  document.head.appendChild(style);
+  // Start loading Turnstile
+  initTurnstile();
 
   // Close modal logic
   modal.querySelector('.close-rating-modal').onclick = removeModal;
@@ -900,7 +855,7 @@ export function showRatingModal(source) {
   const errorDiv = modal.querySelector('#rating-form-error');
   const submitBtn = form.querySelector('button[type="submit"]');
   
-  // Disable submit button by default until Turnstile is verified
+  // Disable submit button by default until reCAPTCHA is verified
   submitBtn.disabled = true;
   
   form.onsubmit = async e => {
@@ -912,29 +867,30 @@ export function showRatingModal(source) {
     
     try {
       // Get form data with null checks
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-      const rating = parseInt(data.rating, 10);
-      const message = data.comment ? data.comment.trim() : '';
-      const nickname = data.nickname ? data.nickname.trim() : 'Anonymous';
-      
-      console.log('Form data:', { rating, message, nickname, hasCaptcha: !!data['cf-turnstile-response'] });
+      const fd = new FormData(form);
+      const nickname = (fd.get('nickname') || '').trim();
+      const rating = fd.get('rating');
+      const message = (fd.get('message') || '').trim();
       
       // Basic validation
-      if (isNaN(rating) || rating < 1 || rating > 5) {
-        throw new Error('Please select a valid rating');
+      if (!nickname) {
+        throw new Error('Please enter a nickname');
+      }
+      if (!rating || isNaN(rating) || rating < 1 || rating > 5) {
+        throw new Error('Please select a valid rating between 1 and 5');
+      }
+      if (!message || message.split(/\s+/).length < 3) {
+        throw new Error('Please enter a message with at least 3 words');
       }
       
-      if (message && message.split(/\s+/).length < 3) {
-        throw new Error('Message must be at least 3 words');
-      }
-      
-      if (!data['cf-turnstile-response']) {
-        throw new Error('Please complete the CAPTCHA');
+      // Verify Turnstile
+      const turnstileToken = document.querySelector('input[name="cf-turnstile-response"]')?.value;
+      if (!turnstileToken) {
+        throw new Error('Please complete the Cloudflare Turnstile verification');
       }
       
       // Generate IP hash for rate limiting
-      const ipHash = await hashIP();
+      const ipHash = await generateIpHash();
       const key = `hydra_rating_${currentSourceId}_${ipHash}`;
       
       // Show loading state
@@ -942,41 +898,29 @@ export function showRatingModal(source) {
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
       errorDiv.classList.add('hidden');
       
-      // Prepare form data - ensure field names match server expectations
-      const submitData = {
+      // Prepare form data
+      const formData = {
         source: currentSourceId,
-        rating: rating,
-        nickname: nickname,
-        message: message,
-        ipHash: ipHash,
-        'cf-turnstile-response': data['cf-turnstile-response']
+        nickname,
+        rating: Number(rating),
+        message,
+        ipHash,
+        turnstileToken
       };
       
-      console.log('Submitting rating data:', submitData);
-      
       // Submit to API
-      let response;
-      let result;
+      const response = await fetch(RATING_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
       
-      try {
-        response = await fetch(RATING_API_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(submitData),
-        });
-        
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error('Server responded with error:', errorText);
-          throw new Error(errorText || `Server error: ${response.status} ${response.statusText}`);
-        }
-        
-        result = await response.json();
-      } catch (error) {
-        console.error('Error submitting rating:', error);
-        throw new Error(`Failed to submit rating: ${error.message}`);
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to submit rating');
       }
       
       // Show success message
@@ -989,8 +933,8 @@ export function showRatingModal(source) {
       form.reset();
       
       // Reset Turnstile
-      if (window.turnstile) {
-        turnstile.reset();
+      if (window.turnstile && turnstileWidgetId !== null) {
+        window.turnstile.reset(turnstileWidgetId);
       }
       
     } catch (error) {
@@ -999,9 +943,8 @@ export function showRatingModal(source) {
       errorDiv.classList.remove('hidden');
       
       // Reset Turnstile on error
-      if (window.turnstile) {
-        window.turnstile.reset();
-        document.querySelector('.cf-turnstile-response').value = '';
+      if (window.turnstile && turnstileWidgetId !== null) {
+        window.turnstile.reset(turnstileWidgetId);
       }
     } finally {
       // Reset button state
