@@ -914,7 +914,7 @@ export function showRatingModal(source) {
       
       // Prepare form data
       const formData = {
-        source: currentSourceId,
+        source: currentSource,
         nickname,
         rating: Number(rating),
         message,
