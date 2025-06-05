@@ -891,7 +891,7 @@ export function showRatingModal(source) {
       
       // Generate IP hash for rate limiting
       const ipHash = await hashIP(); // Using the existing hashIP function
-      const key = `hydra_rating_${currentSource}_${ipHash}`;
+      const key = `hydra_rating_${currentSourceId}_${ipHash}`;
       
       // Show loading state
       submitBtn.disabled = true;
@@ -900,7 +900,7 @@ export function showRatingModal(source) {
       
       // Prepare form data
       const formData = {
-        source: currentSource,
+        source: currentSourceId,
         nickname,
         rating: Number(rating),
         message: comment, // Use the comment variable that we got from the form
@@ -917,7 +917,16 @@ export function showRatingModal(source) {
         body: JSON.stringify(formData),
       });
       
-      const result = await response.json();
+      // First check if the response is JSON
+      const contentType = response.headers.get('content-type');
+      let result;
+      
+      if (contentType && contentType.includes('application/json')) {
+        result = await response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(`Server returned non-JSON response: ${text.substring(0, 100)}`);
+      }
       
       if (!response.ok) {
         throw new Error(result.error || 'Failed to submit rating');
