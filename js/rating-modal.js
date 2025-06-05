@@ -139,7 +139,11 @@ function updateCardRatingDisplay(card, ratingData) {
   }
 }
 
+let currentSourceId = '';
+
 export function showRatingModal(source) {
+  // Set the current source ID when modal is opened
+  currentSourceId = source.id || source.url || '';
   // Remove any existing modal
   document.querySelectorAll('.rating-modal').forEach(m => m.remove());
 
