@@ -802,10 +802,11 @@
         </div>
     </div>
 
+    <!-- Cloudflare Turnstile must load first and not as a module -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- Our scripts -->
     <script src="js/main.js" type="module"></script>
     <script src="js/rating-modal.js" type="module"></script>
-    <!-- reCAPTCHA Enterprise -->
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfzGlYrAAAAAJpX_kgLFmRcX_As-5i8_Tf4IoTo" async defer></script>
     <!-- Ko-fi Widget Script -->
     <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
     <script type="application/ld+json">
