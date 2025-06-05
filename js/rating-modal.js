@@ -100,14 +100,66 @@ function sanitizeHTML(str) {
     .replace(/'/g, '&#39;');
 }
 
-function hashIP(ip) {
-  // Fallback: use localStorage random per browser if no real IP
-  let hash = localStorage.getItem('hydra_rating_hash');
-  if (!hash) {
-    hash = Math.random().toString(36).slice(2) + Date.now();
-    localStorage.setItem('hydra_rating_hash', hash);
+// Generate a unique identifier for the user
+async function hashIP() {
+  try {
+    // Try to get a unique fingerprint using available browser APIs
+    const components = [
+      navigator.userAgent,
+      navigator.language,
+      screen.width,
+      screen.height,
+      navigator.platform,
+      new Date().getTimezoneOffset(),
+      !!navigator.cookieEnabled,
+      navigator.hardwareConcurrency || 0,
+      navigator.deviceMemory || 0,
+      screen.colorDepth,
+      window.screen.orientation?.type || ''
+    ];
+    
+    // Generate a hash from the fingerprint components
+    const fingerprint = components.join('|');
+    const msgBuffer = new TextEncoder().encode(fingerprint);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    // Store the hash in session storage for this session
+    sessionStorage.setItem('hydra_rating_hash', hashHex);
+    
+    // Also store in localStorage for persistence across sessions
+    if (!localStorage.getItem('hydra_rating_hash')) {
+      localStorage.setItem('hydra_rating_hash', hashHex);
+    }
+    
+    return hashHex;
+  } catch (error) {
+    console.error('Error generating user hash:', error);
+    // Fallback to a random string if Web Crypto API is not available
+    return Math.random().toString(36).slice(2) + Date.now().toString(36);
   }
-  return hash;
+}
+
+// Check if user has recently submitted a rating
+function canSubmitRating(source) {
+  const RATE_LIMIT_MINUTES = 60; // 1 hour cooldown between submissions
+  const storageKey = `rating_submission_${source}`;
+  const lastSubmission = localStorage.getItem(storageKey);
+  
+  if (!lastSubmission) return true;
+  
+  const lastTime = parseInt(lastSubmission, 10);
+  const now = Date.now();
+  const cooldown = RATE_LIMIT_MINUTES * 60 * 1000; // Convert minutes to milliseconds
+  
+  return (now - lastTime) > cooldown;
+}
+
+// Record a rating submission
+function recordRatingSubmission(source) {
+  const storageKey = `rating_submission_${source}`;
+  localStorage.setItem(storageKey, Date.now().toString());
 }
 
 // Function to update the rating display on a card
@@ -893,6 +945,18 @@ export function showRatingModal(source) {
         throw new Error('Please complete the CAPTCHA verification');
       }
       
+      // Check rate limiting
+      if (!canSubmitRating(currentSource)) {
+        // Get the last submission time to show how much time is left
+        const storageKey = `rating_submission_${currentSource}`;
+        const lastSubmission = parseInt(localStorage.getItem(storageKey) || '0', 10);
+        const now = Date.now();
+        const cooldown = 60 * 60 * 1000; // 1 hour in milliseconds
+        const timeLeft = Math.ceil(((lastSubmission + cooldown) - now) / 60000); // in minutes
+        
+        throw new Error(`You can only submit one review per hour. Please try again in ${timeLeft} minute${timeLeft !== 1 ? 's' : ''}.`);
+      }
+      
       // Basic validation
       if (!nickname) {
         throw new Error('Please enter a nickname');
@@ -911,6 +975,9 @@ export function showRatingModal(source) {
       
       // Generate IP hash for rate limiting
       const ipHash = await hashIP();
+      
+      // Record this submission attempt
+      recordRatingSubmission(currentSource);
       
       // Prepare form data
       const formData = {
