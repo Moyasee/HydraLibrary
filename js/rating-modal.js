@@ -453,8 +453,94 @@ export function showRatingModal(source) {
     });
   }
 
+  // Function to create language dropdown
+  function createLanguageDropdown(translateBtn, commentElement, originalText) {
+    // Remove any existing dropdown
+    const existingDropdown = translateBtn.parentNode.querySelector('.translation-dropdown');
+    if (existingDropdown) {
+      existingDropdown.remove();
+      return;
+    }
+
+    // Create dropdown container
+    const dropdown = document.createElement('div');
+    dropdown.className = 'translation-dropdown absolute z-10 mt-1 w-24 bg-gray-800 rounded-md shadow-lg border border-gray-700';
+    dropdown.style.top = '100%';
+    dropdown.style.right = '0';
+    
+    // Language options
+    const languages = [
+      { code: 'en', name: 'English' },
+      { code: 'ru', name: 'Русский' },
+      { code: 'pt', name: 'Português' }
+    ];
+
+    // Add language options to dropdown
+    languages.forEach(lang => {
+      const option = document.createElement('button');
+      option.className = 'block w-full text-left px-3 py-2 text-sm text-gray-200 hover:bg-gray-700';
+      option.textContent = lang.name;
+      option.dataset.lang = lang.code;
+      option.type = 'button';
+      dropdown.appendChild(option);
+    });
+
+    // Position dropdown
+    translateBtn.parentNode.style.position = 'relative';
+    translateBtn.parentNode.appendChild(dropdown);
+
+    // Handle click outside to close dropdown
+    const closeDropdown = (e) => {
+      if (!dropdown.contains(e.target) && e.target !== translateBtn) {
+        dropdown.remove();
+        document.removeEventListener('click', closeDropdown);
+      }
+    };
+
+    // Add event listener after current execution context to prevent immediate trigger
+    setTimeout(() => {
+      document.addEventListener('click', closeDropdown);
+    }, 0);
+
+    // Handle language selection
+    dropdown.addEventListener('click', async (e) => {
+      const targetLang = e.target.dataset.lang;
+      if (!targetLang) return;
+
+      dropdown.remove();
+      await performTranslation(translateBtn, commentElement, originalText, targetLang);
+    });
+  }
+
+  // Function to perform the actual translation
+  async function performTranslation(translateBtn, commentElement, originalText, targetLang) {
+    // Show loading state
+    const originalButtonHTML = translateBtn.innerHTML;
+    translateBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i>';
+    translateBtn.title = 'Translating...';
+    translateBtn.disabled = true;
+    
+    try {
+      const translatedText = await translateText(originalText, targetLang);
+      commentElement.textContent = translatedText;
+      
+      // Update button state
+      translateBtn.innerHTML = '<i class="fas fa-undo text-xs"></i><span class="hidden sm:inline">Original</span>';
+      translateBtn.classList.add('active');
+      translateBtn.title = 'Show original text';
+      translateBtn.setAttribute('data-original', originalText);
+    } catch (error) {
+      console.error('Translation failed:', error);
+      commentElement.textContent = originalText;
+      translateBtn.innerHTML = '<i class="fas fa-exclamation-triangle text-xs"></i><span class="hidden sm:inline">Error</span>';
+      translateBtn.title = 'Error translating. Click to try again.';
+    } finally {
+      translateBtn.disabled = false;
+    }
+  }
+
   // Function to handle comment translation
-  async function handleTranslateClick(e) {
+  function handleTranslateClick(e) {
     // Find the closest translate button from the click target
     const translateBtn = e.target.closest('.translate-comment');
     if (!translateBtn || translateBtn.disabled) return;
@@ -480,6 +566,7 @@ export function showRatingModal(source) {
         translateBtn.innerHTML = '<i class="fas fa-language text-xs"></i><span class="hidden sm:inline">Translate</span>';
         translateBtn.classList.remove('active');
         translateBtn.title = 'Translate this review';
+        translateBtn.removeAttribute('data-original');
       }
       translateBtn.disabled = false;
       return;
@@ -487,31 +574,9 @@ export function showRatingModal(source) {
     
     // Store the original text before translation
     originalText = commentElement.textContent.trim();
-    translateBtn.setAttribute('data-original', originalText);
     
-    // Show loading state
-    const originalButtonHTML = translateBtn.innerHTML;
-    translateBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i>';
-    translateBtn.title = 'Translating...';
-    translateBtn.disabled = true;
-    
-    try {
-      // Use RapidAPI Google Translate
-      const translatedText = await translateText(originalText, 'en');
-      commentElement.textContent = translatedText;
-      
-      // Update button state
-      translateBtn.innerHTML = '<i class="fas fa-undo text-xs"></i><span class="hidden sm:inline">Original</span>';
-      translateBtn.classList.add('active');
-      translateBtn.title = 'Show original text';
-    } catch (error) {
-      console.error('Translation failed:', error);
-      commentElement.textContent = originalText;
-      translateBtn.innerHTML = '<i class="fas fa-exclamation-triangle text-xs"></i><span class="hidden sm:inline">Error</span>';
-      translateBtn.title = 'Error translating. Click to try again.';
-    } finally {
-      translateBtn.disabled = false;
-    }
+    // Show language selection dropdown
+    createLanguageDropdown(translateBtn, commentElement, originalText);
   }
   
   // Add delegated event listener to the comments container
