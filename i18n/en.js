@@ -114,7 +114,13 @@ export default {
             worksInRussia: {
                 title: 'Works In Russia',
                 description: 'Sources that work in Russia, allowing users to bypass infinite source validating in Hydra.'
-            }
+            },
+        },
+        topDonors: {
+            title: 'Top Donors',
+            allTime: 'All Time',
+            becomeDonor: 'Become a Donor (Ko-Fi)'
+        
         },
         features: {
             keyFeatures: {

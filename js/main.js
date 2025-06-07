@@ -66,6 +66,10 @@ function initPreloader() {
         }
     };
     
+    // Initialize i18n and language switcher immediately
+    i18n.updatePageContent();
+    initializeLanguageSwitcher();
+    
     // Add a safety timeout to remove preloader if it gets stuck
     const safetyTimeout = setTimeout(() => {
         if (preloader && document.body.contains(preloader)) {
@@ -74,11 +78,9 @@ function initPreloader() {
             setTimeout(() => {
                 preloader.remove();
                 document.body.classList.remove('preloading');
-                i18n.updatePageContent();
-                initializeLanguageSwitcher();
             }, 400); // Wait for hiding animation to complete
         }
-    }, 5000); // Increased to 15 seconds to account for the 5 second wait
+    }, 4000); // 10 second safety timeout
     
     // Start the progress animation after a short delay
     setTimeout(() => {
@@ -550,49 +552,49 @@ async function fetchSources() {
                     total: parseInt(rating.total) || 0
                 };
             });
-            return;
-        }
-        
-        // If no cache, fetch from API
-        console.log('Fetching fresh ratings data...');
-        try {
-            // Extract all source titles
-            const sourceTitles = [...new Set(sources.map(src => src.title))]; // Remove duplicates
-            console.log(`Fetching ratings for ${sourceTitles.length} sources`);
-            
-            // Make a single batch request
-            const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles.map(encodeURIComponent).join(',')}`;
-            console.log('Batch API URL:', batchUrl);
-            
-            const resp = await fetch(batchUrl);
-            console.log('Batch response status:', resp.status);
-            
-            if (!resp.ok) {
-                throw new Error(`HTTP error! status: ${resp.status}`);
+            // Don't return here, continue to load stats
+        } else {
+            // If no cache, fetch from API
+            console.log('Fetching fresh ratings data...');
+            try {
+                // Extract all source titles
+                const sourceTitles = [...new Set(sources.map(src => src.title))]; // Remove duplicates
+                console.log(`Fetching ratings for ${sourceTitles.length} sources`);
+                
+                // Make a single batch request
+                const batchUrl = `https://libraryratingsdb.zxcsixx.workers.dev/api/ratings?batch=true&sources=${sourceTitles.map(encodeURIComponent).join(',')}`;
+                console.log('Batch API URL:', batchUrl);
+                
+                const resp = await fetch(batchUrl);
+                console.log('Batch response status:', resp.status);
+                
+                if (!resp.ok) {
+                    throw new Error(`HTTP error! status: ${resp.status}`);
+                }
+                
+                const ratingsData = await resp.json();
+                console.log('Received batch ratings data');
+                
+                // Cache the response
+                cacheRatings(ratingsData);
+                
+                // Update each source with its rating
+                sources.forEach(src => {
+                    const rating = ratingsData[src.title] || { avg: 0, total: 0 };
+                    src.rating = {
+                        avg: parseFloat(rating.avg) || 0,
+                        total: parseInt(rating.total) || 0
+                    };
+                });
+                
+                console.log('All ratings loaded via batch endpoint');
+            } catch (e) {
+                console.error('Error in batch ratings fetch:', e);
+                // Initialize with default ratings if batch fetch fails
+                sources.forEach(src => {
+                    src.rating = { avg: 0, total: 0 };
+                });
             }
-            
-            const ratingsData = await resp.json();
-            console.log('Received batch ratings data');
-            
-            // Cache the response
-            cacheRatings(ratingsData);
-            
-            // Update each source with its rating
-            sources.forEach(src => {
-                const rating = ratingsData[src.title] || { avg: 0, total: 0 };
-                src.rating = {
-                    avg: parseFloat(rating.avg) || 0,
-                    total: parseInt(rating.total) || 0
-                };
-            });
-            
-            console.log('All ratings loaded via batch endpoint');
-        } catch (e) {
-            console.error('Error in batch ratings fetch:', e);
-            // Initialize with default ratings if batch fetch fails
-            sources.forEach(src => {
-                src.rating = { avg: 0, total: 0 };
-            });
         }
         
         // Initialize the sort after all ratings are loaded
@@ -601,8 +603,23 @@ async function fetchSources() {
         // Display sources with the current sort applied
         displaySources();
         
-        // Load stats from Firebase
-        loadSourceStats();
+        // Load stats from Firebase and then hide preloader
+        try {
+            await loadSourceStats();
+        } finally {
+            // Hide preloader after everything is loaded
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                if (preloader) {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                        // Force a re-render after preloader hides
+                        displaySources();
+                    }, 300);
+                }
+            }, 500);
+        }
         
     } catch (error) {
         console.error('Error loading sources:', error);
@@ -623,20 +640,15 @@ async function fetchSources() {
                 </div>
             `;
         }
-    } finally {
-        // Hide preloader after a minimum display time
-        setTimeout(() => {
-            const preloader = document.getElementById('preloader');
-            if (preloader) {
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                    
-                    // Force a re-render after preloader hides
-                    displaySources();
-                }, 300);
-            }
-        }, 500);
+        
+        // Still hide the preloader even if there was an error
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 300);
+        }
     }
 }
 

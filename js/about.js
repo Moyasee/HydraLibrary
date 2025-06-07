@@ -74,8 +74,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     loadStatistics();
 
-    // Update initial translations
-    i18n.updatePageContent();
+    // Set up i18n event listener for dynamic content
+    const updateTranslations = () => {
+        i18n.updatePageContent();
+        
+        // Force update any dynamic content that might have been added after initial load
+        setTimeout(() => i18n.updatePageContent(), 100);
+    };
+    
+    // Initial translation update
+    updateTranslations();
+    
+    // Listen for language changes
+    document.addEventListener('languageChanged', updateTranslations);
 
     // Add language switcher functionality
     const languageSwitcher = document.getElementById('language-switcher');

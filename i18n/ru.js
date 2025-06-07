@@ -136,7 +136,13 @@ export default {
             worksInRussia: {
                 title: 'Работает в России',
                 description: 'Источники, работающие в России, позволяющие пользователям обойти бесконечную проверку источников в Hydra.'
-            }
+            },
+        },
+        topDonors: {
+            title: 'Топ донатеров',
+            allTime: 'За всё время',
+            becomeDonor: 'Поддержать (Ko-Fi)'
+            
         },
         developer: {
             title: 'О разработчике',

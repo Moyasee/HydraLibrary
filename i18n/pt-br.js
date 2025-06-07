@@ -121,7 +121,13 @@ export default {
             worksInRussia: {
                 title: 'Funciona na Rússia',
                 description: 'Fontes que funcionam na Rússia, permitindo que os usuários contornem a validação infinita de fontes no Hydra.'
-            }
+            },
+        },
+        topDonors: {
+            title: 'Maiores Doadores',
+            allTime: 'Desde o Início',
+            becomeDonor: 'Apoiar (Ko-Fi)'
+        
         },
         features: {
             keyFeatures: {
