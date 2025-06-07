@@ -600,6 +600,9 @@ async function fetchSources() {
         // Initialize the sort after all ratings are loaded
         initializeSorting();
         
+        // Update filter counts after sources are loaded
+        updateFilterCounts();
+        
         // Display sources with the current sort applied
         displaySources();
         
