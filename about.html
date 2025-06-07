@@ -19,13 +19,13 @@
         .layout-container {
             display: flex;
             gap: 24px;
-            max-width: 1400px;
+            max-width: 1800px;
             margin: 0 auto;
             padding: 0 16px;
         }
         
         .sidebar {
-            width: 480px;
+            width: 520px;
             flex-shrink: 0;
             position: sticky;
             top: 100px;
@@ -35,6 +35,16 @@
         
         .main-content {
             flex: 1;
+            max-width: 800px;
+        }
+        
+        .new-column {
+            width: 320px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+            height: -moz-fit-content;
+            height: fit-content;
         }
 
         @media (max-width: 1024px) {
@@ -57,9 +67,9 @@
 
         gtag('config', 'G-TMMPJ1FL95');
     </script>
-  <script type="module" crossorigin src="/HydraLibrary/assets/about-25XP3wYK.js"></script>
-  <link rel="modulepreload" crossorigin href="/HydraLibrary/assets/index-DklScFds.js">
-  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/about-DTwKUWSG.css">
+  <script type="module" crossorigin src="/HydraLibrary/assets/about-CE8YNcoC.js"></script>
+  <link rel="modulepreload" crossorigin href="/HydraLibrary/assets/index-_O2Df2Ci.js">
+  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/about-BgwOKpT9.css">
 </head>
 <body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex flex-col text-gray-100">
     <!-- Particles Background -->
@@ -246,7 +256,9 @@
 
             <!-- Main Content -->
             <div class="main-content space-y-8">
-            <!-- Statistics Section -->
+                <!-- Main content remains here -->
+                
+                <!-- Statistics Section -->
             <div class="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Total Sources - Left -->
@@ -360,6 +372,50 @@
                     </div>
                 </div>
             </div>
+            
+            </div> <!-- Close main-content -->
+            
+            <!-- Right Sidebar -->
+            <aside class="new-column">
+                <div class="bg-black/20 backdrop-blur-sm rounded-xl border border-white/5 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-white font-medium text-lg" data-i18n="about.topDonors.title">Top Donors</h3>
+                        <span class="text-xs text-white/50" data-i18n="about.topDonors.allTime">All Time</span>
+                    </div>
+                    
+                    <!-- Donor 1 -->
+                    <div class="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-emerald-500/5 to-transparent border border-emerald-500/10 mb-3">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                            <i class="fas fa-crown text-emerald-400"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-white font-medium truncate">Anonym</p>
+                            <div class="flex items-center gap-1">
+                                <i class="fab fa-bitcoin text-yellow-400 "></i>
+                                <p class="text-xs text-yellow-400">0.00001333 (~1,36$)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Donor 2 -->
+                    <div class="flex items-center gap-3 p-3 rounded-lg bg-black/10 border border-white/5 mb-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                            <i class="fas fa-medal text-blue-400"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-white font-medium truncate">Cidnelson Jounin</p>
+                            <p class="text-xs text-blue-400">R$6.00 (~1.06$)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-t border-white/5">
+                        <a href="https://ko-fi.com/moyasee" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm hover:bg-emerald-500/20 transition-colors duration-200">
+                            <i class="fas fa-heart"></i>
+                            <span data-i18n="about.topDonors.becomeDonor">Become a Donor (Ko-Fi)</span>
+                        </a>
+                    </div>
+                </div>
+            </aside>
         </div>
     </main>
 
