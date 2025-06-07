@@ -8,13 +8,18 @@ export default {
         supportMe: 'Apoie-me',
         donate: 'Apoio'
     },
+    tutorial: {
+        title: 'Guia de Fontes',
+        description: 'Novo no Hydra e não sabe qual fonte usar? Confira este guia!',
+        button: 'Começar',
+    },
     filters: {
         title: 'Filtros e Ordenação',
         status: {
             title: 'Status da Fonte',
             trusted: 'Confiável',
             safeForUse: 'Seguro para Uso',
-            useAtOwnRisk: 'Use por Sua Conta e Risco',
+            useAtOwnRisk: 'Não verificadas',
             worksInRussia: 'Funciona na Rússia'
         },
         sort: {

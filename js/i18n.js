@@ -8,7 +8,7 @@ const translations = {
     'pt-br': ptBr
 };
 
-let currentLanguage = localStorage.getItem('language') || 'en';
+let currentLanguage = localStorage.getItem('locale') || 'en';
 
 export function translate(key) {
     const keys = key.split('.');

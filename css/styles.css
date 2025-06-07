@@ -976,6 +976,10 @@ video {
   height: 1px;
 }
 
+.max-h-0 {
+  max-height: 0px;
+}
+
 .max-h-\[90vh\] {
   max-height: 90vh;
 }
@@ -3203,6 +3207,10 @@ video {
 
 .group:hover .group-hover\:opacity-100 {
   opacity: 1;
+}
+
+.aria-expanded\:border-transparent[aria-expanded="true"] {
+  border-color: transparent;
 }
 
 @media (min-width: 640px) {

@@ -231,6 +231,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize sorting functionality
     initializeSorting();
     
+    // Initialize collapsible filters
+    initCollapsibleFilters();
+    
     // Fetch sources after preloader animation starts
     setTimeout(() => {
         fetchSources();
@@ -1944,10 +1947,135 @@ function formatDate(dateString) {
     }
 }
 
+// Initialize collapsible filter sections with smooth animations
+function initCollapsibleFilters() {
+    // Close all sections first
+    document.querySelectorAll('.filter-section').forEach(section => {
+        const button = section.querySelector('button[data-section]');
+        const content = section.querySelector('.filter-content');
+        
+        // Close all sections by default
+        content.style.maxHeight = '0';
+        content.style.display = 'none';
+        button.setAttribute('aria-expanded', 'false');
+        button.removeAttribute('data-expanded');
+    });
+    
+    // Open only the Source Status section by default
+    const statusSection = document.querySelector('.filter-section button[data-section="status"]')?.closest('.filter-section');
+    if (statusSection) {
+        const button = statusSection.querySelector('button[data-section]');
+        const content = statusSection.querySelector('.filter-content');
+        const chevron = button.querySelector('i.fa-chevron-down');
+        
+        // Calculate the height for the status section
+        content.style.display = 'flex';
+        const height = content.scrollHeight + 'px';
+        content.style.maxHeight = '0';
+        // Force reflow to enable transition
+        content.offsetHeight;
+        content.style.maxHeight = height;
+        
+        // Update ARIA and data state
+        button.setAttribute('aria-expanded', 'true');
+        button.setAttribute('data-expanded', 'true');
+        
+        // Set initial chevron rotation
+        if (chevron) {
+            chevron.style.transform = 'rotate(180deg)';
+        }
+    }
+
+    // Add click handlers for all filter section toggles
+    document.querySelectorAll('.filter-section button[data-section]').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const section = button.closest('.filter-section');
+            const content = section.querySelector('.filter-content');
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            
+            // Update ARIA and data state
+            button.setAttribute('aria-expanded', !isExpanded);
+            const chevron = button.querySelector('i.fa-chevron-down');
+            
+            if (!isExpanded) {
+                // Opening the section
+                if (content.style.display === 'none' || !content.style.display) {
+                    content.style.display = 'flex';
+                    // Force reflow to enable transition
+                    content.offsetHeight;
+                }
+                // Set max-height to the actual height
+                const height = content.scrollHeight + 'px';
+                content.style.maxHeight = height;
+                content.style.opacity = '1';
+                button.setAttribute('data-expanded', 'true');
+                // Rotate chevron
+                if (chevron) {
+                    chevron.style.transform = 'rotate(180deg)';
+                }
+                
+                // Close other open sections if needed (optional)
+                // document.querySelectorAll('.filter-section button[data-section]').forEach(btn => {
+                //     if (btn !== button && btn.getAttribute('aria-expanded') === 'true') {
+                //         const otherContent = btn.nextElementSibling;
+                //         btn.setAttribute('aria-expanded', 'false');
+                //         btn.removeAttribute('data-expanded');
+                //         otherContent.style.maxHeight = '0';
+                //     }
+                // });
+            } else {
+                // Closing the section
+                content.style.maxHeight = '0';
+                content.style.opacity = '0';
+                button.setAttribute('data-expanded', 'false');
+                // Reset chevron rotation
+                const chevron = button.querySelector('i.fa-chevron-down');
+                if (chevron) {
+                    chevron.style.transform = 'rotate(0deg)';
+                }
+                
+                // After transition ends, hide the content
+                const onTransitionEnd = () => {
+                    if (content.style.maxHeight === '0px') {
+                        content.style.display = 'none';
+                    }
+                    content.removeEventListener('transitionend', onTransitionEnd);
+                };
+                
+                content.addEventListener('transitionend', onTransitionEnd, { once: true });
+            }
+        });
+        
+        // Handle keyboard navigation
+        button.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                button.click();
+            }
+        });
+    });
+    
+    // Handle window resize to update max-height if needed
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            document.querySelectorAll('.filter-section button[aria-expanded="true"]').forEach(button => {
+                const content = button.nextElementSibling;
+                if (content && content.style.display !== 'none') {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            });
+        }, 100);
+    });
+}
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
     fetchSources();
     sortGamesFilters(false); // Default to High to Low
+    initCollapsibleFilters();
 });
 
 // Show modal

@@ -8,6 +8,11 @@ export default {
         supportMe: 'Support Me',
         donate: 'Donate'
     },
+    tutorial: {
+        title: 'Source Guide',
+        description: "New to Hydra and doesn't know which source you should use? Head to this Guide!",
+        button: 'Get Started',
+    },
     filters: {
         title: 'Filters & Sort',
         status: {
