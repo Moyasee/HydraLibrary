@@ -2,6 +2,10 @@ import { db } from '../firebase.js';
 import { ref, update, get, set } from 'firebase/database';
 import { i18n } from '../i18n/index.js';
 import connectionManager from '../firebase-connection.js';
+import changelogNotification from './changelog-notification.js';
+
+// Ensure changelog notification system is initialized
+console.log('Changelog notification system loaded:', changelogNotification);
 
 document.body.classList.add('preloading');
 

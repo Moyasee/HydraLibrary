@@ -14,7 +14,7 @@ export default defineConfig({
         main: 'index.html',
         library: 'library.html',
         about: 'about.html',
-        changelog: 'changelog.html'
+
       }
     }
   },
@@ -26,4 +26,4 @@ export default defineConfig({
       }
     }
   }
-}); 
+});

@@ -255,7 +255,7 @@
                                 <span data-i18n="index.hero.cta.secondary">Telegram<br>(Russian)</span>
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
-                            <a href="./changelog.html" class="cta-secondary relative">
+                            <a href="https://hydralibrary.featurebase.app/changelog" class="cta-secondary relative">
                                 <i class="fas fa-clock-rotate-left"></i>
                                 <span>Changelog</span>
                             </a>
@@ -816,6 +816,10 @@
     <!-- Add before the closing body tag -->
     <script type="module">
         import { i18n } from './i18n/index.js';
+        import changelogNotification from './js/changelog-notification.js';
+
+        // Ensure changelog notification system is initialized
+        console.log('Changelog notification system loaded:', changelogNotification);
 
         // Initialize language switcher
         const languageSwitcher = document.getElementById('language-switcher');
@@ -851,4 +855,4 @@
         });
     </script>
 </body>
-</html> 
+</html>

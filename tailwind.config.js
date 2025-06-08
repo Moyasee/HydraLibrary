@@ -4,7 +4,7 @@ export default {
     "./index.html",
     "./library.html",
     "./about.html",
-    "./changelog.html",
+
     "./js/**/*.js",
     "./src/**/*.{js,ts,jsx,tsx}"
   ],
