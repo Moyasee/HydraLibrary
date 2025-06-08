@@ -373,6 +373,17 @@
                 "Works In Russia"
             ],
             "addedDate": "2025-06-04"
+        },
+        {
+            "title": "Gestapo's Source",
+            "description": "Its a source for some Chilla's Art games that aren't on other sources",
+            "url": "https://raw.githubusercontent.com/ewx12344/Gestapo-Source/refs/heads/main/gestaposource.json",
+            "gamesCount": "22",
+            "status": [
+                "Use At Your Own Risk",
+                "Works In Russia"
+            ],
+            "addedDate": "2025-06-08"
         }
     ]
 }
