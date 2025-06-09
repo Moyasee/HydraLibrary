@@ -1114,6 +1114,7 @@ function showNotification(message, type = 'success') {
     timerProgressBar: true,
     customClass: {
       popup: 'colored-toast'
-    }
+    },
+    zIndex: 10000
   });
 }
