@@ -1120,10 +1120,10 @@ function showNotification(message, type = 'success') {
     document.body.appendChild(toast);
   }
   
-  // Remove toast after 3 seconds
+  // Remove toast after 15 seconds
   setTimeout(() => {
     toast.remove();
-  }, 3000);
+  }, 15000);
 }
 
 
