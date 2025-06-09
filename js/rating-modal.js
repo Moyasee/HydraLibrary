@@ -1101,3 +1101,19 @@ export function showRatingModal(source) {
     }
   };
 }
+
+// Utility function to show notifications using SweetAlert2
+function showNotification(message, type = 'success') {
+  Swal.fire({
+    text: message,
+    icon: type,
+    toast: true,
+    position: 'bottom-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    customClass: {
+      popup: 'colored-toast'
+    }
+  });
+}
