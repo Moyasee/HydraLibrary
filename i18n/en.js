@@ -20,7 +20,8 @@ export default {
             trusted: 'Trusted',
             safeForUse: 'Safe For Use',
             useAtOwnRisk: 'Use At Your Own Risk',
-            worksInRussia: 'Works In Russia'
+            worksInRussia: 'Works In Russia',
+            nsfw: 'NSFW'
         },
         sort: {
             title: 'Sort Sources',
@@ -62,7 +63,8 @@ export default {
         trusted: 'Trusted',
         safeForUse: 'Safe For Use',
         useAtOwnRisk: 'Use At Your Own Risk',
-        worksInRussia: 'Works In Russia'
+        worksInRussia: 'Works In Russia',
+        nsfw: 'NSFW'
     },
     common: {
         install: 'Install',
