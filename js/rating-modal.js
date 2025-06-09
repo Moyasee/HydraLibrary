@@ -988,7 +988,7 @@ export function showRatingModal(source) {
   const submitBtn = form.querySelector('button[type="submit"]');
   
   // Disable submit button by default until reCAPTCHA is verified
-  submitBtn.disabled = true;
+  submitBtn.disabled = false;
   
   form.onsubmit = async e => {
     e.preventDefault();
@@ -1104,17 +1104,26 @@ export function showRatingModal(source) {
 
 // Utility function to show notifications using SweetAlert2
 function showNotification(message, type = 'success') {
-  Swal.fire({
-    text: message,
-    icon: type,
-    toast: true,
-    position: 'bottom-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    customClass: {
-      popup: 'colored-toast'
-    },
-    zIndex: 10000
-  });
+  // Create a simple toast notification that appears inside the modal
+  const toast = document.createElement('div');
+  toast.className = 'fixed top-4 right-4 bg-emerald-500/90 text-white px-4 py-3 rounded-lg text-sm font-medium shadow-lg z-[10001] animate-fade-in flex items-center gap-2';
+  toast.innerHTML = `
+    <i class="fas fa-check-circle"></i>
+    <span>${message}</span>
+  `;
+  
+  // Find the modal container and append the toast to it
+  const modal = document.querySelector('.rating-modal');
+  if (modal) {
+    modal.appendChild(toast);
+  } else {
+    document.body.appendChild(toast);
+  }
+  
+  // Remove toast after 3 seconds
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
 }
+
+

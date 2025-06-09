@@ -761,6 +761,10 @@ video {
   top: 100%;
 }
 
+.top-4 {
+  top: 1rem;
+}
+
 .-z-10 {
   z-index: -10;
 }
@@ -783,6 +787,10 @@ video {
 
 .z-\[9999\] {
   z-index: 9999;
+}
+
+.z-\[10001\] {
+  z-index: 10001;
 }
 
 .col-span-full {
