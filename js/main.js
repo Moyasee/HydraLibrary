@@ -159,6 +159,9 @@ function initializeLanguageSwitcher() {
             }
             // Refresh source cards with new language
             displaySources();
+            
+            // Show/hide VPN banner based on language
+            updateVpnBannerVisibility(lang);
         });
     });
     
@@ -183,6 +186,21 @@ function initializeLanguageSwitcher() {
 
     // Listen for language changes
     document.addEventListener('languageChanged', updateLanguageSwitcherText);
+    
+    // Initialize VPN banner visibility based on current language
+    updateVpnBannerVisibility(i18n.currentLocale);
+}
+
+// Function to show/hide VPN banner based on language
+function updateVpnBannerVisibility(language) {
+    const vpnBanner = document.getElementById('vpn-banner');
+    if (vpnBanner) {
+        if (language === 'ru') {
+            vpnBanner.classList.remove('hidden');
+        } else {
+            vpnBanner.classList.add('hidden');
+        }
+    }
 }
 
 // Update your DOMContentLoaded event listener
