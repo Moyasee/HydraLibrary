@@ -438,6 +438,12 @@
                 <!-- Status Filters -->
                 <div id="filters-sidebar" class="w-[280px] shrink-0">
                     <div class="sticky top-20">
+
+                        <!-- VPN Banner (Russian only) -->
+                        <div id="vpn-banner" class="mb-2 cursor-pointer transition-all duration-300 hidden" onclick="window.open('YOUR_VPN_LINK_HERE', '_blank')">
+                            <img src="favicon/hydravpn_button.png" alt="VPN Banner" class="w-full h-auto rounded-lg hover:opacity-80 transition-opacity duration-300" />
+                        </div>
+
                         <!-- Tutorial Section -->
                         <div id="tutorial-banner" class="mb-2 bg-[#111]/40 backdrop-blur-sm rounded-lg border border-white/5 p-5">
                             <div class="flex flex-col items-start gap-3">
@@ -468,6 +474,9 @@
                                 data-i18n="tutorial.button">Visit Guide</a>
                             </div>
                         </div>
+                        
+                        
+                        
                         <div class="bg-[#111]/40 backdrop-blur-sm rounded-lg border border-white/5 p-5">
                             <div class="pr-2">
                                 <div class="flex flex-col gap-3">
@@ -648,211 +657,7 @@
     </main>
 
     <!-- Mobile Filters Modal -->
-    <div id="mobile-filters-modal" 
-         class="fixed inset-0 z-50 hidden transition-all duration-300 ease-out">
-        <div class="absolute inset-0 bg-[#0A0A0A] bg-opacity-95 transition-opacity duration-300 opacity-0"></div>
-        
-        <div class="absolute inset-0 flex flex-col bg-[#111] transition-transform duration-300 ease-out translate-y-full">
-            <!-- Modal Header -->
-            <div class="p-4 border-b border-white/5 bg-[#111]">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-chevron-down text-emerald-500"></i>
-                        <h3 class="text-lg font-medium text-white" data-i18n="filters.title">Filters & Sort</h3>
-                    </div>
-                    <button id="close-mobile-filters" class="text-white/50 hover:text-white">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Modal Content -->
-            <div class="flex-1 overflow-y-auto custom-scrollbar bg-[#111]">
-                <div class="p-4">
-                    <div id="mobile-filters-content" class="flex flex-col gap-8">
-                        <!-- Source Status section -->
-                        <div class="mb-4">
-                            <h3 class="text-base font-medium text-white mb-4" data-i18n="filters.status.title">Source Status</h3>
-                            <div class="grid grid-cols-1 gap-3">
-                                <!-- Trusted Status -->
-                                <button class="status-filter-btn" data-status="Trusted">
-                                    <div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                            <i class="fas fa-shield text-emerald-500"></i>
-                                        </div>
-                                        <div class="flex items-center justify-between flex-1">
-                                            <span class="text-white/70" data-i18n="filters.status.trusted">Trusted</span>
-                                            <span class="text-white/40">22</span>
-                                        </div>
-                                    </div>
-                                </button>
-
-                                <!-- Safe For Use Status -->
-                                <button class="status-filter-btn" data-status="Safe For Use">
-                                    <div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                                            <i class="fas fa-check-circle text-blue-500"></i>
-                                        </div>
-                                        <div class="flex items-center justify-between flex-1">
-                                            <span class="text-white/70" data-i18n="filters.status.safeForUse">Safe For Use</span>
-                                            <span class="text-white/40">4</span>
-                                        </div>
-                                    </div>
-                                </button>
-
-                                <!-- Use At Your Own Risk Status -->
-                                <button class="status-filter-btn" data-status="Use At Your Own Risk">
-                                    <div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                                            <i class="fas fa-exclamation-triangle text-red-500"></i>
-                                        </div>
-                                        <div class="flex items-center justify-between flex-1">
-                                            <span class="text-white/70" data-i18n="filters.status.useAtOwnRisk">Use At Your Own Risk</span>
-                                            <span class="text-white/40">1</span>
-                                        </div>
-                                    </div>
-                                </button>
-
-                                <!-- Works In Russia Status -->
-                                <button class="status-filter-btn" data-status="Works In Russia">
-                                    <div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-                                            <i class="fas fa-globe text-purple-500"></i>
-                                        </div>
-                                        <div class="flex items-center justify-between flex-1">
-                                            <span class="text-white/70" data-i18n="filters.status.worksInRussia">Works In Russia</span>
-                                            <span class="text-white/40">15</span>
-                                        </div>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Sort Sources section -->
-                        <div class="mb-4">
-                            <h3 class="text-base font-medium text-white mb-4" data-i18n="filters.sort.title">Sort Sources</h3>
-                            <div class="flex flex-col gap-2">
-                                <!-- Hot Sort -->
-                                <button class="sort-option" data-sort="hot">
-                                    <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                                            <i class="fas fa-fire text-red-500"></i>
-                                        </div>
-                                        <span class="text-white/70 text-sm" data-i18n="filters.sort.hot">Hot (24h)</span>
-                                    </div>
-                                </button>
-
-                                <!-- Most Copies Sort -->
-                                <button class="sort-option" data-sort="most-copies">
-                                    <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
-                                            <i class="fas fa-copy text-white/70"></i>
-                                        </div>
-                                        <span class="text-white/70 text-sm" data-i18n="filters.sort.mostCopies">Most Copies</span>
-                                    </div>
-                                </button>
-
-                                <!-- Most Installs Sort -->
-                                <button class="sort-option" data-sort="most-installs">
-                                    <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
-                                            <i class="fas fa-download text-white/70"></i>
-                                        </div>
-                                        <span class="text-white/70 text-sm" data-i18n="filters.sort.mostInstalls">Most Installs</span>
-                                    </div>
-                                </button>
-
-                                <!-- Top Rated Sort -->
-                                <button class="sort-option" data-sort="top-rated">
-                                    <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                                            <i class="fas fa-star text-amber-400"></i>
-                                        </div>
-                                        <span class="text-white/70 text-sm" data-i18n="filters.sort.topRated">Top Rated</span>
-                                    </div>
-                                </button>
-
-                                <!-- Newest Sort -->
-                                <button class="sort-option" data-sort="newest">
-                                    <div class="flex flex-col items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                            <i class="fas fa-clock text-emerald-500"></i>
-                                        </div>
-                                        <span class="text-white/70 text-sm" data-i18n="filters.sort.newest">Newest</span>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Games Count section -->
-                        <div>
-                            <h3 class="text-base font-medium text-white mb-4" data-i18n="filters.gamesCount.title">Games Count</h3>
-                            <div class="flex flex-col gap-3">
-                                <button class="games-filter-btn w-full" data-min="0" data-max="999">
-                                    <div class="flex items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <span class="text-white/90" data-i18n="filters.gamesCount.range1">0-999</span>
-                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                        </div>
-                                        <span class="text-white/40 text-sm">0</span>
-                                    </div>
-                                </button>
-
-                                <button class="games-filter-btn w-full" data-min="1000" data-max="4999">
-                                    <div class="flex items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <span class="text-white/90" data-i18n="filters.gamesCount.range2">1000-4999</span>
-                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                        </div>
-                                        <span class="text-white/40 text-sm">8</span>
-                                    </div>
-                                </button>
-
-                                <button class="games-filter-btn w-full" data-min="5000" data-max="9999">
-                                    <div class="flex items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <span class="text-white/90" data-i18n="filters.gamesCount.range3">5000-9999</span>
-                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                        </div>
-                                        <span class="text-white/40 text-sm">5</span>
-                                    </div>
-                                </button>
-
-                                <button class="games-filter-btn w-full" data-min="10000" data-max="999999">
-                                    <div class="flex items-center gap-2 p-3 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
-                                        <span class="text-white/90" data-i18n="filters.gamesCount.range4">10000+</span>
-                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
-                                        </div>
-                                        <span class="text-white/40 text-sm">2</span>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="p-4 border-t border-white/5 bg-[#111]">
-                <div class="flex items-center justify-between gap-4">
-                    <button id="reset-filters" 
-                            class="px-4 py-2 text-sm text-white/50 hover:text-white 
-                                   transition-colors duration-200"
-                            data-i18n="filters.reset">
-                        Reset All
-                    </button>
-                    <button id="apply-filters"
-                            class="px-6 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 
-                                   border border-emerald-500/20 rounded-lg text-sm 
-                                   text-emerald-400 transition-all duration-200"
-                            data-i18n="filters.apply">
-                        Apply Filters
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <script>
         // Tutorial banner handling
