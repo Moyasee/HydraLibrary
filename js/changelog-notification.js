@@ -12,7 +12,7 @@ class ChangelogNotification {
     getCurrentVersion() {
         // Update this timestamp each time you post a new changelog
         // Format: YYYY-MM-DD-HH-MM (year-month-day-hour-minute)
-        return '2025-05-16-18-30'; // Update this when you post new changelog
+        return '2025-06-28-18-30'; // Update this when you post new changelog
     }
 
     // Check if user has seen the latest changelog

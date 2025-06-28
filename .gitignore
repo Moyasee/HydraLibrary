@@ -4,5 +4,11 @@ dist
 .env.local
 .DS_Store 
 script.py
-my-worker/
 CHANGELOG-NOTIFICATION-GUIDE.md
+my-worker/
+functions
+test-search.html
+test-game-counts.js
+wrangler.toml
+.github/workflows/update-game-counts.yml
+test-api.ps1
