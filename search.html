@@ -154,10 +154,11 @@
         .animate-delay-700 { animation-delay: 0.7s; }
         
         .glass-effect {
-            -webkit-backdrop-filter: blur(20px);
-                    backdrop-filter: blur(20px);
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            -webkit-backdrop-filter: blur(16px);
+                    backdrop-filter: blur(16px);
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
         
         .search-glow {
@@ -166,12 +167,13 @@
         }
         
         .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(16, 185, 129, 0.1);
         }
         
         .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(16, 185, 129, 0.2);
+            transform: scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(16, 185, 129, 0.3), 0 0 20px rgba(16, 185, 129, 0.2);
         }
         
         .gradient-border {
@@ -193,40 +195,120 @@
         }
         
         .search-input {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(16, 185, 129, 0.3);
             transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         
         /* Enhanced Dropdown Styles */
         .enhanced-dropdown {
-            background: rgba(0, 0, 0, 0.4);
-            -webkit-backdrop-filter: blur(10px);
-                    backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(16, 16, 16, 0.4));
+            -webkit-backdrop-filter: blur(16px);
+                    backdrop-filter: blur(16px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .enhanced-dropdown::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
         .enhanced-dropdown:hover {
-            background: rgba(0, 0, 0, 0.6);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(16, 16, 16, 0.6));
+            border-color: rgba(16, 185, 129, 0.3);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(16, 185, 129, 0.2), 0 0 20px rgba(16, 185, 129, 0.1);
+        }
+        
+        .enhanced-dropdown:hover::before {
+            opacity: 1;
         }
         
         .enhanced-dropdown:focus {
-            background: rgba(0, 0, 0, 0.7);
-            border-color: rgba(16, 185, 129, 0.5);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 4px 12px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(16, 16, 16, 0.7));
+            border-color: rgba(16, 185, 129, 0.6);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15), 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(16, 185, 129, 0.2);
+            transform: translateY(-2px) scale(1.02);
         }
         
-        .enhanced-dropdown option {
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 8px 12px;
+        .enhanced-dropdown:focus::before {
+            opacity: 1;
         }
         
-        .enhanced-dropdown option:hover {
-            background: rgba(16, 185, 129, 0.2);
+        /* Custom Dropdown Menu Styles */
+        .custom-dropdown-menu {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(16, 16, 16, 0.9));
+            -webkit-backdrop-filter: blur(20px);
+                    backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            animation: dropdownSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .custom-dropdown-option {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .custom-dropdown-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+            transition: left 0.3s ease;
+        }
+        
+        .custom-dropdown-option:hover::before {
+            left: 100%;
+        }
+        
+        .custom-dropdown-option:hover {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05)) !important;
+            transform: translateX(4px);
+        }
+        
+        .custom-dropdown-option.selected {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+            color: rgba(16, 185, 129, 1);
+        }
+        
+        @keyframes dropdownSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .dropdown-icon {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.3));
+        }
+        
+        .dropdown-open ~ .dropdown-icon-container .dropdown-icon {
+            transform: rotate(180deg);
+            color: rgba(16, 185, 129, 0.8) !important;
+        }
+        
+        .enhanced-dropdown:focus ~ .dropdown-icon-container .dropdown-icon {
+            transform: rotate(180deg) scale(1.1);
+            color: rgba(16, 185, 129, 1) !important;
         }
         
         /* Enhanced Copy Button Styles */
@@ -297,9 +379,9 @@
         }
         
         .search-input:focus {
-            background: rgba(0, 0, 0, 0.6);
-            border-color: rgba(16, 185, 129, 0.5);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 0 20px rgba(16, 185, 129, 0.1);
+            background: rgba(0, 0, 0, 0.7);
+            border-color: rgba(16, 185, 129, 0.7);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2), 0 4px 25px rgba(16, 185, 129, 0.15);
         }
         
         /* Disable browser autocomplete styling */
@@ -332,12 +414,14 @@
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
             border: 1px solid rgba(16, 185, 129, 0.2);
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
         
         .stats-card:hover {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.08));
             border-color: rgba(16, 185, 129, 0.3);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
         
         .filter-button {
@@ -395,11 +479,11 @@
             }
         }
     </style>
-  <script type="module" crossorigin src="/HydraLibrary/assets/search-BBI8OtDT.js"></script>
+  <script type="module" crossorigin src="/HydraLibrary/assets/search-BhYWqAiw.js"></script>
   <link rel="modulepreload" crossorigin href="/HydraLibrary/assets/index-ciVfDTdS.js">
-  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/library-BWt9xuC_.css">
+  <link rel="stylesheet" crossorigin href="/HydraLibrary/assets/library-C01TM1Ak.css">
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-black to-gray-900 min-h-screen flex flex-col text-gray-100">
+<body class="bg-gradient-to-br from-gray-800 via-black to-gray-900 min-h-screen flex flex-col text-gray-100">
     <!-- Mobile Device Message -->
     <div id="mobile-message" class="fixed inset-0 bg-gradient-to-br from-gray-900 to-black z-[9999] flex items-center justify-center p-6 text-center hidden">
         <div class="relative max-w-md w-full mx-4">
@@ -500,56 +584,59 @@
         </div>
 
         <!-- Enhanced Search Bar -->
-        <div id="search-section" class="max-w-4xl mx-auto mb-12 loading-hidden">
+        <div id="search-section" class="max-w-4xl mx-auto mb-8 loading-hidden">
             <div class="relative group">
-                <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-emerald-400/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div class="relative">
+                <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/30 to-emerald-400/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative flex items-center">
+                    <div class="absolute left-6 text-emerald-400">
+                        <i class="fas fa-search text-xl"></i>
+                    </div>
                     <input type="text" 
                            id="game-search" 
                            placeholder="Search for games, genres, or developers..." 
                            autocomplete="off"
                            spellcheck="false"
-                           class="w-full search-input rounded-2xl px-8 py-6 text-lg text-white placeholder-white/50 
-                                  focus:outline-none transition-all duration-300 pr-16">
-                    <div class="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-3">
-                        <i class="fas fa-search text-white/40 text-xl"></i>
+                           class="w-full search-input rounded-2xl pl-14 pr-16 py-6 text-lg text-white placeholder-white/50 
+                                  focus:outline-none transition-all duration-300 border-2 border-emerald-500/30 hover:border-emerald-500/50">
+                    <div class="absolute right-6 top-1/2 -translate-y-1/2">
+                        <div class="px-3 py-1 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
+                            <span>Ctrl+K</span>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="text-center mt-3 text-white/70 text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-shield-alt text-emerald-400"></i>
+                <span>Only Trusted and Safe for use sources included</span>
             </div>
         </div>
 
         <!-- Enhanced Stats Section -->
-        <div id="stats-section" class="max-w-4xl mx-auto mb-12 loading-hidden">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="stats-card rounded-xl p-4 text-center group">
-                    <div class="flex items-center justify-center mb-2">
-                        <div class="relative">
-                            <i class="fas fa-gamepad text-xl text-emerald-400 group-hover:scale-110 transition-transform duration-300"></i>
-                            <div class="absolute inset-0 bg-emerald-400/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </div>
+        <div id="stats-section" class="max-w-4xl mx-auto mb-10 loading-hidden">
+            <div class="flex flex-wrap justify-center gap-6">
+                <div class="stats-card rounded-full px-4 py-2 flex items-center gap-2 group">
+                    <div class="relative">
+                        <i class="fas fa-gamepad text-sm text-emerald-400 group-hover:scale-110 transition-transform duration-300"></i>
+                        <div class="absolute inset-0 bg-emerald-400/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                    <div class="text-xl font-bold text-emerald-400 mb-1" id="total-games">-</div>
-                    <div class="text-white/70 text-sm font-medium">Total Games</div>
+                    <div class="text-sm font-bold text-emerald-400" id="total-games">-</div>
+                    <div class="text-white/70 text-xs font-medium">Games Available</div>
                 </div>
-                <div class="stats-card rounded-xl p-4 text-center group">
-                    <div class="flex items-center justify-center mb-2">
-                        <div class="relative">
-                            <i class="fas fa-server text-xl text-emerald-400 group-hover:scale-110 transition-transform duration-300"></i>
-                            <div class="absolute inset-0 bg-emerald-400/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </div>
+                <div class="stats-card rounded-full px-4 py-2 flex items-center gap-2 group">
+                    <div class="relative">
+                        <i class="fas fa-server text-sm text-emerald-400 group-hover:scale-110 transition-transform duration-300"></i>
+                        <div class="absolute inset-0 bg-emerald-400/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                    <div class="text-xl font-bold text-emerald-400 mb-1" id="total-sources">-</div>
-                    <div class="text-white/70 text-sm font-medium">Active Sources</div>
+                    <div class="text-sm font-bold text-emerald-400" id="total-sources">-</div>
+                    <div class="text-white/70 text-xs font-medium">Sources</div>
                 </div>
-                <div class="stats-card rounded-xl p-4 text-center group">
-                    <div class="flex items-center justify-center mb-2">
-                        <div class="relative">
-                            <i class="fas fa-clock text-xl text-emerald-400 group-hover:scale-110 transition-transform duration-300"></i>
-                            <div class="absolute inset-0 bg-emerald-400/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </div>
+                <div class="stats-card rounded-full px-4 py-2 flex items-center gap-2 group">
+                    <div class="relative">
+                        <i class="fas fa-clock text-sm text-emerald-400 group-hover:scale-110 transition-transform duration-300"></i>
+                        <div class="absolute inset-0 bg-emerald-400/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                    <div class="text-xl font-bold text-emerald-400 mb-1" id="last-updated">-</div>
-                    <div class="text-white/70 text-sm font-medium">Last Updated</div>
+                    <div class="text-sm font-bold text-emerald-400" id="last-updated">-</div>
+                    <div class="text-white/70 text-xs font-medium">Updated</div>
                 </div>
             </div>
         </div>
@@ -583,23 +670,58 @@
                         <div class="text-white/70 text-lg" id="results-count"></div>
                     </div>
                     <!-- Enhanced Filters -->
-                    <div id="search-filters" class="flex flex-wrap gap-3">
-                        <div class="relative">
-                            <select id="source-filter" class="enhanced-dropdown rounded-xl px-4 py-3 pr-10 text-white bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/30 transition-all duration-300 hover:bg-black/60 hover:border-white/20 appearance-none cursor-pointer">
+                    <div id="search-filters" class="flex flex-wrap gap-4">
+                        <!-- Custom Source Filter Dropdown -->
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none z-10">
+                                <i class="fas fa-database text-emerald-400/70 text-sm"></i>
+                            </div>
+                            <div class="custom-dropdown-trigger enhanced-dropdown rounded-2xl pl-12 pr-12 py-4 text-white border border-white/10 cursor-pointer font-medium" data-dropdown="source-filter">
+                                <span class="dropdown-text">All Sources</span>
+                            </div>
+                            <div class="dropdown-icon-container absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                <i class="dropdown-icon fas fa-chevron-down text-white/50 text-sm"></i>
+                            </div>
+                            <!-- Hidden select for form compatibility -->
+                            <select id="source-filter" class="hidden">
                                 <option value="">All Sources</option>
                             </select>
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                <i class="fas fa-chevron-down text-white/40 text-sm"></i>
+                            <!-- Custom dropdown menu -->
+                            <div class="custom-dropdown-menu hidden absolute top-full left-0 right-0 mt-2 rounded-2xl z-50 overflow-hidden">
+                                <div class="custom-dropdown-option px-3 py-2 text-white/90 cursor-pointer transition-all duration-200 border-b border-white/5" data-value="">
+                    <i class="fas fa-globe text-emerald-400/70 mr-3"></i>All Sources
+                </div>
                             </div>
                         </div>
-                        <div class="relative">
-                            <select id="sort-filter" class="enhanced-dropdown rounded-xl px-4 py-3 pr-10 text-white bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/30 transition-all duration-300 hover:bg-black/60 hover:border-white/20 appearance-none cursor-pointer">
+                        
+                        <!-- Custom Sort Filter Dropdown -->
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none z-10">
+                                <i class="fas fa-sort-amount-down text-emerald-400/70 text-sm"></i>
+                            </div>
+                            <div class="custom-dropdown-trigger enhanced-dropdown rounded-2xl pl-12 pr-12 py-4 text-white border border-white/10 cursor-pointer font-medium" data-dropdown="sort-filter">
+                                <span class="dropdown-text">Sort by Relevance</span>
+                            </div>
+                            <div class="dropdown-icon-container absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                <i class="dropdown-icon fas fa-chevron-down text-white/50 text-sm"></i>
+                            </div>
+                            <!-- Hidden select for form compatibility -->
+                            <select id="sort-filter" class="hidden">
                                 <option value="relevance">Sort by Relevance</option>
                                 <option value="name">Sort by Name</option>
                                 <option value="date">Sort by Date Added</option>
                             </select>
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                <i class="fas fa-chevron-down text-white/40 text-sm"></i>
+                            <!-- Custom dropdown menu -->
+                            <div class="custom-dropdown-menu hidden absolute top-full left-0 right-0 mt-2 rounded-2xl z-50 overflow-hidden">
+                                <div class="custom-dropdown-option px-3 py-2 text-white/90 cursor-pointer transition-all duration-200 border-b border-white/5" data-value="relevance">
+                    <i class="fas fa-star text-emerald-400/70 mr-3"></i>Sort by Relevance
+                </div>
+                <div class="custom-dropdown-option px-3 py-2 text-white/90 cursor-pointer transition-all duration-200 border-b border-white/5" data-value="name">
+                    <i class="fas fa-sort-alpha-down text-emerald-400/70 mr-3"></i>Sort by Name
+                </div>
+                <div class="custom-dropdown-option px-3 py-2 text-white/90 cursor-pointer transition-all duration-200" data-value="date">
+                    <i class="fas fa-calendar-plus text-emerald-400/70 mr-3"></i>Sort by Date Added
+                </div>
                             </div>
                         </div>
                     </div>
@@ -689,6 +811,78 @@
         searchInput.addEventListener('blur', function() {
             this.parentElement.classList.remove('search-glow');
         });
+        
+        // Custom dropdown functionality
+        function initializeCustomDropdowns() {
+            const dropdowns = document.querySelectorAll('.custom-dropdown-trigger');
+            
+            dropdowns.forEach(dropdown => {
+                const menu = dropdown.parentElement.querySelector('.custom-dropdown-menu');
+                const hiddenSelect = dropdown.parentElement.querySelector('select');
+                const options = menu.querySelectorAll('.custom-dropdown-option');
+                const triggerText = dropdown.querySelector('.dropdown-text');
+                
+                // Toggle dropdown
+                dropdown.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    // Close other dropdowns
+                    document.querySelectorAll('.custom-dropdown-menu').forEach(otherMenu => {
+                        if (otherMenu !== menu) {
+                            otherMenu.classList.add('hidden');
+                            // Remove open class from other dropdown triggers
+                            const otherTrigger = otherMenu.parentElement.querySelector('.custom-dropdown-trigger');
+                            if (otherTrigger) {
+                                otherTrigger.classList.remove('dropdown-open');
+                            }
+                        }
+                    });
+                    
+                    menu.classList.toggle('hidden');
+                    dropdown.classList.toggle('dropdown-open');
+                });
+                
+                // Handle option selection
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const value = this.dataset.value;
+                        const text = this.textContent.trim();
+                        
+                        // Update hidden select
+                        hiddenSelect.value = value;
+                        
+                        // Update trigger text
+                        triggerText.textContent = text;
+                        
+                        // Update selected state
+                        options.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                        
+                        // Close menu
+                        menu.classList.add('hidden');
+                        dropdown.classList.remove('dropdown-open');
+                        
+                        // Trigger change event
+                        hiddenSelect.dispatchEvent(new Event('change'));
+                    });
+                });
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function() {
+                document.querySelectorAll('.custom-dropdown-menu').forEach(menu => {
+                    menu.classList.add('hidden');
+                    // Remove open class from dropdown trigger
+                     const trigger = menu.parentElement.querySelector('.custom-dropdown-trigger');
+                     if (trigger) {
+                         trigger.classList.remove('dropdown-open');
+                     }
+                 });
+             });
+        }
+        
+        // Initialize dropdowns when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeCustomDropdowns);
     </script>
 </body>
 </html>
