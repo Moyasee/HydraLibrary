@@ -536,91 +536,96 @@ class GameSearchEngine {
             : (game.description || '');
 
         return `
-            <div class="card-hover glass-effect rounded-2xl p-6 group relative overflow-hidden">
-                <!-- Gradient border effect -->
-                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-emerald-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+            <div class="card-hover glass-effect rounded-2xl p-0 group relative overflow-hidden">
+                <!-- Enhanced gradient border effect with animation -->
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-emerald-400/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-all duration-700 rounded-2xl"></div>
                 
-                <!-- Content -->
-                <div class="relative z-10">
-                    <!-- Header -->
-                    <div class="flex items-start justify-between mb-4">
-                        <h3 class="text-l font-bold text-white group-hover:text-emerald-400 transition-colors duration-300 line-clamp-2 flex-1 pr-3" title="${this.escapeHtml(game.title)}">
+                
+                <!-- Content with improved padding structure -->
+                <div class="relative z-10 p-6">
+                    <!-- Enhanced Header with larger title -->
+                    <div class="flex items-start justify-between mb-5">
+                        <h3 class="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors duration-300 line-clamp-2 flex-1 pr-3" title="${this.escapeHtml(game.title)}">
                             ${this.escapeHtml(game.title)}
                         </h3>
-                        <div class="relative">
-                            <span class="text-xs px-3 py-1.5 bg-gradient-to-r from-emerald-500/20 to-emerald-400/10 text-emerald-400 rounded-full border border-emerald-500/30 font-medium shrink-0">
+                        <div class="relative ml-2">
+                            <span class="text-xs px-3 py-1.5 bg-gradient-to-r from-emerald-500/30 to-emerald-400/20 text-emerald-400 rounded-full border border-emerald-500/40 font-medium shrink-0 shadow-sm shadow-emerald-500/10">
                                 ${this.escapeHtml(game.source)}
                             </span>
-                            <div class="absolute inset-0 bg-emerald-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute inset-0 bg-emerald-500/30 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         </div>
                     </div>
                     
-                    <!-- Description -->
+                    <!-- Enhanced Description with better contrast -->
                     ${game.description ? `
-                        <p class="text-white/70 text-sm mb-5 line-clamp-3 leading-relaxed">
+                        <p class="text-white/80 text-sm mb-5 line-clamp-3 leading-relaxed">
                             ${this.escapeHtml(truncatedDescription)}
                         </p>
                     ` : '<div class="mb-5"></div>'}
                     
-                    <!-- Metadata -->
-                    <div class="flex items-center justify-between text-xs text-white/50 mb-5">
+                    <!-- Enhanced Metadata with icons -->
+                    <div class="flex items-center justify-between text-xs text-white/60 mb-5 bg-white/5 rounded-lg p-2.5">
                         ${game.size ? `
-                            <div class="flex items-center gap-1.5">
-                                <i class="fas fa-hdd text-emerald-400/70"></i>
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                                    <i class="fas fa-hdd text-emerald-400"></i>
+                                </div>
                                 <span class="font-medium">${this.escapeHtml(game.size)}</span>
                             </div>
                         ` : '<div></div>'}
                         ${game.addedDate ? `
-                            <div class="flex items-center gap-1.5">
-                                <i class="fas fa-calendar text-emerald-400/70"></i>
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                                    <i class="fas fa-calendar text-emerald-400"></i>
+                                </div>
                                 <span class="font-medium">${this.formatDate(game.addedDate)}</span>
                             </div>
                         ` : '<div></div>'}
                     </div>
                     
-                    <!-- Tags -->
+                    <!-- Enhanced Tags with better styling -->
                     ${game.tags && game.tags.length > 0 ? `
                         <div class="flex flex-wrap gap-2 mb-6">
                             ${game.tags.slice(0, 3).map(tag => `
-                                <span class="text-xs px-2.5 py-1 bg-white/10 text-white/70 rounded-lg border border-white/5 hover:bg-white/20 transition-colors duration-200">
+                                <span class="text-xs px-3 py-1.5 bg-gradient-to-r from-white/10 to-white/5 text-white/80 rounded-full border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105">
                                     ${this.escapeHtml(tag)}
                                 </span>
                             `).join('')}
                             ${game.tags.length > 3 ? `
-                                <span class="text-xs text-white/50 px-2.5 py-1 flex items-center">
-                                    <i class="fas fa-plus text-emerald-400/70 mr-1"></i>
+                                <span class="text-xs text-white/60 px-3 py-1.5 flex items-center">
+                                    <i class="fas fa-plus text-emerald-400 mr-1.5"></i>
                                     ${game.tags.length - 3} more
                                 </span>
                             ` : ''}
                         </div>
                     ` : '<div class="mb-6"></div>'}
                     
-                    <!-- Actions -->
-                    <div class="flex gap-3">
+                    <!-- Enhanced Actions with better buttons -->
+                    <div class="flex gap-3 mt-auto">
                         ${game.downloadUrl ? `
                             <a href="${this.escapeHtml(game.downloadUrl)}" 
                                target="_blank" 
                                rel="noopener noreferrer"
-                               class="flex-1 bg-gradient-to-r from-emerald-500/20 to-emerald-400/10 hover:from-emerald-500/30 hover:to-emerald-400/20 
-                                      text-emerald-400 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 
-                                      flex items-center justify-center gap-2 border border-emerald-500/30 hover:border-emerald-500/50
-                                      hover:shadow-lg hover:shadow-emerald-500/20">
+                               class="flex-1 bg-gradient-to-r from-emerald-500/30 to-emerald-400/20 hover:from-emerald-500/40 hover:to-emerald-400/30 
+                                      text-emerald-400 px-4 py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 
+                                      flex items-center justify-center gap-2.5 border border-emerald-500/40 hover:border-emerald-500/60
+                                      hover:shadow-lg hover:shadow-emerald-500/30 group-hover:translate-y-0 translate-y-1">
                                 <i class="fas fa-download"></i>
                                 <span>Download</span>
                             </a>
                         ` : ''}
                         <button onclick="copySourceUrlWithFeedback(this, '${this.escapeHtml(game.source)}')"
-                                class="copy-button px-4 py-3 glass-effect hover:bg-white/20 text-white/70 hover:text-white
-                                       rounded-xl text-sm transition-all duration-300 border border-white/10 hover:border-white/20
-                                       hover:shadow-lg hover:shadow-black/20 group/btn"
+                                class="copy-button px-4 py-3.5 glass-effect hover:bg-white/20 text-white/70 hover:text-white
+                                       rounded-xl text-sm transition-all duration-300 border border-white/10 hover:border-white/30
+                                       hover:shadow-lg hover:shadow-black/20 group/btn group-hover:translate-y-0 translate-y-1"
                                 title="Copy source URL">
                             <i class="fas fa-copy group-hover/btn:scale-110 transition-transform duration-200"></i>
                         </button>
                     </div>
                 </div>
                 
-                <!-- Hover glow effect -->
-                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none"></div>
+                <!-- Enhanced hover glow effect -->
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none blur-sm"></div>
             </div>
         `;
     }
@@ -784,13 +789,61 @@ class GameSearchEngine {
         // Clear existing options except "All Sources"
         sourceFilter.innerHTML = '<option value="">All Sources</option>';
         
-        // Add source options
+        // Add source options to hidden select
         uniqueSources.sort().forEach(source => {
             const option = document.createElement('option');
             option.value = source;
             option.textContent = source;
             sourceFilter.appendChild(option);
         });
+        
+        // Also populate the custom dropdown menu
+        const customDropdownMenu = sourceFilter.parentElement.querySelector('.custom-dropdown-menu');
+        if (customDropdownMenu) {
+            // Clear existing options except "All Sources"
+            customDropdownMenu.innerHTML = `
+                <div class="custom-dropdown-option px-3 py-2 text-white/90 cursor-pointer transition-all duration-200 border-b border-white/5" data-value="">
+                    <i class="fas fa-globe text-emerald-400/70 mr-3"></i>All Sources
+                </div>
+            `;
+            
+            // Add source options to custom dropdown
+            uniqueSources.sort().forEach(source => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'custom-dropdown-option px-3 py-2 text-white/90 cursor-pointer transition-all duration-200 border-b border-white/5';
+                optionDiv.setAttribute('data-value', source);
+                optionDiv.innerHTML = `<i class="fas fa-server text-emerald-400/70 mr-3"></i>${source}`;
+                customDropdownMenu.appendChild(optionDiv);
+            });
+            
+            // Re-attach event listeners for new options
+            const newOptions = customDropdownMenu.querySelectorAll('.custom-dropdown-option');
+            newOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const value = this.dataset.value;
+                    const text = this.textContent.trim();
+                    
+                    // Update hidden select
+                    sourceFilter.value = value;
+                    
+                    // Update trigger text
+                    const triggerText = sourceFilter.parentElement.querySelector('.dropdown-text');
+                    if (triggerText) {
+                        triggerText.textContent = text;
+                    }
+                    
+                    // Update selected state
+                    newOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    // Close menu
+                    customDropdownMenu.classList.add('hidden');
+                    
+                    // Trigger change event
+                    sourceFilter.dispatchEvent(new Event('change'));
+                });
+            });
+        }
     }
 
     updateStats(apiResult = null) {
