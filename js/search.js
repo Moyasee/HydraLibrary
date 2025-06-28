@@ -544,7 +544,7 @@ class GameSearchEngine {
                 <div class="relative z-10">
                     <!-- Header -->
                     <div class="flex items-start justify-between mb-4">
-                        <h3 class="text-l font-bold text-white group-hover:text-emerald-400 transition-colors duration-300 line-clamp-2 flex-1 pr-3">
+                        <h3 class="text-l font-bold text-white group-hover:text-emerald-400 transition-colors duration-300 line-clamp-2 flex-1 pr-3" title="${this.escapeHtml(game.title)}">
                             ${this.escapeHtml(game.title)}
                         </h3>
                         <div class="relative">
