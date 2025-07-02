@@ -64,7 +64,8 @@ export default {
         safeForUse: 'Safe For Use',
         useAtOwnRisk: 'Use At Your Own Risk',
         worksInRussia: 'Works In Russia',
-        nsfw: 'NSFW'
+        nsfw: 'NSFW',
+        software: 'Software'
     },
     common: {
         install: 'Install',
@@ -366,4 +367,4 @@ export default {
         cancel: 'Cancel',
         warning: 'By continuing, you confirm that you are of legal age to view adult content.'
     }
-}; 
+};

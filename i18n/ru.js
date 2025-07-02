@@ -69,7 +69,8 @@ export default {
         safeForUse: 'Безопасный',
         useAtOwnRisk: 'Не проверенный',
         worksInRussia: 'Работает в России',
-        nsfw: 'NSFW'
+        nsfw: 'NSFW',
+        software: 'Программное обеспечение'
     },
     common: {
         install: 'Установить',
@@ -420,4 +421,4 @@ export default {
         cancel: 'Отмена',
         warning: 'Продолжая, вы подтверждаете, что достигли возраста, позволяющего просматривать контент для взрослых.'
     }
-}; 
+};

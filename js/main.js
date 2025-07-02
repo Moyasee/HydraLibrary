@@ -1164,6 +1164,12 @@ function createSourceCard(source) {
                 icon: 'exclamation-circle',
                 key: 'nsfw',
                 customClass: 'bg-purple-500/10 border-purple-500/20 text-purple-400 hover:bg-purple-500/20 hover:border-purple-500/30 '
+            },
+            'software': {
+                color: 'indigo',
+                icon: 'code',
+                key: 'software',
+                customClass: 'bg-purple-500/10 border-purple-500/20 text-purple-400 hover:bg-purple-500/20 hover:border-purple-500/30 '
             }
         }[className] || {
             color: 'gray',
