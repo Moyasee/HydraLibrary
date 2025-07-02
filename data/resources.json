@@ -384,6 +384,18 @@
                 "Works In Russia"
             ],
             "addedDate": "2025-06-08"
+        },
+        {
+            "title": "Bumyy Software",
+            "description": "The source that contains software from Bumyy",
+            "url": "https://bumyy32.github.io/bumyysoftware.json",
+            "gamesCount": "12",
+            "status": [
+                "Safe For Use",
+                "Software"
+            ],
+            "addedDate": "2025-07-03"
+            
         }
     ]
 }
