@@ -383,8 +383,29 @@
                 "Safe For Use",
                 "Software"
             ],
-            "addedDate": "2025-07-03"
-            
+            "addedDate": "2025-07-03"  
+        },
+        {
+            "title": "Achievement HUB",
+            "description": "Fonte de downloads de jogos com suporte a conquistas feita para o Hydra Launcher.",
+            "url": "https://achievement-hub.netlify.app/achievement.json",
+            "gamesCount": "74",
+            "status": [
+                "Use At Your Own Risk",
+                "Works In Russia"
+            ],
+            "addedDate": "2025-07-08"  
+        },
+        {
+            "title": "VX VULGO",
+            "description": "fonte de jogos e alguns apps como wallpaper engine etc muito focada em go file espero que curtem a fonte",
+            "url": "https://vxvulgooficial.github.io/vxvulgooficial/vxvulgo.json",
+            "gamesCount": "1585",
+            "status": [
+                "Use At Your Own Risk",
+                "Works In Russia"
+            ],
+            "addedDate": "2025-07-08"  
         }
     ]
 }
