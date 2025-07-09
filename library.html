@@ -685,8 +685,7 @@
     <script src="js/rating-modal.js" type="module"></script>
     <!-- Cloudflare Turnstile -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <!-- Ko-fi Widget Script -->
-    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+    
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -719,29 +718,7 @@
         }
     }
     </script>
-    <!-- Ko-fi Widget Initialization -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Initialize Ko-fi widget
-        kofiWidgetOverlay.draw('moyasee', {
-          'type': 'floating-chat',
-          'floating-chat.donateButton.text': 'Support me',
-          'floating-chat.donateButton.background-color': '#00b9fe',
-          'floating-chat.donateButton.text-color': '#fff'
-        });
-        
-        // Add click handler for the custom button
-        const kofiButton = document.getElementById('kofi-widget');
-        if (kofiButton) {
-          kofiButton.addEventListener('click', function() {
-            const kofiWidget = document.querySelector('.kofi-widget-overlay');
-            if (kofiWidget) {
-              kofiWidget.style.display = 'block';
-            }
-          });
-        }
-      });
-    </script>
+    
 
     <script>
     // Particle animation
