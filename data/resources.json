@@ -406,6 +406,17 @@
                 "Works In Russia"
             ],
             "addedDate": "2025-07-08"  
+        },
+        {
+            "title": "Warph Collection (GOG) (Direct/Torrent)",
+            "description": "GOG games source by Warph for Hydra Launcher, based on data from gog-games.to.",
+            "url": "https://wpnnt.github.io/sources/warph_collection.json",
+            "gamesCount": "1048",
+            "status": [
+                "Use At Your Own Risk",
+                "Works In Russia"
+            ],
+            "addedDate": "2025-07-10"
         }
     ]
 }
