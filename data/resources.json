@@ -417,6 +417,16 @@
                 "Works In Russia"
             ],
             "addedDate": "2025-07-10"
+        },
+        {
+            "title": "Pub's Lounge | Offlane Activation",
+            "description": "Clean game files for Offline Activation. Partnered with Hydra Community Discord server.",
+            "url": "https://konthe1.github.io/DenuvoPubSource.json",
+            "gamesCount": "14",
+            "status": [
+                "Safe For Use"
+            ],
+            "addedDate": "2025-07-15"
         }
     ]
 }
