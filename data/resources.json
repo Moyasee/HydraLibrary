@@ -14,7 +14,7 @@
             "title": "SteamRip [DIRECT DOWNLOAD / NO TORRENT]",
             "description": "Pre-installed games, uncompressed, and sourced reliably.",
             "url": "https://hydralinks.pages.dev/sources/steamrip.json",
-            "gamesCount": "698",
+            "gamesCount": "897",
             "status": [
                 "Trusted"
             ],
@@ -24,7 +24,7 @@
             "title": "DODI",
             "description": "Renowned brand in pirated video games, this repacker is among the finest in the field",
             "url": "https://hydralinks.pages.dev/sources/dodi.json",
-            "gamesCount": "2797",
+            "gamesCount": "2830",
             "status": [
                 "Trusted"
             ],
@@ -44,7 +44,7 @@
             "title": "FitGirl",
             "description": "Home archivist to web's top game repacker: the ultimate source for trustworthy games.",
             "url": "https://hydralinks.pages.dev/sources/fitgirl.json",
-            "gamesCount": "6470",
+            "gamesCount": "6665",
             "status": [
                 "Trusted"
             ],
@@ -54,7 +54,7 @@
             "title": "KaOsKrew",
             "description": "Veteran rippers who, over the past two decades, have consistently created rips and repacks.",
             "url": "https://hydralinks.pages.dev/sources/kaoskrew.json",
-            "gamesCount": "3193",
+            "gamesCount": "3275",
             "status": [
                 "Trusted"
             ],
@@ -64,7 +64,7 @@
             "title": "Online-Fix",
             "description": "Grants online solutions to play multiplayer in specific games with others.",
             "url": "https://hydralinks.pages.dev/sources/onlinefix.json",
-            "gamesCount": "1784",
+            "gamesCount": "1841",
             "status": [
                 "Trusted"
             ],
@@ -84,7 +84,7 @@
             "title": "ByXatab",
             "description": "Esteemed within the realm of pirated video games, this site stands out as a prominent figure.",
             "url": "https://hydralinks.pages.dev/sources/xatab.json",
-            "gamesCount": "8464",
+            "gamesCount": "9053",
             "status": [
                 "Trusted"
             ],
@@ -147,7 +147,7 @@
             "title": "Wkeynhk Source",
             "description": "Automatically updated source containing games from sites: RuTracker and Rutor",
             "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/rutor.json",
-            "gamesCount": "61379",
+            "gamesCount": "61713",
             "status": [
                 "Safe For Use",
                 "Works In Russia"
@@ -312,7 +312,7 @@
             "title": "RuTracker | Linux only",
             "description": "Automatically updated source from Wkeynhk containing games for Linux from the RuTracker site.",
             "url": "https://raw.githubusercontent.com/Wkeynhk/RuTracker-Linux/refs/heads/main/rutrackerlinux.json",
-            "gamesCount": "3530",
+            "gamesCount": "3633",
             "status": [
                 "Safe For Use",
                 "Works In Russia"
@@ -356,7 +356,7 @@
             "title": "Trash-xrl source",
             "description": "This source contains games with online fixes but downloads through GoFile.",
             "url": "https://trash-xrl.github.io/Fonte%20teste.json",
-            "gamesCount": "82",
+            "gamesCount": "165",
             "status": [
                 "Use At Your Own Risk",
                 "Works In Russia"
@@ -383,7 +383,7 @@
                 "Safe For Use",
                 "Software"
             ],
-            "addedDate": "2025-07-03"  
+            "addedDate": "2025-07-03"
         },
         {
             "title": "Achievement HUB",
@@ -394,7 +394,7 @@
                 "Use At Your Own Risk",
                 "Works In Russia"
             ],
-            "addedDate": "2025-07-08"  
+            "addedDate": "2025-07-08"
         },
         {
             "title": "VX VULGO",
@@ -405,13 +405,13 @@
                 "Use At Your Own Risk",
                 "Works In Russia"
             ],
-            "addedDate": "2025-07-08"  
+            "addedDate": "2025-07-08"
         },
         {
             "title": "Warph Collection (GOG) (Direct/Torrent)",
             "description": "GOG games source by Warph for Hydra Launcher, based on data from gog-games.to.",
             "url": "https://wpnnt.github.io/sources/warph_collection.json",
-            "gamesCount": "1048",
+            "gamesCount": "3468",
             "status": [
                 "Use At Your Own Risk",
                 "Works In Russia"
@@ -422,7 +422,7 @@
             "title": "Pub's Lounge | Offline Activation",
             "description": "Clean game files for Offline Activation. Partnered with Hydra Community Discord server.",
             "url": "https://konthe1.github.io/DenuvoPubSource.json",
-            "gamesCount": "14",
+            "gamesCount": "85",
             "status": [
                 "Safe For Use"
             ],
