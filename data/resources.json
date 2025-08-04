@@ -427,6 +427,47 @@
                 "Safe For Use"
             ],
             "addedDate": "2025-07-15"
-        }
+        },
+        {
+            "title": "Nexus",
+            "description": "Pre-installed games",
+            "url": "https://nexusbuildcompany.github.io/nexus.json",
+            "gamesCount": "4404",
+            "status": "Use At Your Own Risk",
+            "addedDate": "2025.08.04"
+        },
+        {
+            "title": "IrisHub",
+            "description": "irishub is the source with multi source in one json file",
+            "url": "https://raw.githubusercontent.com/irisihrz/json/refs/heads/main/irishub.json",
+            "gamesCount": "72000",
+            "status": "Use At Your Own Risk",
+            "addedDate": "2025.08.04"
+        },
+        {
+            "title": "Elamigos | Made by Vinikjkkj",
+            "description": "This source and other sources from this author have auto update everyday.",
+            "url": "https://raw.githubusercontent.com/vinikjkkj/game-links-collection/refs/heads/master/jsons/elamigos.json",
+            "gamesCount": "3013",
+            "status": "Use At Your Own Risk",
+            "addedDate": "2025.08.04"
+        },
+        {
+            "title": "SteamRip | Made by Vinikjkkj",
+            "description": "This source and other sources from this author have auto update everyday.",
+            "url": "https://raw.githubusercontent.com/marsargofanclub/fuckyoutitanic/refs/heads/main/steamrip.json",
+            "gamesCount": "3306",
+            "status": "Use At Your Own Risk",
+            "addedDate": "2025.08.04"
+        },
+        {
+            "title": "FitGirl | Made by Vinikjkkj",
+            "description": "This source and other sources from this author have auto update everyday.",
+            "url": "https://raw.githubusercontent.com/marsargofanclub/fuckyoutitanic/refs/heads/main/steamrip.json",
+            "gamesCount": "5809",
+            "status": "Use At Your Own Risk",
+            "addedDate": "2025.08.04"
+        },
+
     ]
 }
