@@ -152,7 +152,7 @@ class GameSearchEngine {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
             
-            const response = await fetch('https://libraryratingsdb.zxcsixx.workers.dev/api/games', {
+            const response = await fetch('https://gamesearch.moya.lol/api/games', {
                 signal: controller.signal
             });
             
