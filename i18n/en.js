@@ -1,4 +1,8 @@
 export default {
+    feedback: {
+        title: 'Feedback on risky sources',
+        description: 'Help us improve by completing a short survey'
+    },
     header: {
         title: 'Hydra Library',
         search: 'Search',
