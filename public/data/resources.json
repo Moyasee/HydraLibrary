@@ -51,6 +51,17 @@
             "addedDate": "2024-12-29"
         },
         {
+            "title": "IrisHub",
+            "description": "IrisHub provides a unified source, aggregating multiple game sources into a single JSON file.",
+            "url": "https://raw.githubusercontent.com/irisihrz/json/refs/heads/main/irishub.json",
+            "gamesCount": "72000",
+            "status": [
+                "Safe For Use",
+                "Works In Russia"
+            ],
+            "addedDate": "2025-08-04"
+        },
+        {
             "title": "KaOsKrew",
             "description": "Veteran rippers who, over the past two decades, have consistently created rips and repacks.",
             "url": "https://hydralinks.pages.dev/sources/kaoskrew.json",
@@ -433,16 +444,6 @@
             "description": "Pre-installed games",
             "url": "https://nexusbuildcompany.github.io/nexus.json",
             "gamesCount": "4404",
-            "status": [
-                "Use At Your Own Risk"
-            ],
-            "addedDate": "2025.08.04"
-        },
-        {
-            "title": "IrisHub",
-            "description": "irishub is the source with multi source in one json file",
-            "url": "https://raw.githubusercontent.com/irisihrz/json/refs/heads/main/irishub.json",
-            "gamesCount": "72000",
             "status": [
                 "Use At Your Own Risk"
             ],
