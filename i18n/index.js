@@ -61,4 +61,7 @@ class I18n {
     }
 }
 
-export const i18n = new I18n(); 
+export const i18n = new I18n();
+
+// Make i18n available globally
+window.i18n = i18n;

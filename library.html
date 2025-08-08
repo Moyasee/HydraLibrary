@@ -53,6 +53,194 @@
             padding: 0; /* Remove padding when expanded */
             margin-bottom: 1rem; /* Add mb-4 when expanded */
         }
+        
+        /* Hide navbar buttons on mobile and tablet except language switcher */
+        @media (max-width: 1023px) {
+            .navbar-hide-mobile {
+                display: none !important;
+            }
+            /* Override for language switcher to make it visible on mobile and tablet */
+            .language-switcher-keep-visible {
+                display: flex !important;
+            }
+        }
+        
+        /* Mobile and tablet only elements (show on mobile/tablet, hide on desktop) */
+        .navbar-mobile-only {
+            display: flex !important;
+        }
+        @media (min-width: 1024px) {
+            .navbar-mobile-only {
+                display: none !important;
+            }
+        }
+        
+        /* Small mobile screens width adjustment for cards */
+        @media (max-width: 430px) {
+            /* Override grid layout completely for mobile */
+            #sources-container {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: end !important;
+                grid-template-columns: none !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                max-width: 100% !important;
+                padding-left: 20px !important;
+
+            }
+            
+            /* Set width for cards to fit within screen */
+            #sources-container > div,
+            .source-card {
+                width: 89% !important;
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+            }
+            
+            /* Ensure the card content stays within bounds */
+            .group.relative {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                transform: translateX(0) !important;
+            }
+            
+            /* Ensure text content doesn't overflow */
+            h3, p {
+                max-width: 100% !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+            
+            /* Adjust status badges to prevent overflow */
+            .status-badge {
+                font-size: 10px !important;
+                padding: 2px 6px !important;
+            }
+            
+            /* Fix any potential transform issues */
+            .animate-fade-in {
+                transform: translateX(0) !important;
+            }
+        }
+         /* Small mobile screens width adjustment for cards */
+        @media (max-width: 390px) {
+            /* Override grid layout completely for mobile */
+            #sources-container {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: end !important;
+                grid-template-columns: none !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                max-width: 100% !important;
+                padding-left: 40px !important;
+
+            }
+            
+            /* Set width for cards to fit within screen */
+            #sources-container > div,
+            .source-card {
+                width: 83% !important;
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+            }
+            
+            /* Ensure the card content stays within bounds */
+            .group.relative {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                transform: translateX(0) !important;
+            }
+            
+            /* Ensure text content doesn't overflow */
+            h3, p {
+                max-width: 100% !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+            
+            /* Adjust status badges to prevent overflow */
+            .status-badge {
+                font-size: 10px !important;
+                padding: 2px 6px !important;
+            }
+            
+            /* Fix any potential transform issues */
+            .animate-fade-in {
+                transform: translateX(0) !important;
+            }
+        }
+          /* Small mobile screens width adjustment for cards */
+        @media (max-width: 360px) {
+            /* Override grid layout completely for mobile */
+            #sources-container {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: end !important;
+                grid-template-columns: none !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                max-width: 100% !important;
+                padding-left: 40px !important;
+
+            }
+            
+            /* Set width for cards to fit within screen */
+            #sources-container > div,
+            .source-card {
+                width: 76% !important;
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+            }
+            
+            /* Ensure the card content stays within bounds */
+            .group.relative {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                transform: translateX(0) !important;
+            }
+            
+            /* Ensure text content doesn't overflow */
+            h3, p {
+                max-width: 100% !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+            
+            /* Adjust status badges to prevent overflow */
+            .status-badge {
+                font-size: 10px !important;
+                padding: 2px 6px !important;
+            }
+            
+            /* Fix any potential transform issues */
+            .animate-fade-in {
+                transform: translateX(0) !important;
+            }
+        }
+        
     </style>
     <link rel="stylesheet" href="./css/styles.css?v=1.0.6">
     <script>
@@ -81,7 +269,7 @@
     <meta name="msapplication-TileColor" content="#10b981">
     <meta name="theme-color" content="#10b981">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/onsen/2.10.10/css/font_awesome/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta name="google-site-verification" content="IfxfsGr1vBDzJvp2_bhiKfrV6BN_kxRM56eMbKQ-r-4" />
     <!-- Google tag (gtag.js) -->
@@ -98,39 +286,7 @@
     
 </head>
 <body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex flex-col text-gray-100">
-    <!-- Mobile Device Message -->
-    <div id="mobile-message" class="fixed inset-0 bg-gradient-to-br from-gray-900 to-black z-[9999] flex items-center justify-center p-6 text-center hidden">
-        <div class="relative max-w-md w-full mx-4">
-            <!-- Background Blur Effect -->
-            <div class="absolute inset-0 bg-black/30 backdrop-blur-xl rounded-2xl -z-10"></div>
-            <!-- Border Glow -->
-            <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/20 via-emerald-400/10 to-emerald-500/20 p-px -z-20">
-                <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-black/0"></div>
-            </div>
-            
-            <div class="p-8">
-                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-400/10 mb-6 border border-emerald-500/20">
-                    <i class="fas fa-mobile-alt text-3xl text-emerald-400"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-4">Mobile Access Not Supported</h2>
-                <p class="text-gray-300 mb-6 leading-relaxed">The Hydra Library is optimized for desktop and laptop computers. For the best experience, please visit us from a larger screen device.</p>
-                <div class="h-px w-full bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent my-6"></div>
-                <p class="text-emerald-400 text-sm font-medium">Thank you for your understanding.</p>
-            </div>
-        </div>
-    </div>
     
-    <style>
-        @media (max-width: 1024px) {
-            #mobile-message {
-                display: flex !important;
-                padding: 1.5rem;
-            }
-            body > *:not(#mobile-message) {
-                display: none !important;
-            }
-        }
-    </style>
     <!-- Preloader -->
     <div id="preloader" class="fixed inset-0 z-[9999] bg-[#0A0A0A] transition-all duration-700 ease-in-out">
         <!-- Particle Canvas -->
@@ -279,29 +435,25 @@
                         <i class="fas fa-book text-emerald-500 text-2xl"></i>
                         <h1 class="hidden sm:block text-lg md:text-xl font-medium" data-i18n="header.title">Hydra Library</h1>
                     </a>
-                    <a href="./search.html" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 transition-all duration-200">
+                    <a href="./search.html" class="navbar-hide-mobile flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 transition-all duration-200">
                         <i class="fas fa-search text-sm"></i>
-                        <span class="hidden sm:inline text-sm">Search</span>
+                        <span class="lg:inline text-sm">Search Games</span>
                     </a>
-                    <a href="https://hydralibrary.featurebase.app/changelog" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition-all duration-200 relative">
+                    <a href="https://hydralibrary.featurebase.app/changelog" class="navbar-hide-mobile flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition-all duration-200 relative">
                         <i class="fas fa-clock-rotate-left text-sm"></i>
-                        <span class="hidden sm:inline text-sm">Changelog</span>
-                    </a>
-                    <a href="https://t.me/hydracommunityru" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition-all duration-200 relative">
-                        <i class="fab fa-telegram text-sm"></i>
-                        <span class="hidden sm:inline text-sm">Telegram(RU)</span>
+                        <span class="hidden lg:inline text-sm">Changelog</span>
                     </a>
                 </div>
                 <div class="flex items-center gap-2 md:gap-4 justify-end flex-1 max-w-[800px] ml-4">
                     <!-- Language Switcher -->
-                    <div class="relative shrink-0">
+                    <div class="relative shrink-0 navbar-hide-mobile language-switcher-keep-visible">
                         <button id="language-switcher" 
                                 type="button"
-                                class="w-[42px] sm:w-auto px-3 py-2 rounded-lg bg-white/5 border border-white/10 
+                                class="w-[42px] lg:w-auto px-3 py-2 rounded-lg bg-white/5 border border-white/10 
                                        text-white/70 hover:bg-white/10 transition-all duration-200
                                        flex items-center gap-1.5 text-sm">
                             <i class="fas fa-globe"></i>
-                            <span class="hidden sm:inline">English</span>
+                            <span class="hidden lg:inline">English</span>
                         </button>
                         <div id="language-dropdown" 
                              class="absolute top-full mt-1 z-[100] hidden
@@ -337,13 +489,13 @@
                             </button>
                         </div>
                     </div>
-                    <div class="relative w-full min-w-[200px] max-w-[280px] sm:max-w-[320px] md:max-w-[400px] xl:max-w-[500px] flex-1">
+                    <div class="relative w-full min-w-[200px] max-w-[280px] lg:max-w-[320px] md:max-w-[400px] xl:max-w-[500px] flex-1">
                         <input type="text" 
                                id="search" 
                                placeholder="Search" 
                                class="w-full bg-black/20 border border-white/5 rounded-lg 
-                                      px-3 sm:px-4 py-1.5 sm:py-2 
-                                      text-sm sm:text-base text-white/70 placeholder-white/40 
+                                      px-3 lg:px-4 py-1.5 lg:py-2 
+                                      text-sm lg:text-base text-white/70 placeholder-white/40 
                                       focus:outline-none focus:border-emerald-500/20 
                                       focus:bg-black/30 transition-colors"
                                data-i18n-placeholder="header.searchMobile"
@@ -352,29 +504,232 @@
                                  text-white/40 pointer-events-none text-sm"></i>
                     </div>
                     <div class="flex items-center gap-2 shrink-0 ml-2 whitespace-nowrap">
+                        <!-- Mobile Menu Button (moved to right side, hidden on desktop) -->
+                        <button id="mobile-menu-btn" class="flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 transition-all duration-200 navbar-mobile-only">
+                            <i class="fas fa-bars"></i>
+                        </button>
                         <a href="./about.html"
-                            class="px-3 py-2 sm:px-4 rounded-lg bg-white/5 border border-white/10 
+                            class="navbar-hide-mobile px-3 py-2 lg:px-4 rounded-lg bg-white/5 border border-white/10 
                                    text-white/70 hover:bg-white/10 transition-all duration-200
-                                   flex items-center justify-center sm:justify-start gap-1.5 text-sm shrink-0">
+                                   flex items-center justify-center lg:justify-start gap-1.5 text-sm shrink-0">
                             <i class="fas fa-info-circle"></i>
-                            <span class="hidden sm:inline" data-i18n="header.about">About</span>
+                            <span class="hidden lg:inline" data-i18n="header.about">About</span>
                         </a>
                         
                         </button>
                         <button id="suggest-btn" 
-                            class="w-8 h-8 sm:w-auto sm:h-auto sm:px-4 sm:py-2 rounded-lg 
+                            class="navbar-hide-mobile w-8 h-8 lg:w-auto lg:h-auto lg:px-4 lg:py-2 rounded-lg 
                                    bg-emerald-500/10 border border-emerald-500/20 
                                    text-emerald-400 hover:bg-emerald-500/20 
                                    transition-all duration-200 
-                                   flex items-center justify-center sm:gap-2 text-xs sm:text-sm whitespace-nowrap">
+                                   flex items-center justify-center lg:gap-2 text-xs lg:text-sm whitespace-nowrap">
                             <i class="fas fa-plus"></i>
-                            <span class="hidden sm:inline" data-i18n="header.suggest">Suggest Source</span>
+                            <span class="hidden lg:inline" data-i18n="header.suggest">Suggest Source</span>
                         </button>
                     </div>
                 </div>
             </nav>
         </div>
     </header>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 hidden">
+        <div class="h-full flex flex-col">
+            <!-- Mobile Menu Header -->
+            <div class="border-b border-white/5 py-3 px-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-book text-emerald-500 text-2xl"></i>
+                        <h1 class="text-lg font-medium text-white" data-i18n="header.title">Hydra Library</h1>
+                    </div>
+                    <button id="close-mobile-menu" class="w-10 h-10 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 transition-all duration-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Content -->
+            <div class="flex-1 overflow-y-auto py-6 px-4">
+                <div class="space-y-4">
+                    <a href="./search.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 transition-all duration-200">
+                        <i class="fas fa-search"></i>
+                        <span data-i18n="header.search">Search</span>
+                    </a>
+                    <a href="./about.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 transition-all duration-200">
+                        <i class="fas fa-info-circle"></i>
+                        <span data-i18n="header.about">About</span>
+                    </a>
+                    <button id="mobile-suggest-btn" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition-all duration-200">
+                        <i class="fas fa-plus"></i>
+                        <span data-i18n="header.suggest">Suggest Source</span>
+                    </button>
+                    <a href="https://hydralibrary.featurebase.app/changelog" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition-all duration-200">
+                        <i class="fas fa-clock-rotate-left"></i>
+                        <span>Changelog</span>
+                    </a>
+                    <a href="https://t.me/hydracommunityru" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition-all duration-200">
+                        <i class="fab fa-telegram"></i>
+                        <span>Telegram(RU)</span>
+                    </a>
+                    
+                    <!-- Source Status Dropdown in Mobile Menu -->
+                    <div class="mt-4 pt-4 border-t border-white/5">
+                        <h2 class="text-l font-semibold mb-3 text-white/90">Sorting</h2>
+                        <div class="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 transition-all duration-200">
+                            <div class="flex items-center justify-between cursor-pointer" id="mobile-status-toggle">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-shield"></i>
+                                    <span data-i18n="filters.status.title">Source Status</span>
+                                </div>
+                                <i class="fas fa-chevron-down transition-transform duration-200" id="mobile-status-chevron"></i>
+                            </div>
+                            <div class="mt-3 space-y-2 hidden" id="mobile-status-dropdown">
+                                <button class="status-filter-btn w-full" data-status="Trusted">
+                                    <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                                            <i class="fas fa-shield text-emerald-500 text-sm"></i>
+                                        </div>
+                                        <div class="flex items-center justify-between flex-1">
+                                            <span class="text-white/70 text-sm" data-i18n="filters.status.trusted">Trusted</span>
+                                            <span class="text-white/40">22</span>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                <button class="status-filter-btn w-full" data-status="Safe For Use">
+                                    <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                                            <i class="fas fa-check-circle text-blue-500 text-sm"></i>
+                                        </div>
+                                        <div class="flex items-center justify-between flex-1">
+                                            <span class="text-white/70 text-sm" data-i18n="filters.status.safeForUse">Safe For Use</span>
+                                            <span class="text-white/40">4</span>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                <button class="status-filter-btn w-full" data-status="Use At Your Own Risk">
+                                    <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                                            <i class="fas fa-exclamation-triangle text-red-500 text-sm"></i>
+                                        </div>
+                                        <div class="flex items-center justify-between flex-1">
+                                            <span class="text-white/70 text-sm" data-i18n="filters.status.useAtOwnRisk">Use At Your Own Risk</span>
+                                            <span class="text-white/40">2</span>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                <button class="status-filter-btn w-full" data-status="Works In Russia">
+                                    <div class="flex items-center gap-3 p-2.5 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <div class="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+                                            <i class="fas fa-globe text-purple-500 text-sm"></i>
+                                        </div>
+                                        <div class="flex items-center justify-between flex-1">
+                                            <span class="text-white/70 text-sm" data-i18n="filters.status.worksInRussia">Works In Russia</span>
+                                            <span class="text-white/40">13</span>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sort Sources Dropdown in Mobile Menu -->
+                    <div class="mt-2">
+                        <div class="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 transition-all duration-200">
+                            <div class="flex items-center justify-between cursor-pointer" id="mobile-sorting-toggle">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-sort"></i>
+                                    <span data-i18n="filters.sort.title">Sort Sources</span>
+                                </div>
+                                <i class="fas fa-chevron-down transition-transform duration-200" id="mobile-sorting-chevron"></i>
+                            </div>
+                            <div class="mt-3 space-y-2 hidden" id="mobile-sorting-dropdown">
+                                <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="hot">
+                                    <i class="fas fa-fire text-[10px] text-red-500"></i>
+                                    <span class="text-white/70 text-sm" data-i18n="filters.sort.hot">Hot (24h)</span>
+                                </button>
+                                <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="new">
+                                    <i class="fas fa-star text-[10px] text-amber-500"></i>
+                                    <span class="text-white/70 text-sm" data-i18n="filters.sort.new">New</span>
+                                </button>
+                                <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="most-copies">
+                                    <i class="fas fa-copy text-[10px] text-emerald-500"></i>
+                                    <span class="text-white/70 text-sm" data-i18n="filters.sort.mostCopies">Most Copies</span>
+                                </button>
+                                <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="most-installs">
+                                    <i class="fas fa-download text-[10px] text-emerald-500"></i>
+                                    <span class="text-white/70 text-sm" data-i18n="filters.sort.mostInstalls">Most Installs</span>
+                                </button>
+                                <button class="sort-option w-full px-4 py-2 text-left text-xs text-white/70 hover:bg-white/10 transition-colors duration-200 flex items-center gap-2 rounded-lg border border-white/5 bg-black/20" data-sort="top-rated">
+                                    <i class="fas fa-star text-[10px] text-amber-400"></i>
+                                    <span class="text-white/70 text-sm" data-i18n="filters.sort.topRated">Top Rated</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Games Count Dropdown in Mobile Menu -->
+                    <div class="mt-2">
+                        
+                        <div class="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 transition-all duration-200">
+                            <div class="flex items-center justify-between cursor-pointer" id="mobile-games-count-toggle">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span data-i18n="filters.gamesCount.title">Games Count</span>
+                                </div>
+                                <i class="fas fa-chevron-down transition-transform duration-200" id="mobile-games-count-chevron"></i>
+                            </div>
+                            <div class="mt-3 space-y-2 hidden" id="mobile-games-count-dropdown">
+                                <button class="games-filter-btn w-full" data-min="0" data-max="999">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm" data-i18n="filters.gamesCount.range1">0-999</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
+                                        </div>
+                                        <span class="text-white/40 text-xs">0</span>
+                                    </div>
+                                </button>
+
+                                <button class="games-filter-btn w-full" data-min="1000" data-max="4999">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm" data-i18n="filters.gamesCount.range2">1000-4999</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
+                                        </div>
+                                        <span class="text-white/40 text-xs">4</span>
+                                    </div>
+                                </button>
+
+                                <button class="games-filter-btn w-full" data-min="5000" data-max="9999">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm" data-i18n="filters.gamesCount.range3">5000-9999</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
+                                        </div>
+                                        <span class="text-white/40 text-xs">5</span>
+                                    </div>
+                                </button>
+
+                                <button class="games-filter-btn w-full" data-min="10000" data-max="999999">
+                                    <div class="flex items-center gap-2 p-2 rounded-lg border border-white/5 bg-black/20 hover:bg-black/40 transition-all duration-200">
+                                        <span class="text-white/90 text-sm" data-i18n="filters.gamesCount.range4">10000+</span>
+                                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full w-0 bg-emerald-500/50 rounded-full"></div>
+                                        </div>
+                                        <span class="text-white/40 text-xs">0</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Language switcher removed from mobile menu - now using navbar language switcher -->
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- Suggest Modal -->
     <div id="suggest-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
@@ -641,20 +996,10 @@
                 <!-- Sources Grid -->
                 <div class="flex-1">
                     <!-- Mobile/Tablet Filter Button -->
-                    <div class="hidden mb-4">
+                    <div class="hidden">
                         <button id="mobile-filters-btn" 
-                                class="w-full bg-[#111]/40 backdrop-blur-sm border border-white/5 rounded-lg px-4 py-3 text-sm text-white/70 hover:bg-[#111]/60 transition-all duration-200 flex items-center justify-between cursor-pointer">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-filter text-emerald-500/70"></i>
-                                <span data-i18n="filters.title">Filters & Sort</span>
-                            </div>
-                            <div class="flex items-center gap-3 text-xs">
-                                <div id="active-filters-count" 
-                                     class="hidden px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                                    0 active
-                                </div>
-                                <i class="fas fa-chevron-right text-white/30"></i>
-                            </div>
+                                class="w-full bg-[#111]/40 backdrop-blur-sm  rounded-lg text-sm text-white/70 hover:bg-[#111]/60 transition-all duration-200 flex items-center justify-between cursor-pointer">
+                            
                         </button>
                     </div>
 
@@ -839,5 +1184,131 @@
     </script>
     <script async type='text/javascript' src='//bettydwarfcoincident.com/c3/dd/f4/c3ddf49b76d1794238277509594f9009.js'></script> 
     <script async type='text/javascript' src='//bettydwarfcoincident.com/ea/39/e9/ea39e9c2c020a9ed11a3e578c1a25a9b.js'></script>
+    
+    <!-- Mobile Menu JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const closeMobileMenuBtn = document.getElementById('close-mobile-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileSuggestBtn = document.getElementById('mobile-suggest-btn');
+            const suggestModal = document.getElementById('suggest-modal');
+            
+            // Open mobile menu
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                });
+            }
+            
+            // Close mobile menu
+            if (closeMobileMenuBtn) {
+                closeMobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                    document.body.style.overflow = ''; // Re-enable scrolling
+                });
+            }
+            
+            // Mobile suggest button
+            if (mobileSuggestBtn) {
+                mobileSuggestBtn.addEventListener('click', function() {
+                    suggestModal.classList.remove('hidden');
+                    mobileMenu.classList.add('hidden');
+                });
+            }
+            
+            // Mobile Source Status dropdown toggle
+            const mobileStatusToggle = document.getElementById('mobile-status-toggle');
+            const mobileStatusDropdown = document.getElementById('mobile-status-dropdown');
+            const mobileStatusChevron = document.getElementById('mobile-status-chevron');
+            
+            if (mobileStatusToggle && mobileStatusDropdown) {
+                mobileStatusToggle.addEventListener('click', function() {
+                    mobileStatusDropdown.classList.toggle('hidden');
+                    mobileStatusChevron.classList.toggle('rotate-180');
+                });
+            }
+            
+            // Mobile sorting dropdown toggle
+            const mobileSortingToggle = document.getElementById('mobile-sorting-toggle');
+            const mobileSortingDropdown = document.getElementById('mobile-sorting-dropdown');
+            const mobileSortingChevron = document.getElementById('mobile-sorting-chevron');
+            
+            if (mobileSortingToggle && mobileSortingDropdown) {
+                mobileSortingToggle.addEventListener('click', function() {
+                    mobileSortingDropdown.classList.toggle('hidden');
+                    mobileSortingChevron.classList.toggle('rotate-180');
+                });
+            }
+            
+            // Mobile Games Count dropdown toggle
+            const mobileGamesCountToggle = document.getElementById('mobile-games-count-toggle');
+            const mobileGamesCountDropdown = document.getElementById('mobile-games-count-dropdown');
+            const mobileGamesCountChevron = document.getElementById('mobile-games-count-chevron');
+            
+            if (mobileGamesCountToggle && mobileGamesCountDropdown) {
+                mobileGamesCountToggle.addEventListener('click', function() {
+                    mobileGamesCountDropdown.classList.toggle('hidden');
+                    mobileGamesCountChevron.classList.toggle('rotate-180');
+                });
+            }
+            
+            // Handle filter buttons in mobile menu
+            const mobileStatusFilterBtns = mobileMenu.querySelectorAll('.status-filter-btn');
+            const mobileSortOptions = mobileMenu.querySelectorAll('.sort-option');
+            const mobileGamesFilterBtns = mobileMenu.querySelectorAll('.games-filter-btn');
+            
+            // Status filter buttons
+            mobileStatusFilterBtns.forEach(button => {
+                button.addEventListener('click', function() {
+                    const status = this.getAttribute('data-status');
+                    // Apply the same filter as desktop
+                    const desktopStatusBtn = document.querySelector(`.status-filter-btn[data-status="${status}"]`);
+                    if (desktopStatusBtn && desktopStatusBtn !== this) {
+                        desktopStatusBtn.click();
+                    }
+                    // Close mobile menu
+                    mobileMenu.classList.add('hidden');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Sort options
+            mobileSortOptions.forEach(button => {
+                button.addEventListener('click', function() {
+                    const sort = this.getAttribute('data-sort');
+                    // Apply the same sort as desktop
+                    const desktopSortBtn = document.querySelector(`.sort-option[data-sort="${sort}"]`);
+                    if (desktopSortBtn && desktopSortBtn !== this) {
+                        desktopSortBtn.click();
+                    }
+                    // Close mobile menu
+                    mobileMenu.classList.add('hidden');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Games count filter buttons
+            mobileGamesFilterBtns.forEach(button => {
+                button.addEventListener('click', function() {
+                    const min = this.getAttribute('data-min');
+                    const max = this.getAttribute('data-max');
+                    // Apply the same filter as desktop
+                    const desktopGamesBtn = document.querySelector(`.games-filter-btn[data-min="${min}"][data-max="${max}"]`);
+                    if (desktopGamesBtn && desktopGamesBtn !== this) {
+                        desktopGamesBtn.click();
+                    }
+                    // Close mobile menu
+                    mobileMenu.classList.add('hidden');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Mobile menu language switcher has been removed
+            // Now using the navbar language switcher for both desktop and mobile
+        });
+    </script>
 </body>
 </html>
