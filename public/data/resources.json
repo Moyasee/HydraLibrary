@@ -280,7 +280,7 @@
             "url": "https://raw.githubusercontent.com/s0d4lite52spb/sodalite-hydralinks/refs/heads/main/erotorrent.ru_list.json",
             "gamesCount": "4554",
             "status": [
-                "Use At Your Own Risk",
+                "Safe For Use",
                 "NSFW",
                 "Works In Russia"
             ],
@@ -303,7 +303,7 @@
             "url": "https://raw.githubusercontent.com/Wexdor/thelastgame/refs/heads/main/games.json",
             "gamesCount": "8391",
             "status": [
-                "Use At Your Own Risk",
+                "Safe For Use",
                 "Works In Russia"
             ],
             "addedDate": "2025-05-27"
@@ -336,7 +336,7 @@
             "url": "https://hydrasources.su/nnmclub.json",
             "gamesCount": "10010",
             "status": [
-                "Use At Your Own Risk",
+                "Safe For Use",
                 "Works In Russia"
             ],
             "addedDate": "2025-05-29"
@@ -347,7 +347,7 @@
             "url": "https://hydrasources.su/freetp.json",
             "gamesCount": "2273",
             "status": [
-                "Use At Your Own Risk",
+                "Safe For Use",
                 "Works In Russia"
             ],
             "addedDate": "2025-05-30"
@@ -358,7 +358,7 @@
             "url": "https://trash-xrl.github.io/Fonte%20teste.json",
             "gamesCount": "165",
             "status": [
-                "Use At Your Own Risk",
+                "Safe For Use",
                 "Works In Russia"
             ],
             "addedDate": "2025-06-04"
@@ -451,7 +451,7 @@
         {
             "title": "SteamRip | Made by Vinikjkkj",
             "description": "This source and other sources from this author have auto update everyday.",
-            "url": "https://raw.githubusercontent.com/marsargofanclub/fuckyoutitanic/refs/heads/main/steamrip.json",
+            "url": "https://raw.githubusercontent.com/vinikjkkj/game-links-collection/refs/heads/master/jsons/steamrip.json",
             "gamesCount": "3306",
             "status": [
                 "Use At Your Own Risk"
