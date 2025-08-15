@@ -331,6 +331,10 @@ export default {
         'HydraSources.su | nnmclub': {
             title: 'HydraSources.su | nnmclub',
             description: 'Игры с русского трекера - nnmclub'
+        },
+        'SteamGG | by Wkeynhk': {
+            title: 'SteamGG | by Wkeynhk',
+            description: 'Источник от Wkeynhk с предустановленными играми с сайта SteamGG'
         }
 
         
