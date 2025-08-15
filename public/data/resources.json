@@ -440,11 +440,12 @@
         },
         {
             "title": "IrisHub",
-            "description": "irishub is the source with multi source in one json file",
+            "description": "IrisHub provides a unified source, aggregating multiple game sources into a single JSON file.",
             "url": "https://raw.githubusercontent.com/irisihrz/json/refs/heads/main/irishub.json",
             "gamesCount": "72000",
             "status": [
-                "Use At Your Own Risk"
+                "Safe For Use",
+                "Works In Russia"
             ],
             "addedDate": "2025-08-04"
         },
@@ -474,7 +475,8 @@
             "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/steamgg.json",
             "gamesCount": "5561",
             "status": [
-                "Safe For Use"
+                "Safe For Use",
+                "Works In Russia"
             ],
             "addedDate": "2025-08-15"
         }
