@@ -436,7 +436,7 @@
             "status": [
                 "Use At Your Own Risk"
             ],
-            "addedDate": "2025.08.04"
+            "addedDate": "2025-08-04"
         },
         {
             "title": "IrisHub",
@@ -446,7 +446,7 @@
             "status": [
                 "Use At Your Own Risk"
             ],
-            "addedDate": "2025.08.04"
+            "addedDate": "2025-08-04"
         },
         {
             "title": "SteamRip | Made by Vinikjkkj",
@@ -456,7 +456,7 @@
             "status": [
                 "Use At Your Own Risk"
             ],
-            "addedDate": "2025.08.04"
+            "addedDate": "2025-08-04"
         },
         {
             "title": "FitGirl | Made by Vinikjkkj",
@@ -466,7 +466,17 @@
             "status": [
                 "Use At Your Own Risk"
             ],
-            "addedDate": "2025.08.04"
+            "addedDate": "2025-08-04"
+        },
+        {
+            "title": "SteamGG | by Wkeynhk",
+            "description": "A source from Wkeynhk with pre-installed games from the SteamGG site",
+            "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/steamgg.json",
+            "gamesCount": "5561",
+            "status": [
+                "Safe For Use"
+            ],
+            "addedDate": "2025-08-15"
         }
     ]
 }
