@@ -479,6 +479,39 @@
                 "Works In Russia"
             ],
             "addedDate": "2025-08-15"
+        },
+        {
+            "title": "Skidrow (By Merabet4mine)",
+            "description": "Contains games from skidrow. Updating daily to weekly.",
+            "url": "https://raw.githubusercontent.com/Merabet4mine/merabet4mine.github.io/refs/heads/master/assets/skidrow.json",
+            "gamesCount": "92500",
+            "status": [
+                "Use At Your Own Risk",
+                "Works In Russia"
+            ],
+            "addedDate": "2025-09-23"
+        },
+        {
+            "title": "Skidrow & Reloaded (By Altansar69)",
+            "description": "Scrap of all Skidrow & Reloaded website.",
+            "url": "https://raw.githubusercontent.com/Altansar69/Hydra-Library/refs/heads/main/hydra-skidrowreloaded/skidrow_cleaned.json",
+            "gamesCount": "110000",
+            "status": [
+                "Use At Your Own Risk",
+                "Works In Russia"
+            ],
+            "addedDate": "2025-09-23"
+        },
+        {
+            "title": "GamesTorrents (By Altansar69)",
+            "description": "Scrap of all GamesTorrents website.",
+            "url": "https://raw.githubusercontent.com/Altansar69/Hydra-Library/refs/heads/main/hydra-gamestorrents/gamestorrents.json",
+            "gamesCount": "11000",
+            "status": [
+                "Use At Your Own Risk",
+                "Works In Russia"
+            ],
+            "addedDate": "2025-09-23"
         }
     ]
 }
