@@ -67,6 +67,7 @@ export default {
         trusted: 'Trusted',
         safeForUse: 'Safe For Use',
         useAtOwnRisk: 'Use At Your Own Risk',
+        abandoned: 'Abandoned',
         worksInRussia: 'Works In Russia',
         nsfw: 'NSFW',
         software: 'Software'

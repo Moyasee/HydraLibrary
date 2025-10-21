@@ -1121,6 +1121,7 @@ function createSourceCard(source) {
     };
     
     const isRisky = source.status.includes('Use At Your Own Risk');
+    const isAbandoned = source.status.includes('Abandoned');
     const stats = source.stats || { installs: 0, copies: 0, recentActivity: 0 };
     const recentActivity = parseInt(stats.recentActivity || 0);
     
@@ -1152,6 +1153,12 @@ function createSourceCard(source) {
                 icon: 'exclamation-triangle',
                 key: 'useAtOwnRisk',
                 customClass: 'bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/30 '
+            },
+            'abandoned': {
+                color: 'gray',
+                icon: 'times-circle',
+                key: 'abandoned',
+                customClass: 'bg-gray-500/10 border-gray-500/20 text-gray-400 hover:bg-gray-500/20 hover:border-gray-500/30 '
             },
             'works-in-russia': {
                 color: 'teal',
@@ -1194,14 +1201,14 @@ function createSourceCard(source) {
 
     card.innerHTML = `
         <div class="group relative h-full flex flex-col overflow-hidden
-                    ${isRisky ? 'border-red-500/20' : 'border-white/5'} border
+                    ${isAbandoned ? 'border-gray-500/20' : isRisky ? 'border-red-500/20' : 'border-white/5'} border
                     backdrop-blur-sm transition-all duration-300
-                    hover:shadow-lg ${isRisky ? 'hover:shadow-red-500/10' : 'hover:shadow-emerald-500/10'}
-                    bg-[#111]/40 rounded-xl">
+                    hover:shadow-lg ${isAbandoned ? 'hover:shadow-gray-500/10' : isRisky ? 'hover:shadow-red-500/10' : 'hover:shadow-emerald-500/10'}
+                    bg-[#111]/40 rounded-xl ${isAbandoned ? 'opacity-75' : ''}">
             
             <!-- Card background effects -->
             <div class="absolute inset-0 bg-gradient-to-b 
-                        ${isRisky ? 'from-red-500/5' : 'from-emerald-500/5'} to-transparent 
+                        ${isAbandoned ? 'from-gray-400/5' : isRisky ? 'from-red-500/5' : 'from-emerald-500/5'} to-transparent 
                         opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             
             <!-- Glass effect overlay - Moved before the games count -->
@@ -1209,8 +1216,7 @@ function createSourceCard(source) {
             
             <!-- Games count badge -->
             <div class="absolute mt-4 right-4 inline-flex items-center gap-1.5 px-2 py-1 z-10
-                        rounded-md bg-emerald-500/10 border border-emerald-500/20 
-                        text-emerald-400 text-xs">
+                        rounded-md ${isAbandoned ? 'bg-gray-500/10 border-gray-500/20 text-gray-400' : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'} text-xs">
                 <i class="fas fa-gamepad text-[10px]"></i>
                 <span>${source.gamesCount}</span>
             </div>
@@ -1225,14 +1231,14 @@ function createSourceCard(source) {
                 <!-- Title and description -->
                 <div class="flex items-start gap-3 flex-1">
                     <div class="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center
-                         ${isRisky ? 'bg-red-500/10 border-red-500/20' : 'bg-emerald-500/10 border-emerald-500/20'} 
+                         ${isAbandoned ? 'bg-gray-500/10 border-gray-500/20' : isRisky ? 'bg-red-500/10 border-red-500/20' : 'bg-emerald-500/10 border-emerald-500/20'} 
                          border group-hover:scale-110 transition-transform duration-300
                          backdrop-blur-sm">
-                        <i class="fas ${isRisky ? 'fa-triangle-exclamation text-red-500/70' : 'fa-book-open text-emerald-500/70'} 
+                        <i class="fas ${isAbandoned ? 'fa-times-circle text-gray-500/70' : isRisky ? 'fa-triangle-exclamation text-red-500/70' : 'fa-book-open text-emerald-500/70'} 
                              text-lg"></i>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <h3 class="text-base font-medium text-white group-hover:text-${isRisky ? 'red' : 'emerald'}-400 
+                        <h3 class="text-base font-medium text-white group-hover:text-${isAbandoned ? 'gray' : isRisky ? 'red' : 'emerald'}-400 
                                    transition-colors duration-300 mb-1.5 truncate">
                             ${translation.title}
                         </h3>
@@ -1288,11 +1294,12 @@ function createSourceCard(source) {
             </div>
 
             <!-- Card actions -->
-            <div class="relative border-t ${isRisky ? 'border-red-500/10' : 'border-white/5'} 
+            <div class="relative border-t ${isAbandoned ? 'border-gray-400/10' : isRisky ? 'border-red-500/10' : 'border-white/5'} 
                         p-3 bg-black/30 backdrop-blur-sm">
                 <div class="flex gap-2">
                     <button class="install-btn flex-1 
-                                 ${isRisky ? 'bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/20' : 
+                                 ${isAbandoned ? 'bg-gray-500/10 hover:bg-gray-500/20 text-gray-400 border-gray-500/20' :
+                                   isRisky ? 'bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/20' : 
                                            'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border-emerald-500/20'}
                                  border rounded-lg px-4 py-2 text-sm font-medium 
                                  transition-all duration-200 flex items-center justify-center gap-2 

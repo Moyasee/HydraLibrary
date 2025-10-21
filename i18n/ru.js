@@ -72,6 +72,7 @@ export default {
         trusted: 'Проверенный',
         safeForUse: 'Безопасный',
         useAtOwnRisk: 'Не проверенный',
+        abandoned: 'Заброшен',
         worksInRussia: 'Работает в России',
         nsfw: 'NSFW',
         software: 'Программное обеспечение'

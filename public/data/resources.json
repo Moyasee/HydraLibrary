@@ -270,6 +270,7 @@
             "url": "https://torrents.starserv.net/torrents/sources/torrminatorr_linuxrule",
             "gamesCount": "2915",
             "status": [
+                "Abandoned",
                 "Use At Your Own Risk"
             ],
             "addedDate": "2025-02-18"
@@ -298,17 +299,6 @@
             "addedDate": "2025-05-27"
         },
         {
-            "title": "TheLastGame",
-            "description": "Games from Russian site thelastgame.ru",
-            "url": "https://raw.githubusercontent.com/Wexdor/thelastgame/refs/heads/main/games.json",
-            "gamesCount": "8391",
-            "status": [
-                "Safe For Use",
-                "Works In Russia"
-            ],
-            "addedDate": "2025-05-27"
-        },
-        {
             "title": "RuTracker | Linux only",
             "description": "Automatically updated source from Wkeynhk containing games for Linux from the RuTracker site.",
             "url": "https://raw.githubusercontent.com/Wkeynhk/RuTracker-Linux/refs/heads/main/rutrackerlinux.json",
@@ -325,8 +315,8 @@
             "url": "https://ggvv13.github.io/Linux-Games.json",
             "gamesCount": "990",
             "status": [
-                "Use At Your Own Risk",
-                "Works In Russia"
+                "Abandoned",
+                "Use At Your Own Risk"
             ],
             "addedDate": "2025-05-29"
         },
@@ -358,8 +348,8 @@
             "url": "https://trash-xrl.github.io/Fonte%20teste.json",
             "gamesCount": "165",
             "status": [
-                "Safe For Use",
-                "Works In Russia"
+                "Abandoned",
+                "Safe For Use"
             ],
             "addedDate": "2025-06-04"
         },
@@ -369,8 +359,8 @@
             "url": "https://raw.githubusercontent.com/ewx12344/Gestapo-Source/refs/heads/main/gestaposource.json",
             "gamesCount": "22",
             "status": [
-                "Use At Your Own Risk",
-                "Works In Russia"
+                "Abandoned",
+                "Use At Your Own Risk"
             ],
             "addedDate": "2025-06-08"
         },
@@ -391,8 +381,8 @@
             "url": "https://achievement-hub.netlify.app/achievement.json",
             "gamesCount": "74",
             "status": [
-                "Use At Your Own Risk",
-                "Works In Russia"
+                "Abandoned",
+                "Use At Your Own Risk"
             ],
             "addedDate": "2025-07-08"
         },
@@ -402,8 +392,8 @@
             "url": "https://vxvulgooficial.github.io/vxvulgooficial/vxvulgo.json",
             "gamesCount": "1585",
             "status": [
-                "Use At Your Own Risk",
-                "Works In Russia"
+                "Abandoned",
+                "Use At Your Own Risk"
             ],
             "addedDate": "2025-07-08"
         },
@@ -413,8 +403,8 @@
             "url": "https://wpnnt.github.io/sources/warph_collection.json",
             "gamesCount": "3468",
             "status": [
-                "Use At Your Own Risk",
-                "Works In Russia"
+                "Abandoned",
+                "Use At Your Own Risk"
             ],
             "addedDate": "2025-07-10"
         },
@@ -434,6 +424,7 @@
             "url": "https://nexusbuildcompany.github.io/nexus.json",
             "gamesCount": "4404",
             "status": [
+                "Abandoned",
                 "Use At Your Own Risk"
             ],
             "addedDate": "2025-08-04"
@@ -444,8 +435,8 @@
             "url": "https://raw.githubusercontent.com/irisihrz/json/refs/heads/main/irishub.json",
             "gamesCount": "72000",
             "status": [
-                "Safe For Use",
-                "Works In Russia"
+                "Abandoned",
+                "Use At Your Own Risk"
             ],
             "addedDate": "2025-08-04"
         },
@@ -486,8 +477,8 @@
             "url": "https://raw.githubusercontent.com/Merabet4mine/merabet4mine.github.io/refs/heads/master/assets/skidrow.json",
             "gamesCount": "92500",
             "status": [
-                "Use At Your Own Risk",
-                "Works In Russia"
+                "Abandoned",
+                "Use At Your Own Risk"
             ],
             "addedDate": "2025-09-23"
         },
@@ -497,8 +488,8 @@
             "url": "https://raw.githubusercontent.com/Altansar69/Hydra-Library/refs/heads/main/hydra-skidrowreloaded/skidrow_cleaned.json",
             "gamesCount": "110000",
             "status": [
-                "Use At Your Own Risk",
-                "Works In Russia"
+                "Abandoned",
+                "Use At Your Own Risk"
             ],
             "addedDate": "2025-09-23"
         },
@@ -508,8 +499,8 @@
             "url": "https://raw.githubusercontent.com/Altansar69/Hydra-Library/refs/heads/main/hydra-gamestorrents/gamestorrents.json",
             "gamesCount": "11000",
             "status": [
-                "Use At Your Own Risk",
-                "Works In Russia"
+                "Abandoned",
+                "Use At Your Own Risk"
             ],
             "addedDate": "2025-09-23"
         }
