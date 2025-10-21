@@ -14,7 +14,7 @@
             "title": "SteamRip [DIRECT DOWNLOAD / NO TORRENT]",
             "description": "Pre-installed games, uncompressed, and sourced reliably.",
             "url": "https://hydralinks.pages.dev/sources/steamrip.json",
-            "gamesCount": "897",
+            "gamesCount": "1045",
             "status": [
                 "Trusted"
             ],
@@ -24,7 +24,7 @@
             "title": "DODI",
             "description": "Renowned brand in pirated video games, this repacker is among the finest in the field",
             "url": "https://hydralinks.pages.dev/sources/dodi.json",
-            "gamesCount": "2830",
+            "gamesCount": "2920",
             "status": [
                 "Trusted"
             ],
@@ -44,7 +44,7 @@
             "title": "FitGirl",
             "description": "Home archivist to web's top game repacker: the ultimate source for trustworthy games.",
             "url": "https://hydralinks.pages.dev/sources/fitgirl.json",
-            "gamesCount": "6665",
+            "gamesCount": "7142",
             "status": [
                 "Trusted"
             ],
@@ -54,7 +54,7 @@
             "title": "KaOsKrew",
             "description": "Veteran rippers who, over the past two decades, have consistently created rips and repacks.",
             "url": "https://hydralinks.pages.dev/sources/kaoskrew.json",
-            "gamesCount": "3275",
+            "gamesCount": "3392",
             "status": [
                 "Trusted"
             ],
@@ -64,7 +64,7 @@
             "title": "Online-Fix",
             "description": "Grants online solutions to play multiplayer in specific games with others.",
             "url": "https://hydralinks.pages.dev/sources/onlinefix.json",
-            "gamesCount": "1841",
+            "gamesCount": "2038",
             "status": [
                 "Trusted"
             ],
@@ -84,7 +84,7 @@
             "title": "ByXatab",
             "description": "Esteemed within the realm of pirated video games, this site stands out as a prominent figure.",
             "url": "https://hydralinks.pages.dev/sources/xatab.json",
-            "gamesCount": "9053",
+            "gamesCount": "10218",
             "status": [
                 "Trusted"
             ],
@@ -148,7 +148,7 @@
             "title": "Wkeynhk Source",
             "description": "Automatically updated source containing games from sites: RuTracker and Rutor",
             "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/rutor.json",
-            "gamesCount": "61713",
+            "gamesCount": "62297",
             "status": [
                 "Safe For Use",
                 "Works In Russia"
@@ -282,9 +282,9 @@
             "url": "https://raw.githubusercontent.com/s0d4lite52spb/sodalite-hydralinks/refs/heads/main/erotorrent.ru_list.json",
             "gamesCount": "4554",
             "status": [
+                "Abandoned",
                 "Safe For Use",
-                "NSFW",
-                "Works In Russia"
+                "NSFW"
             ],
             "addedDate": "2025-05-01"
         },
@@ -303,7 +303,7 @@
             "title": "RuTracker | Linux only",
             "description": "Automatically updated source from Wkeynhk containing games for Linux from the RuTracker site.",
             "url": "https://raw.githubusercontent.com/Wkeynhk/RuTracker-Linux/refs/heads/main/rutrackerlinux.json",
-            "gamesCount": "3633",
+            "gamesCount": "3602",
             "status": [
                 "Safe For Use",
                 "Works In Russia"
@@ -371,6 +371,7 @@
             "url": "https://bumyy32.github.io/bumyysoftware.json",
             "gamesCount": "12",
             "status": [
+                "Abandoned",
                 "Safe For Use",
                 "Software"
             ],
@@ -413,7 +414,7 @@
             "title": "Pub's Lounge | Offline Activation",
             "description": "Clean game files for Offline Activation. Partnered with Hydra Community Discord server.",
             "url": "https://konthe1.github.io/DenuvoPubSource.json",
-            "gamesCount": "85",
+            "gamesCount": "97",
             "status": [
                 "Safe For Use"
             ],
