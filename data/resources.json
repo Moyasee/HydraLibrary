@@ -503,6 +503,26 @@
                 "Use At Your Own Risk"
             ],
             "addedDate": "2025-09-23"
+        },
+        {
+            "title": "World of PC Games (By Smealm)",
+            "description": "World of PC Games is a site that hosts links to preinstalled games",
+            "url": "https://raw.githubusercontent.com/Smealm/hydra-launcher-stuff/refs/heads/main/hydra%20sources/FMHY/world%20of%20pc%20games/worldofpcgames.json",
+            "gamesCount": "10291",
+            "status": [
+                "Use At Your Own Risk"
+            ],
+            "addedDate": "2025-10-21"
+        },
+        {
+            "title": "Steam Underground (By Smealm)",
+            "description": "Steam Underground, a starred source on FMHY for preinstalled games.",
+            "url": "https://raw.githubusercontent.com/Smealm/hydra-launcher-stuff/refs/heads/main/hydra%20sources/FMHY/steam%20undergound/steamunderground.json",
+            "gamesCount": "1597",
+            "status": [
+                "Use At Your Own Risk"
+            ],
+            "addedDate": "2025-10-21"
         }
     ]
 }
