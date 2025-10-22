@@ -5,8 +5,8 @@ export default {
     },
     header: {
         title: 'Hydra Library',
-        search: 'Pesquisar Jogos',
-        searchMobile: 'Pesquisar Jogos',
+        search: 'Pesquisar Fontes',
+        searchMobile: 'Pesquisar Fontes',
         about: 'Sobre',
         suggest: 'Sugerir Fonte',
         supportMe: 'Apoie-me',

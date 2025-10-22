@@ -5,8 +5,8 @@ export default {
     },
     header: {
         title: 'Hydra Library',
-        search: 'Поиск игр',
-        searchMobile: 'Поиск игр',
+        search: 'Поиск источников',
+        searchMobile: 'Поиск источников',
         about: 'О проекте',
         suggest: 'Предложить источник',
         supportMe: 'Поддержать',
