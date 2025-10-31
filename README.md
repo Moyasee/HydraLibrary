@@ -64,7 +64,7 @@ HydraLibrary is your one-stop destination for managing, verifying, and exploring
 </p>
 
 <ul>
-  <li><a href="https://moyasee.github.io/isitonhydra/">🎯 Is It On Hydra</a> – Check if a game is included in Hydra sources</li>
+  <li><a href="https://library.hydra.wiki>🎯 Search Engine for games</a> – Check if a game is included in Hydra sources</li>
 </ul>
 
 <br/>
