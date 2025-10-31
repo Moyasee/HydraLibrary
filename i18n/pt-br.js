@@ -23,8 +23,7 @@ export default {
             title: 'Status da Fonte',
             trusted: 'Confiável',
             safeForUse: 'Seguro para Uso',
-            useAtOwnRisk: 'Não verificadas',
-            worksInRussia: 'Funciona na Rússia'
+            useAtOwnRisk: 'Não verificadas'
         },
         sort: {
             title: 'Ordenar Fontes',
@@ -73,7 +72,6 @@ export default {
         safeForUse: 'Seguro para Uso',
         useAtOwnRisk: 'Não Verificado',
         abandoned: 'Abandonado',
-        worksInRussia: 'Funciona na Rússia',
         nsfw: 'NSFW',
         software: 'Software'
     },
@@ -128,11 +126,7 @@ export default {
             new: {
                 title: 'Novo',
                 description: 'Fontes adicionadas recentemente que ainda estão sendo avaliadas pela comunidade.'
-            },
-            worksInRussia: {
-                title: 'Funciona na Rússia',
-                description: 'Fontes que funcionam na Rússia, permitindo que os usuários contornem a validação infinita de fontes no Hydra.'
-            },
+            }
         },
         topDonors: {
             title: 'Maiores Doadores',

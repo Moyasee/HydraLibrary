@@ -23,8 +23,7 @@ export default {
             title: 'Статус источника',
             trusted: 'Проверенный',
             safeForUse: 'Безопасный',
-            useAtOwnRisk: 'Не проверенный',
-            worksInRussia: 'Работает в России',
+            useAtOwnRisk: 'Не проверенный'
         },
         sort: {
             title: 'Сортировка',
@@ -73,7 +72,6 @@ export default {
         safeForUse: 'Безопасный',
         useAtOwnRisk: 'Не проверенный',
         abandoned: 'Заброшен',
-        worksInRussia: 'Работает в России',
         nsfw: 'NSFW',
         software: 'Программное обеспечение'
     },
@@ -143,11 +141,7 @@ export default {
             new: {
                 title: 'Новый',
                 description: 'Недавно добавленные источники, которые всё ещё оцениваются сообществом.'
-            },
-            worksInRussia: {
-                title: 'Работает в России',
-                description: 'Источники, работающие в России, позволяющие пользователям обойти бесконечную проверку источников в Hydra.'
-            },
+            }
         },
         topDonors: {
             title: 'Топ донатеров',

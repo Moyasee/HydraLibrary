@@ -36,6 +36,7 @@
             "url": "https://hydralinks.pages.dev/sources/empress.json",
             "gamesCount": "40",
             "status": [
+                "Abandoned",
                 "Trusted"
             ],
             "addedDate": "2024-12-29"
@@ -76,6 +77,7 @@
             "url": "https://hydralinks.pages.dev/sources/tinyrepacks.json",
             "gamesCount": "75",
             "status": [
+                "Abandoned",
                 "Trusted"
             ],
             "addedDate": "2024-12-29"
@@ -97,8 +99,7 @@
             "gamesCount": "39098",
             "status": [
                 "Abandoned",
-                "Safe For Use",
-                "Works In Russia"
+                "Safe For Use"
             ],
             "addedDate": "2024-12-30"
         },
@@ -108,8 +109,7 @@
             "url": "https://davidkazumi-github-io.pages.dev/fontekazumi.json",
             "gamesCount": "1562",
             "status": [
-                "Safe For Use",
-                "Works In Russia"
+                "Safe For Use"
             ],
             "addedDate": "2024-12-30"
         },
@@ -119,8 +119,7 @@
             "url": "https://hydrasources.su/hydra.json",
             "gamesCount": "860",
             "status": [
-                "Safe For Use",
-                "Works In Russia"
+                "Safe For Use"
             ],
             "addedDate": "2024-12-30"
         },
@@ -130,6 +129,7 @@
             "url": "https://raw.githubusercontent.com/Shisuiicaro/source/refs/heads/main/shisuyssource.json",
             "gamesCount": "25627",
             "status": [
+                "Abandoned",
                 "Safe For Use"
             ],
             "addedDate": "2024-12-30"
@@ -150,120 +150,9 @@
             "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/rutor.json",
             "gamesCount": "62297",
             "status": [
-                "Safe For Use",
-                "Works In Russia"
+                "Safe For Use"
             ],
             "addedDate": "2024-12-30"
-        },
-        {
-            "title": "AtopGames(RU)",
-            "description": "Unaltered pre-installed games sourced from multiple trustworthy names in the community.",
-            "url": "https://hydrasources.su/sources/atop-games.json",
-            "gamesCount": "1046",
-            "status": [
-                "Trusted",
-                "Works In Russia"
-            ],
-            "addedDate": "2024-12-29"
-        },
-        {
-            "title": "SteamRip(RU) [DIRECT DOWNLOAD / NO TORRENT]",
-            "description": "Pre-installed games with original content, uncompressed, and sourced reliably.",
-            "url": "https://hydrasources.su/sources/steamrip.json",
-            "gamesCount": "554",
-            "status": [
-                "Trusted",
-                "Works In Russia"
-            ],
-            "addedDate": "2024-12-29"
-        },
-        {
-            "title": "DODI(RU)",
-            "description": "Renowned brand in pirated video games, this repacker is among the finest in the field",
-            "url": "https://hydrasources.su/sources/dodi.json",
-            "gamesCount": "2704",
-            "status": [
-                "Trusted",
-                "Works In Russia"
-            ],
-            "addedDate": "2024-12-29"
-        },
-        {
-            "title": "Empress(RU)",
-            "description": "For games cracked by EMPRESS.",
-            "url": "https://hydrasources.su/sources/empress.json",
-            "gamesCount": "40",
-            "status": [
-                "Trusted",
-                "Works In Russia"
-            ],
-            "addedDate": "2024-12-29"
-        },
-        {
-            "title": "FitGirl(RU)",
-            "description": "Home archivist to web's top game repacker: the ultimate source for trustworthy games.",
-            "url": "https://hydrasources.su/sources/fitgirl.json",
-            "gamesCount": "6147",
-            "status": [
-                "Trusted",
-                "Works In Russia"
-            ],
-            "addedDate": "2024-12-29"
-        },
-        {
-            "title": "KaOsKrew(RU)",
-            "description": "Veteran rippers who, over the past two decades, have consistently created rips and repacks.",
-            "url": "https://hydrasources.su/sources/kaoskrew.json",
-            "gamesCount": "3008",
-            "status": [
-                "Trusted",
-                "Works In Russia"
-            ],
-            "addedDate": "2024-12-29"
-        },
-        {
-            "title": "Online-Fix(RU)",
-            "description": "Grants online solutions to play multiplayer in specific games with others.",
-            "url": "https://hydrasources.su/sources/onlinefix.json",
-            "gamesCount": "1662",
-            "status": [
-                "Trusted",
-                "Works In Russia"
-            ],
-            "addedDate": "2024-12-29"
-        },
-        {
-            "title": "Tiny-Repacks(RU)",
-            "description": "",
-            "url": "https://hydrasources.su/sources/tinyrepacks.json",
-            "gamesCount": "75",
-            "status": [
-                "Trusted",
-                "Works In Russia"
-            ],
-            "addedDate": "2024-12-29"
-        },
-        {
-            "title": "ByXatab(RU)",
-            "description": "Esteemed within the realm of pirated video games, this site stands out as a prominent figure.",
-            "url": "https://hydrasources.su/sources/xatab.json",
-            "gamesCount": "7764",
-            "status": [
-                "Trusted",
-                "Works In Russia"
-            ],
-            "addedDate": "2024-12-29"
-        },
-        {
-            "title": "Free GOG(RU)",
-            "description": "Delivering DRM-free games that have undergone thorough vetting before their release.",
-            "url": "https://hydrasources.su/sources/gog.json",
-            "gamesCount": "6654",
-            "status": [
-                "Trusted",
-                "Works In Russia"
-            ],
-            "addedDate": "2024-12-29"
         },
         {
             "title": "LinuxRulez!",
@@ -294,8 +183,8 @@
             "url": "https://hydra.ramus.cc/sources/tapochek.json",
             "gamesCount": "14713",
             "status": [
-                "Safe For Use",
-                "Works In Russia"
+                "Abandoned",
+                "Safe For Use"
             ],
             "addedDate": "2025-05-27"
         },
@@ -305,8 +194,7 @@
             "url": "https://raw.githubusercontent.com/Wkeynhk/RuTracker-Linux/refs/heads/main/rutrackerlinux.json",
             "gamesCount": "3602",
             "status": [
-                "Safe For Use",
-                "Works In Russia"
+                "Safe For Use"
             ],
             "addedDate": "2025-05-28"
         },
@@ -327,19 +215,19 @@
             "url": "https://hydrasources.su/nnmclub.json",
             "gamesCount": "10010",
             "status": [
-                "Safe For Use",
-                "Works In Russia"
+                "Abandoned",
+                "Safe For Use"
             ],
             "addedDate": "2025-05-29"
         },
         {
-            "title": "HydraSources.su | FreeTp.Org",
+            "title": "BadKiko | FreeTp.Org",
             "description": "This source contains games with online fixes from the FreeTP website for Hydra Launcher",
-            "url": "https://hydrasources.su/freetp.json",
+            "url": "https://raw.githubusercontent.com/BadKiko/freetp-hydra-link/refs/heads/main/games.json",
             "gamesCount": "2273",
             "status": [
-                "Safe For Use",
-                "Works In Russia"
+                "Abandoned",
+                "Use At Your Own Risk"
             ],
             "addedDate": "2025-05-30"
         },
@@ -416,6 +304,7 @@
             "url": "https://konthe1.github.io/DenuvoPubSource.json",
             "gamesCount": "97",
             "status": [
+                "Abandoned",
                 "Safe For Use"
             ],
             "addedDate": "2025-07-15"
@@ -468,8 +357,7 @@
             "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/steamgg.json",
             "gamesCount": "5561",
             "status": [
-                "Safe For Use",
-                "Works In Russia"
+                "Safe For Use"
             ],
             "addedDate": "2025-08-15"
         },

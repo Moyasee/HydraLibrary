@@ -1512,10 +1512,6 @@ video {
   border-color: rgb(245 158 11 / 0.2);
 }
 
-.border-amber-500\/30 {
-  border-color: rgb(245 158 11 / 0.3);
-}
-
 .border-blue-500\/20 {
   border-color: rgb(59 130 246 / 0.2);
 }
@@ -1584,10 +1580,6 @@ video {
   border-color: rgb(127 29 29 / 0.2);
 }
 
-.border-teal-500\/20 {
-  border-color: rgb(20 184 166 / 0.2);
-}
-
 .border-white\/10 {
   border-color: rgb(255 255 255 / 0.1);
 }
@@ -1625,10 +1617,6 @@ video {
 
 .bg-amber-500\/10 {
   background-color: rgb(245 158 11 / 0.1);
-}
-
-.bg-amber-500\/20 {
-  background-color: rgb(245 158 11 / 0.2);
 }
 
 .bg-black {
@@ -1757,10 +1745,6 @@ video {
 
 .bg-red-900\/30 {
   background-color: rgb(127 29 29 / 0.3);
-}
-
-.bg-teal-500\/10 {
-  background-color: rgb(20 184 166 / 0.1);
 }
 
 .bg-white\/10 {
@@ -2227,10 +2211,6 @@ video {
   color: rgb(251 191 36 / 0.3);
 }
 
-.text-amber-400\/50 {
-  color: rgb(251 191 36 / 0.5);
-}
-
 .text-amber-400\/80 {
   color: rgb(251 191 36 / 0.8);
 }
@@ -2343,11 +2323,6 @@ video {
 
 .text-red-500\/70 {
   color: rgb(239 68 68 / 0.7);
-}
-
-.text-teal-400 {
-  --tw-text-opacity: 1;
-  color: rgb(45 212 191 / var(--tw-text-opacity, 1));
 }
 
 .text-transparent {
@@ -2786,10 +2761,6 @@ video {
   border-color: rgb(239 68 68 / 0.3);
 }
 
-.hover\:border-teal-500\/30:hover {
-  border-color: rgb(20 184 166 / 0.3);
-}
-
 .hover\:border-white\/20:hover {
   border-color: rgb(255 255 255 / 0.2);
 }
@@ -2805,10 +2776,6 @@ video {
 .hover\:bg-\[\#1a1a1a\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(26 26 26 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:bg-amber-500\/20:hover {
-  background-color: rgb(245 158 11 / 0.2);
 }
 
 .hover\:bg-black\/30:hover {
@@ -2855,10 +2822,6 @@ video {
 
 .hover\:bg-red-500\/20:hover {
   background-color: rgb(239 68 68 / 0.2);
-}
-
-.hover\:bg-teal-500\/20:hover {
-  background-color: rgb(20 184 166 / 0.2);
 }
 
 .hover\:bg-white\/10:hover {

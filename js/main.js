@@ -1160,12 +1160,6 @@ function createSourceCard(source) {
                 key: 'abandoned',
                 customClass: 'bg-gray-500/10 border-gray-500/20 text-gray-400 hover:bg-gray-500/20 hover:border-gray-500/30 '
             },
-            'works-in-russia': {
-                color: 'teal',
-                icon: 'globe-europe',
-                key: 'worksInRussia',
-                customClass: 'bg-teal-500/10 border-teal-500/20 text-teal-400 hover:bg-teal-500/20 hover:border-teal-500/30 '
-            },
             'nsfw': {
                 color: 'purple',
                 icon: 'exclamation-circle',

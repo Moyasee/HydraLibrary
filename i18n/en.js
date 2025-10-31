@@ -24,7 +24,6 @@ export default {
             trusted: 'Trusted',
             safeForUse: 'Safe For Use',
             useAtOwnRisk: 'Use At Your Own Risk',
-            worksInRussia: 'Works In Russia',
             nsfw: 'NSFW'
         },
         sort: {
@@ -68,7 +67,6 @@ export default {
         safeForUse: 'Safe For Use',
         useAtOwnRisk: 'Use At Your Own Risk',
         abandoned: 'Abandoned',
-        worksInRussia: 'Works In Russia',
         nsfw: 'NSFW',
         software: 'Software'
     },
@@ -123,11 +121,7 @@ export default {
             new: {
                 title: 'New',
                 description: 'Recently added sources that are still being evaluated by the community.'
-            },
-            worksInRussia: {
-                title: 'Works In Russia',
-                description: 'Sources that work in Russia, allowing users to bypass infinite source validating in Hydra.'
-            },
+            }
         },
         topDonors: {
             title: 'Top Donors',
@@ -177,10 +171,6 @@ export default {
             new: {
                 title: 'New',
                 description: 'Recently added sources that are still being evaluated by the community.'
-            },
-            worksInRussia: {
-                title: 'Works In Russia',
-                description: 'Sources that work in Russia, allowing users to bypass Cloudflare restrictions in their country.'
             }
         },
         developer: {
