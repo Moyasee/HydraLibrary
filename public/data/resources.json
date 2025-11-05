@@ -413,6 +413,26 @@
                 "Use At Your Own Risk"
             ],
             "addedDate": "2025-10-21"
+        },
+        {
+            "title": "GameDrive (By BITO21)",
+            "description": "Scrapes all games from GameDrive profile on 1337x.",
+            "url": "https://raw.githubusercontent.com/BITO21/BITO_sources/refs/heads/master/GameDrive.json",
+            "gamesCount": "181",
+            "status": [
+                "Use At Your Own Risk"
+            ],
+            "addedDate": "2025-11-05"
+        },
+        {
+            "title": "arSS (By alllibrary-web)",
+            "description": "Collection of games from arSS and other authors",
+            "url": "https://github.com/alllibrary-web/arSS/blob/main/arSS%20for%20Hydra.json",
+            "gamesCount": "44",
+            "status": [
+                "Use At Your Own Risk"
+            ],
+            "addedDate": "2025-11-05"
         }
     ]
 }
