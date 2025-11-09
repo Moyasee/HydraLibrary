@@ -24,7 +24,7 @@
             "title": "DODI",
             "description": "Renowned brand in pirated video games, this repacker is among the finest in the field",
             "url": "https://hydralinks.pages.dev/sources/dodi.json",
-            "gamesCount": "2920",
+            "gamesCount": "2941",
             "status": [
                 "Trusted"
             ],
@@ -45,7 +45,7 @@
             "title": "FitGirl",
             "description": "Home archivist to web's top game repacker: the ultimate source for trustworthy games.",
             "url": "https://hydralinks.pages.dev/sources/fitgirl.json",
-            "gamesCount": "7142",
+            "gamesCount": "7264",
             "status": [
                 "Trusted"
             ],
@@ -55,7 +55,7 @@
             "title": "KaOsKrew",
             "description": "Veteran rippers who, over the past two decades, have consistently created rips and repacks.",
             "url": "https://hydralinks.pages.dev/sources/kaoskrew.json",
-            "gamesCount": "3392",
+            "gamesCount": "3425",
             "status": [
                 "Trusted"
             ],
@@ -65,7 +65,7 @@
             "title": "Online-Fix",
             "description": "Grants online solutions to play multiplayer in specific games with others.",
             "url": "https://hydralinks.pages.dev/sources/onlinefix.json",
-            "gamesCount": "2038",
+            "gamesCount": "2076",
             "status": [
                 "Trusted"
             ],
@@ -86,7 +86,7 @@
             "title": "ByXatab",
             "description": "Esteemed within the realm of pirated video games, this site stands out as a prominent figure.",
             "url": "https://hydralinks.pages.dev/sources/xatab.json",
-            "gamesCount": "10218",
+            "gamesCount": "10502",
             "status": [
                 "Trusted"
             ],
@@ -148,7 +148,7 @@
             "title": "Wkeynhk Source",
             "description": "Automatically updated source containing games from sites: RuTracker and Rutor",
             "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/rutor.json",
-            "gamesCount": "62297",
+            "gamesCount": "62714",
             "status": [
                 "Safe For Use"
             ],
@@ -192,7 +192,7 @@
             "title": "RuTracker | Linux only",
             "description": "Automatically updated source from Wkeynhk containing games for Linux from the RuTracker site.",
             "url": "https://raw.githubusercontent.com/Wkeynhk/RuTracker-Linux/refs/heads/main/rutrackerlinux.json",
-            "gamesCount": "3602",
+            "gamesCount": "3609",
             "status": [
                 "Safe For Use"
             ],
@@ -302,7 +302,7 @@
             "title": "Pub's Lounge | Offline Activation",
             "description": "Clean game files for Offline Activation. Partnered with Hydra Community Discord server.",
             "url": "https://konthe1.github.io/DenuvoPubSource.json",
-            "gamesCount": "97",
+            "gamesCount": "98",
             "status": [
                 "Abandoned",
                 "Safe For Use"
@@ -324,7 +324,7 @@
             "title": "IrisHub",
             "description": "IrisHub provides a unified source, aggregating multiple game sources into a single JSON file.",
             "url": "https://raw.githubusercontent.com/irisihrz/json/refs/heads/main/irishub.json",
-            "gamesCount": "72000",
+            "gamesCount": "72288",
             "status": [
                 "Abandoned",
                 "Use At Your Own Risk"
@@ -335,7 +335,7 @@
             "title": "SteamRip | Made by Vinikjkkj",
             "description": "This source and other sources from this author have auto update everyday.",
             "url": "https://raw.githubusercontent.com/vinikjkkj/game-links-collection/refs/heads/master/jsons/steamrip.json",
-            "gamesCount": "3306",
+            "gamesCount": "3871",
             "status": [
                 "Use At Your Own Risk"
             ],
@@ -345,7 +345,7 @@
             "title": "FitGirl | Made by Vinikjkkj",
             "description": "This source and other sources from this author have auto update everyday.",
             "url": "https://raw.githubusercontent.com/vinikjkkj/game-links-collection/refs/heads/master/jsons/fitgirl.json",
-            "gamesCount": "5809",
+            "gamesCount": "7161",
             "status": [
                 "Use At Your Own Risk"
             ],
@@ -355,7 +355,7 @@
             "title": "SteamGG | by Wkeynhk",
             "description": "A source from Wkeynhk with pre-installed games from the SteamGG site",
             "url": "https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/steamgg.json",
-            "gamesCount": "5561",
+            "gamesCount": "5761",
             "status": [
                 "Safe For Use"
             ],
@@ -365,7 +365,7 @@
             "title": "Skidrow (By Merabet4mine)",
             "description": "Contains games from skidrow. Updating daily to weekly.",
             "url": "https://raw.githubusercontent.com/Merabet4mine/merabet4mine.github.io/refs/heads/master/assets/skidrow.json",
-            "gamesCount": "92500",
+            "gamesCount": "92522",
             "status": [
                 "Abandoned",
                 "Use At Your Own Risk"
@@ -398,7 +398,7 @@
             "title": "World of PC Games (By Smealm)",
             "description": "World of PC Games is a site that hosts links to preinstalled games",
             "url": "https://raw.githubusercontent.com/Smealm/hydra-launcher-stuff/refs/heads/main/hydra%20sources/FMHY/world%20of%20pc%20games/worldofpcgames.json",
-            "gamesCount": "10291",
+            "gamesCount": "10366",
             "status": [
                 "Use At Your Own Risk"
             ],
@@ -408,7 +408,7 @@
             "title": "Steam Underground (By Smealm)",
             "description": "Steam Underground, a starred source on FMHY for preinstalled games.",
             "url": "https://raw.githubusercontent.com/Smealm/hydra-launcher-stuff/refs/heads/main/hydra%20sources/FMHY/steam%20undergound/steamunderground.json",
-            "gamesCount": "1597",
+            "gamesCount": "1799",
             "status": [
                 "Use At Your Own Risk"
             ],
@@ -418,7 +418,7 @@
             "title": "GameDrive (By BITO21)",
             "description": "Scrapes all games from GameDrive profile on 1337x.",
             "url": "https://raw.githubusercontent.com/BITO21/BITO_sources/refs/heads/master/GameDrive.json",
-            "gamesCount": "181",
+            "gamesCount": "183",
             "status": [
                 "Use At Your Own Risk"
             ],
@@ -427,8 +427,8 @@
         {
             "title": "arSS (By alllibrary-web)",
             "description": "Collection of games from arSS and other authors",
-            "url": "https://github.com/alllibrary-web/arSS/blob/main/arSS%20for%20Hydra.json",
-            "gamesCount": "44",
+            "url": "https://raw.githubusercontent.com/alllibrary-web/arSS/refs/heads/main/arSS%20for%20Hydra.json",
+            "gamesCount": "126",
             "status": [
                 "Use At Your Own Risk"
             ],
