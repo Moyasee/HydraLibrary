@@ -315,6 +315,24 @@ class GameSearchEngine {
             }
         });
         
+        // Event delegation for copy source buttons (works with dynamically added content)
+        const resultsGrid = document.getElementById('results-grid');
+        const recentGrid = document.getElementById('recent-grid');
+        
+        [resultsGrid, recentGrid].forEach(container => {
+            if (container) {
+                container.addEventListener('click', (e) => {
+                    const copyButton = e.target.closest('.copy-source-button');
+                    if (copyButton) {
+                        const sourceName = copyButton.getAttribute('data-source');
+                        if (sourceName) {
+                            copySourceUrlWithFeedback(copyButton, sourceName);
+                        }
+                    }
+                });
+            }
+        });
+        
         // Initially disable search until games are loaded
         this.updateSearchInputState(false);
     }
@@ -614,8 +632,8 @@ class GameSearchEngine {
                                 <span>Download</span>
                             </a>
                         ` : ''}
-                        <button onclick="copySourceUrlWithFeedback(this, '${this.escapeHtml(game.source)}')"
-                                class="copy-button px-4 py-3.5 glass-effect hover:bg-white/20 text-white/70 hover:text-white
+                        <button data-source="${this.escapeHtml(game.source)}"
+                                class="copy-source-button copy-button px-4 py-3.5 glass-effect hover:bg-white/20 text-white/70 hover:text-white
                                        rounded-xl text-sm transition-all duration-300 border border-white/10 hover:border-white/30
                                        hover:shadow-lg hover:shadow-black/20 group/btn group-hover:translate-y-0 translate-y-1"
                                 title="Copy source URL">
