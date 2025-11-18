@@ -1332,14 +1332,21 @@ function createSourceCard(source) {
     if (copyBtn) {
         copyBtn.addEventListener('click', async () => {
             const proceedWithCopy = async () => {
-                const success = await trackSourceUsage(source.url, 'copy');
-                if (success) {
-                    navigator.clipboard.writeText(source.url);
+                // Copy immediately without waiting for tracking
+                try {
+                    await navigator.clipboard.writeText(source.url);
                     copyBtn.innerHTML = '<i class="fas fa-check text-[10px]"></i> ' + i18n.t('sourceCard.copied');
                     setTimeout(() => {
                         copyBtn.innerHTML = '<i class="fas fa-copy text-[10px]"></i> ' + i18n.t('sourceCard.copy');
                     }, 2000);
+                } catch (error) {
+                    console.error('Failed to copy:', error);
                 }
+                
+                // Track usage in the background (fire and forget)
+                trackSourceUsage(source.url, 'copy').catch(err => {
+                    console.error('Failed to track copy usage:', err);
+                });
             };
         
             const isNSFW = source.title === 'CPGRepacks';
