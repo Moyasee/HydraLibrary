@@ -152,7 +152,7 @@ class GameSearchEngine {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
             
-            const response = await fetch('https://libraryratingsdb.zxcsixx.workers.dev/api/games', {
+            const response = await fetch('https://api.hydralibrary.live/games', {
                 signal: controller.signal
             });
             
@@ -164,9 +164,18 @@ class GameSearchEngine {
             
             const result = await response.json();
             
-            if (result.success) {
-                this.games = result.data || [];
-                this.lastUpdated = result.lastUpdated || Date.now();
+            // Check if we got games data (new API structure has 'games' array at root)
+            if (result.games || result.success) {
+                let rawGames = result.games || result.data || [];
+                
+                // Normalize game data
+                this.games = rawGames.map(game => ({
+                    ...game,
+                    addedDate: game.addedDate || game.uploadDate,
+                    size: game.size || game.fileSize
+                }));
+
+                this.lastUpdated = result.lastProcessed || result.lastUpdated || Date.now();
                 this.lastFetchTime = Date.now();
                 
                 // Log detailed information
@@ -174,7 +183,7 @@ class GameSearchEngine {
                     `cached (${Math.floor(result.cacheAge / 60)}m old)` : 
                     'fresh data';
                 
-                console.log(`Loaded ${result.totalGames || this.games.length} games from ${result.sourcesProcessed || 'unknown'} sources (${cacheInfo})`);
+                console.log(`Loaded ${result.totalGames || this.games.length} games from ${result.sourcesCount || result.sourcesProcessed || 'unknown'} sources (${cacheInfo})`);
                 
                 this.updateStats(result);
                 this.hideError();
@@ -267,10 +276,7 @@ class GameSearchEngine {
         const sourceFilter = document.getElementById('source-filter');
         const sortFilter = document.getElementById('sort-filter');
         
-        // Maintenance mode: always keep disabled
-        const maintenanceMode = true;
-        
-        if (!maintenanceMode && enabled && this.games.length > 0) {
+        if (enabled && this.games.length > 0) {
             searchInput.disabled = false;
             searchInput.placeholder = 'Search for games...';
             sourceFilter.disabled = false;
@@ -278,7 +284,7 @@ class GameSearchEngine {
             searchInput.classList.remove('opacity-50', 'cursor-not-allowed');
         } else {
             searchInput.disabled = true;
-            searchInput.placeholder = maintenanceMode ? 'Search Unavailable (Maintenance)' : 'Loading games...';
+            searchInput.placeholder = 'Loading games...';
             sourceFilter.disabled = true;
             sortFilter.disabled = true;
             searchInput.classList.add('opacity-50', 'cursor-not-allowed');
@@ -297,13 +303,26 @@ class GameSearchEngine {
         const sourceFilter = document.getElementById('source-filter');
         const sortFilter = document.getElementById('sort-filter');
 
-        // Search input with debouncing
+        // Search input with debouncing (1 second delay, minimum 3 characters)
         let searchTimeout;
         searchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
+            const query = e.target.value.trim();
+            
+            // If query is empty, immediately show recent additions
+            if (query === '') {
+                this.searchResults = [];
+                this.hideSearchResults();
+                this.showRecentAdditions();
+                return;
+            }
+            
+            // Only search if query has more than 3 characters after 1 second delay
             searchTimeout = setTimeout(() => {
-                this.performSearch(e.target.value);
-            }, 300);
+                if (query.length >= 3) {
+                    this.performSearch(query);
+                }
+            }, 1000);
         });
 
         // Filters
@@ -314,7 +333,16 @@ class GameSearchEngine {
         searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 clearTimeout(searchTimeout);
-                this.performSearch(e.target.value);
+                const query = e.target.value.trim();
+                
+                // Only search if query has at least 3 characters
+                if (query.length >= 3) {
+                    this.performSearch(query);
+                } else if (query === '') {
+                    this.searchResults = [];
+                    this.hideSearchResults();
+                    this.showRecentAdditions();
+                }
             }
         });
         
@@ -349,23 +377,53 @@ class GameSearchEngine {
         }, this.fetchInterval);
     }
 
-    performSearch(query) {
-        // Don't allow search if games are not loaded yet
-        if (this.isLoading || this.games.length === 0) {
+    async performSearch(query) {
+        // Don't allow search if games are not loaded yet (need games for recently added)
+        if (this.isLoading) {
             return;
         }
         
         if (query.trim() === '') {
+            this.searchResults = [];
             this.hideSearchResults();
             this.showRecentAdditions();
             return;
         }
 
-        const results = this.searchGames(query);
-        this.searchResults = results;
-        this.currentPage = 1;
-        this.applyFilters();
-        this.hideRecentAdditions();
+        // Show loading state
+        const searchResults = document.getElementById('search-results');
+        const noResults = document.getElementById('no-results');
+        searchResults.classList.add('hidden');
+        noResults.classList.add('hidden');
+        
+        try {
+            // Make API request to search endpoint
+            const response = await fetch(`https://api.hydralibrary.live/games?q=${encodeURIComponent(query)}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const result = await response.json();
+            
+            // Normalize the search results similar to how we normalize games
+            let rawResults = result.games || [];
+            this.searchResults = rawResults.map(game => ({
+                ...game,
+                addedDate: game.addedDate || game.uploadDate,
+                size: game.size || game.fileSize
+            }));
+            
+            this.currentPage = 1;
+            this.applyFilters();
+            this.hideRecentAdditions();
+            
+        } catch (error) {
+            console.error('Search error:', error);
+            this.searchResults = [];
+            this.displaySearchResults();
+            this.hideRecentAdditions();
+        }
     }
 
     searchGames(query) {
@@ -456,32 +514,25 @@ class GameSearchEngine {
 
     applyFilters() {
         // Don't apply filters if games are not loaded yet
-        if (this.isLoading || this.games.length === 0) {
+        if (this.isLoading) {
             return;
         }
         
         const sourceFilter = document.getElementById('source-filter').value;
         const sortFilter = document.getElementById('sort-filter').value;
+        const searchInput = document.getElementById('game-search');
+        const query = searchInput ? searchInput.value.trim() : '';
 
-        // If no search results exist, work with all games
+        // Start with search results if they exist (from API search), otherwise use all games
         let filteredResults;
         if (this.searchResults && this.searchResults.length > 0) {
             filteredResults = [...this.searchResults];
+        } else if (query === '') {
+            // No search active, use all games if filter is applied
+            filteredResults = [...this.games];
         } else {
-            // Get the current search query to determine if we should show all games
-            const searchInput = document.getElementById('search-input');
-            const query = searchInput ? searchInput.value.trim() : '';
-            
-            if (query === '') {
-                // No search query, so we're showing all games - apply filters to all games
-                filteredResults = [...this.games];
-                // Show search results container when filters are applied
-                this.hideRecentAdditions();
-                document.getElementById('search-results').classList.remove('hidden');
-            } else {
-                // There's a search query but no results, don't apply filters
-                return;
-            }
+            // Search returned no results
+            filteredResults = [];
         }
 
         // Apply source filter
@@ -504,13 +555,14 @@ class GameSearchEngine {
             case 'relevance':
             default:
                 // For non-search results, sort by date instead of relevance
-                if (!this.searchResults || this.searchResults.length === 0) {
+                if (query === '') {
                     filteredResults.sort((a, b) => {
                         const dateA = new Date(a.uploadDate || a.addedDate || 0);
                         const dateB = new Date(b.uploadDate || b.addedDate || 0);
                         return dateB - dateA;
                     });
                 } else {
+                    // API search results are already sorted by relevance
                     filteredResults.sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
                 }
                 break;
@@ -518,7 +570,17 @@ class GameSearchEngine {
 
         this.searchResults = filteredResults;
         this.currentPage = 1;
-        this.displaySearchResults();
+        
+        // Only display if search or filters are active
+        if (query !== '' || sourceFilter) {
+             this.displaySearchResults();
+             document.getElementById('search-results').classList.remove('hidden');
+             this.hideRecentAdditions();
+        } else {
+             // If clearing search and no filters
+             this.hideSearchResults();
+             this.showRecentAdditions();
+        }
     }
 
     displaySearchResults() {
@@ -570,7 +632,7 @@ class GameSearchEngine {
                             ${this.escapeHtml(game.title)}
                         </h3>
                         <div class="relative ml-2">
-                            <span class="text-xs px-3 py-1.5 bg-gradient-to-r from-emerald-500/30 to-emerald-400/20 text-emerald-400 rounded-full border border-emerald-500/40 font-medium shrink-0 shadow-sm shadow-emerald-500/10">
+                            <span class="text-xs px-2 py-1 bg-gradient-to-r from-emerald-500/30 to-emerald-400/20 text-emerald-400 rounded-full border border-emerald-500/40 font-medium shrink-0 shadow-sm shadow-emerald-500/10">
                                 ${this.escapeHtml(game.source)}
                             </span>
                             <div class="absolute inset-0 bg-emerald-500/30 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -878,7 +940,7 @@ class GameSearchEngine {
         }
         
         if (totalSourcesElement) {
-            const sourcesProcessed = apiResult?.sourcesProcessed || this.sources.length;
+            const sourcesProcessed = apiResult?.sourcesCount || apiResult?.sourcesProcessed || this.sources.length;
             totalSourcesElement.textContent = sourcesProcessed.toLocaleString();
         }
         
