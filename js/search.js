@@ -391,10 +391,8 @@ class GameSearchEngine {
         }
 
         // Show loading state
-        const searchResults = document.getElementById('search-results');
-        const noResults = document.getElementById('no-results');
-        searchResults.classList.add('hidden');
-        noResults.classList.add('hidden');
+        this.showSearchLoading();
+        this.hideRecentAdditions();
         
         try {
             // Make API request to search endpoint
@@ -406,6 +404,9 @@ class GameSearchEngine {
             
             const result = await response.json();
             
+            // Hide loading
+            this.hideSearchLoading();
+            
             // Normalize the search results similar to how we normalize games
             let rawResults = result.games || [];
             this.searchResults = rawResults.map(game => ({
@@ -416,14 +417,41 @@ class GameSearchEngine {
             
             this.currentPage = 1;
             this.applyFilters();
-            this.hideRecentAdditions();
             
         } catch (error) {
             console.error('Search error:', error);
+            this.hideSearchLoading();
             this.searchResults = [];
             this.displaySearchResults();
-            this.hideRecentAdditions();
         }
+    }
+    
+    showSearchLoading() {
+        const searchResults = document.getElementById('search-results');
+        const noResults = document.getElementById('no-results');
+        const resultsGrid = document.getElementById('results-grid');
+        
+        searchResults.classList.remove('hidden');
+        noResults.classList.add('hidden');
+        
+        // Show loading spinner in results grid
+        resultsGrid.innerHTML = `
+            <div class="col-span-full flex flex-col items-center justify-center py-20">
+                <div class="relative mb-6">
+                    <div class="animate-spin rounded-full h-16 w-16 border-4 border-emerald-500/30 border-t-emerald-500"></div>
+                    <div class="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl animate-pulse"></div>
+                </div>
+                <div class="text-center">
+                    <div class="text-white text-xl font-semibold mb-2">Searching Games...</div>
+                    <div class="text-white/70 text-base">Please wait while we find matching games</div>
+                </div>
+            </div>
+        `;
+    }
+    
+    hideSearchLoading() {
+        // Loading will be replaced by actual results or "no results" message
+        // This is just a placeholder method for consistency
     }
 
     searchGames(query) {
