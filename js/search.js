@@ -322,7 +322,7 @@ class GameSearchEngine {
                 if (query.length >= 3) {
                     this.performSearch(query);
                 }
-            }, 1000);
+            }, 300);
         });
 
         // Filters
