@@ -267,7 +267,10 @@ class GameSearchEngine {
         const sourceFilter = document.getElementById('source-filter');
         const sortFilter = document.getElementById('sort-filter');
         
-        if (enabled && this.games.length > 0) {
+        // Maintenance mode: always keep disabled
+        const maintenanceMode = true;
+        
+        if (!maintenanceMode && enabled && this.games.length > 0) {
             searchInput.disabled = false;
             searchInput.placeholder = 'Search for games...';
             sourceFilter.disabled = false;
@@ -275,7 +278,7 @@ class GameSearchEngine {
             searchInput.classList.remove('opacity-50', 'cursor-not-allowed');
         } else {
             searchInput.disabled = true;
-            searchInput.placeholder = 'Loading games...';
+            searchInput.placeholder = maintenanceMode ? 'Search Unavailable (Maintenance)' : 'Loading games...';
             sourceFilter.disabled = true;
             sortFilter.disabled = true;
             searchInput.classList.add('opacity-50', 'cursor-not-allowed');
