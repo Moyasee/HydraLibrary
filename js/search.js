@@ -642,102 +642,114 @@ class GameSearchEngine {
     }
 
     createGameCard(game) {
-        const truncatedDescription = game.description && game.description.length > 120 
-            ? game.description.substring(0, 120) + '...' 
-            : (game.description || '');
-
         return `
-            <div class="card-hover glass-effect rounded-2xl p-0 group relative overflow-hidden">
-                <!-- Enhanced gradient border effect with animation -->
-                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-emerald-400/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-all duration-700 rounded-2xl"></div>
+            <div class="group relative bg-[#111]/40 backdrop-blur-sm border border-white/5 rounded-xl overflow-hidden hover:border-emerald-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 flex flex-col h-full">
                 
-                
-                <!-- Content with improved padding structure -->
-                <div class="relative z-10 p-6">
-                    <!-- Enhanced Header with larger title -->
-                    <div class="flex items-start justify-between mb-5">
-                        <h3 class="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors duration-300 line-clamp-2 flex-1 pr-3" title="${this.escapeHtml(game.title)}">
-                            ${this.escapeHtml(game.title)}
-                        </h3>
-                        <div class="relative ml-2">
-                            <span class="text-xs px-2 py-1 bg-gradient-to-r from-emerald-500/30 to-emerald-400/20 text-emerald-400 rounded-full border border-emerald-500/40 font-medium shrink-0 shadow-sm shadow-emerald-500/10">
-                                ${this.escapeHtml(game.source)}
-                            </span>
-                            <div class="absolute inset-0 bg-emerald-500/30 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <!-- Card Content -->
+                <div class="p-5 flex flex-col h-full relative z-10">
+                    
+                    <!-- Top Row: Source Badge -->
+                    <div class="flex justify-between mb-3 gap-2">
+                        ${game.sourceTag ? this.renderStatusBadge(game.sourceTag) : ''}
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <i class="fas fa-server text-[10px]"></i>
+                            ${this.escapeHtml(game.source)}
+                        </span>
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="text-lg font-bold text-white mb-2 line-clamp-2 leading-tight group-hover:text-emerald-400 transition-colors duration-300" title="${this.escapeHtml(game.title)}">
+                        ${this.escapeHtml(game.title)}
+                    </h3>
+
+                    <!-- Metadata Grid -->
+                    <div class="grid grid-cols-2 gap-3 mt-auto mb-4">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-white/40 uppercase tracking-wider font-medium">Size</span>
+                            <div class="flex items-center gap-1.5 text-white/80 text-sm">
+                                <i class="fas fa-hdd text-emerald-500/70 text-xs"></i>
+                                <span>${game.size ? this.escapeHtml(game.size) : 'Unknown'}</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-white/40 uppercase tracking-wider font-medium">Date</span>
+                            <div class="flex items-center gap-1.5 text-white/80 text-sm">
+                                <i class="fas fa-calendar text-emerald-500/70 text-xs"></i>
+                                <span>${this.formatDate(game.addedDate)}</span>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Enhanced Description with better contrast -->
-                    ${game.description ? `
-                        <p class="text-white/80 text-sm mb-5 line-clamp-3 leading-relaxed">
-                            ${this.escapeHtml(truncatedDescription)}
-                        </p>
-                    ` : '<div class="mb-5"></div>'}
-                    
-                    <!-- Enhanced Metadata with icons -->
-                    <div class="flex items-center justify-between text-xs text-white/60 mb-5 bg-white/5 rounded-lg p-2.5">
-                        ${game.size ? `
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                                    <i class="fas fa-hdd text-emerald-400"></i>
-                                </div>
-                                <span class="font-medium">${this.escapeHtml(game.size)}</span>
-                            </div>
-                        ` : '<div></div>'}
-                        ${game.addedDate ? `
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                                    <i class="fas fa-calendar text-emerald-400"></i>
-                                </div>
-                                <span class="font-medium">${this.formatDate(game.addedDate)}</span>
-                            </div>
-                        ` : '<div></div>'}
-                    </div>
-                    
-                    <!-- Enhanced Tags with better styling -->
-                    ${game.tags && game.tags.length > 0 ? `
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            ${game.tags.slice(0, 3).map(tag => `
-                                <span class="text-xs px-3 py-1.5 bg-gradient-to-r from-white/10 to-white/5 text-white/80 rounded-full border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105">
-                                    ${this.escapeHtml(tag)}
-                                </span>
-                            `).join('')}
-                            ${game.tags.length > 3 ? `
-                                <span class="text-xs text-white/60 px-3 py-1.5 flex items-center">
-                                    <i class="fas fa-plus text-emerald-400 mr-1.5"></i>
-                                    ${game.tags.length - 3} more
-                                </span>
-                            ` : ''}
-                        </div>
-                    ` : '<div class="mb-6"></div>'}
-                    
-                    <!-- Enhanced Actions with better buttons -->
-                    <div class="flex gap-3 mt-auto">
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-2 mt-2 pt-4 border-t border-white/5">
                         ${game.downloadUrl ? `
                             <a href="${this.escapeHtml(game.downloadUrl)}" 
                                target="_blank" 
                                rel="noopener noreferrer"
-                               class="flex-1 bg-gradient-to-r from-emerald-500/30 to-emerald-400/20 hover:from-emerald-500/40 hover:to-emerald-400/30 
-                                      text-emerald-400 px-4 py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 
-                                      flex items-center justify-center gap-2.5 border border-emerald-500/40 hover:border-emerald-500/60
-                                      hover:shadow-lg hover:shadow-emerald-500/30 group-hover:translate-y-0 translate-y-1">
-                                <i class="fas fa-download"></i>
+                               class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 text-white hover:text-emerald-400 border border-white/5 hover:border-emerald-500/30 transition-all duration-300 text-sm font-medium group/btn">
+                                <i class="fas fa-download group-hover/btn:scale-110 transition-transform"></i>
                                 <span>Download</span>
                             </a>
                         ` : ''}
+                        
                         <button data-source="${this.escapeHtml(game.source)}"
-                                class="copy-source-button copy-button px-4 py-3.5 glass-effect hover:bg-white/20 text-white/70 hover:text-white
-                                       rounded-xl text-sm transition-all duration-300 border border-white/10 hover:border-white/30
-                                       hover:shadow-lg hover:shadow-black/20 group/btn group-hover:translate-y-0 translate-y-1"
+                                class="copy-source-button ${game.downloadUrl ? 'w-10' : 'w-full flex-1'} flex items-center justify-center gap-2 px-0 py-2.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 text-white hover:text-emerald-400 border border-white/5 hover:border-emerald-500/30 transition-all duration-300 text-sm font-medium group/btn"
                                 title="Copy source URL">
-                            <i class="fas fa-copy group-hover/btn:scale-110 transition-transform duration-200"></i>
+                            <i class="fas fa-copy group-hover/btn:scale-110 transition-transform"></i>
+                            ${!game.downloadUrl ? '<span>Copy Source</span>' : ''}
                         </button>
                     </div>
                 </div>
                 
-                <!-- Enhanced hover glow effect -->
-                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none blur-sm"></div>
+                <!-- Hover Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
             </div>
+        `;
+    }
+
+    renderStatusBadge(status) {
+        if (!status) return '';
+        
+        const className = status.toLowerCase().replace(/\s+/g, '-');
+        const statusMap = {
+            'trusted': {
+                color: 'emerald',
+                icon: 'shield',
+                customClass: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+            },
+            'safe-for-use': {
+                color: 'blue',
+                icon: 'check-circle',
+                customClass: 'bg-blue-500/10 border-blue-500/20 text-blue-400'
+            },
+            'use-at-your-own-risk': {
+                color: 'red',
+                icon: 'exclamation-triangle',
+                customClass: 'bg-red-500/10 border-red-500/20 text-red-400'
+            },
+            'abandoned': {
+                color: 'gray',
+                icon: 'times-circle',
+                customClass: 'bg-gray-500/10 border-gray-500/20 text-gray-400'
+            },
+            'nsfw': {
+                color: 'purple',
+                icon: 'exclamation-circle',
+                customClass: 'bg-purple-500/10 border-purple-500/20 text-purple-400'
+            }
+        };
+
+        const style = statusMap[className] || {
+            color: 'gray',
+            icon: 'circle',
+            customClass: 'bg-gray-500/10 border-gray-500/20 text-gray-400'
+        };
+
+        return `
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border ${style.customClass}">
+                <i class="fas fa-${style.icon} text-[10px]"></i>
+                ${this.escapeHtml(status)}
+            </span>
         `;
     }
 
