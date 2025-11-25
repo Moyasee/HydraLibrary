@@ -352,12 +352,14 @@ class GameSearchEngine {
         
         [resultsGrid, recentGrid].forEach(container => {
             if (container) {
-                container.addEventListener('click', (e) => {
+                container.addEventListener('click', async (e) => {
                     const copyButton = e.target.closest('.copy-source-button');
                     if (copyButton) {
-                        const sourceName = copyButton.getAttribute('data-source');
-                        if (sourceName) {
-                            copySourceUrlWithFeedback(copyButton, sourceName);
+                        const sourceUrl = copyButton.getAttribute('data-source-url');
+                        const sourceName = copyButton.getAttribute('data-source-name');
+                        
+                        if (sourceUrl) {
+                            await this.copySourceUrlDirect(copyButton, sourceUrl, sourceName);
                         }
                     }
                 });
@@ -692,10 +694,11 @@ class GameSearchEngine {
                             </a>
                         ` : ''}
                         
-                        <button data-source="${this.escapeHtml(game.source)}"
+                        <button data-source-url="${this.escapeHtml(game.sourceUrl || '')}"
+                                data-source-name="${this.escapeHtml(game.source)}"
                                 class="copy-source-button ${game.downloadUrl ? 'w-10' : 'w-full flex-1'} flex items-center justify-center gap-2 px-0 py-2.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 text-white hover:text-emerald-400 border border-white/5 hover:border-emerald-500/30 transition-all duration-300 text-sm font-medium group/btn"
                                 title="Copy source URL">
-                            <i class="fas fa-copy group-hover/btn:scale-110 transition-transform"></i>
+                            <i class="fas fa-copy group-hover/btn:scale-101 transition-transform"></i>
                             ${!game.downloadUrl ? '<span>Copy Source</span>' : ''}
                         </button>
                     </div>
@@ -751,6 +754,51 @@ class GameSearchEngine {
                 ${this.escapeHtml(status)}
             </span>
         `;
+    }
+
+    async copySourceUrlDirect(buttonElement, sourceUrl, sourceName) {
+        // Add loading state
+        const icon = buttonElement.querySelector('i');
+        const originalClass = icon.className;
+        icon.className = 'fas fa-spinner fa-spin';
+        buttonElement.disabled = true;
+        
+        try {
+            await navigator.clipboard.writeText(sourceUrl);
+            
+            // Success animation
+            icon.className = 'fas fa-check';
+            buttonElement.classList.add('copy-success');
+            buttonElement.style.borderColor = '#10b981';
+            buttonElement.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+            
+            // Reset after animation
+            setTimeout(() => {
+                icon.className = originalClass;
+                buttonElement.classList.remove('copy-success');
+                buttonElement.style.borderColor = '';
+                buttonElement.style.backgroundColor = '';
+                buttonElement.disabled = false;
+            }, 1500);
+            
+        } catch (error) {
+            console.error('Failed to copy source URL:', error);
+            
+            // Error animation
+            icon.className = 'fas fa-times';
+            buttonElement.classList.add('copy-error');
+            buttonElement.style.borderColor = '#ef4444';
+            buttonElement.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+            
+            // Reset after animation
+            setTimeout(() => {
+                icon.className = originalClass;
+                buttonElement.classList.remove('copy-error');
+                buttonElement.style.borderColor = '';
+                buttonElement.style.backgroundColor = '';
+                buttonElement.disabled = false;
+            }, 1500);
+        }
     }
 
     updatePagination() {
@@ -1073,182 +1121,6 @@ window.copyToClipboard = async function(text) {
         }
     } catch (error) {
         console.error('Failed to copy to clipboard:', error);
-    }
-};
-
-// Enhanced copy function with visual feedback
-window.copySourceUrlWithFeedback = async function(buttonElement, sourceName) {
-    // Add loading state
-    const icon = buttonElement.querySelector('i');
-    const originalClass = icon.className;
-    icon.className = 'fas fa-spinner fa-spin';
-    buttonElement.disabled = true;
-    
-    try {
-        await copySourceUrl(sourceName);
-        
-        // Success animation
-        icon.className = 'fas fa-check';
-        buttonElement.classList.add('copy-success');
-        buttonElement.style.borderColor = '#10b981';
-        buttonElement.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
-        
-        // Reset after animation
-        setTimeout(() => {
-            icon.className = originalClass;
-            buttonElement.classList.remove('copy-success');
-            buttonElement.style.borderColor = '';
-            buttonElement.style.backgroundColor = '';
-            buttonElement.disabled = false;
-        }, 1500);
-        
-    } catch (error) {
-        // Error animation
-        icon.className = 'fas fa-times';
-        buttonElement.classList.add('copy-error');
-        buttonElement.style.borderColor = '#ef4444';
-        buttonElement.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
-        
-        // Reset after animation
-        setTimeout(() => {
-            icon.className = originalClass;
-            buttonElement.classList.remove('copy-error');
-            buttonElement.style.borderColor = '';
-            buttonElement.style.backgroundColor = '';
-            buttonElement.disabled = false;
-        }, 1500);
-    }
-};
-
-window.copySourceUrl = async function(sourceName) {
-    try {
-        // Find the source URL based on the source name
-        // Try exact match first, then partial match
-        let source = window.gameSearch.sources.find(s => s.title === sourceName);
-        
-        // If no exact match, try to find a partial match
-        if (!source) {
-            source = window.gameSearch.sources.find(s => 
-                s.title.toLowerCase().includes(sourceName.toLowerCase()) ||
-                sourceName.toLowerCase().includes(s.title.toLowerCase())
-            );
-        }
-        
-        // If still no match, try removing common suffixes/prefixes
-        if (!source) {
-            const cleanSourceName = sourceName.replace(/\(RU\)|\[.*?\]/g, '').trim();
-            source = window.gameSearch.sources.find(s => {
-                const cleanTitle = s.title.replace(/\(RU\)|\[.*?\]/g, '').trim();
-                return cleanTitle.toLowerCase() === cleanSourceName.toLowerCase();
-            });
-        }
-        
-        if (!source) {
-            console.error('Source not found:', sourceName);
-            console.log('Available sources:', window.gameSearch.sources.map(s => s.title));
-            console.log('Searching for source name:', sourceName);
-            
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    icon: 'error',
-                    title: '❌ Source Not Found',
-                    html: `<div style="color: #ef4444; font-weight: 500; margin-top: 8px;">
-                             Could not find URL for source: <strong style="color: #fff;">${sourceName}</strong>
-                             <br><small style="color: #9ca3af; margin-top: 4px; display: block;">Check console for available sources</small>
-                           </div>`,
-                    timer: 4000,
-                    showConfirmButton: false,
-                    position: 'top-end',
-                    toast: true,
-                    background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-                    color: '#fff',
-                    customClass: {
-                        popup: 'copy-error-popup',
-                        title: 'copy-error-title',
-                        htmlContainer: 'copy-error-content'
-                    },
-                    didOpen: () => {
-                        const popup = Swal.getPopup();
-                        if (popup) {
-                            popup.style.border = '1px solid #ef4444';
-                            popup.style.boxShadow = '0 20px 25px -5px rgba(239, 68, 68, 0.1), 0 10px 10px -5px rgba(239, 68, 68, 0.04)';
-                            popup.style.borderRadius = '16px';
-                            popup.style.width = '350px';
-                            popup.style.maxWidth = '90vw';
-                        }
-                    }
-                });
-            }
-            return;
-        }
-        
-        await navigator.clipboard.writeText(source.url);
-        
-        // Show success notification with enhanced design
-        if (typeof Swal !== 'undefined') {
-            Swal.fire({
-                icon: 'success',
-                title: '✨ Successfully Copied!',
-                html: `<div style="color: #10b981; font-weight: 500; margin-top: 8px;">
-                         Source URL for <strong style="color: #fff;">${source.title}</strong> copied to clipboard
-                       </div>`,
-                timer: 2500,
-                showConfirmButton: false,
-                position: 'top-end',
-                toast: true,
-                background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-                color: '#fff',
-                customClass: {
-                    popup: 'copy-success-popup',
-                    title: 'copy-success-title',
-                    htmlContainer: 'copy-success-content'
-                },
-                didOpen: () => {
-                    // Add custom styles for the popup
-                    const popup = Swal.getPopup();
-                    if (popup) {
-                        popup.style.border = '1px solid #10b981';
-                        popup.style.boxShadow = '0 20px 25px -5px rgba(16, 185, 129, 0.1), 0 10px 10px -5px rgba(16, 185, 129, 0.04)';
-                        popup.style.borderRadius = '16px';
-                        popup.style.width = '350px';
-                        popup.style.maxWidth = '90vw';
-                    }
-                }
-            });
-        }
-    } catch (error) {
-        console.error('Failed to copy source URL to clipboard:', error);
-        if (typeof Swal !== 'undefined') {
-            Swal.fire({
-                icon: 'error',
-                title: '⚠️ Copy Failed',
-                html: `<div style="color: #f59e0b; font-weight: 500; margin-top: 8px;">
-                         Failed to copy to clipboard
-                         <br><small style="color: #9ca3af; margin-top: 4px; display: block;">Please try again or copy manually</small>
-                       </div>`,
-                timer: 3000,
-                showConfirmButton: false,
-                position: 'top-end',
-                toast: true,
-                background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-                color: '#fff',
-                customClass: {
-                    popup: 'copy-fail-popup',
-                    title: 'copy-fail-title',
-                    htmlContainer: 'copy-fail-content'
-                },
-                didOpen: () => {
-                    const popup = Swal.getPopup();
-                    if (popup) {
-                        popup.style.border = '1px solid #f59e0b';
-                        popup.style.boxShadow = '0 20px 25px -5px rgba(245, 158, 11, 0.1), 0 10px 10px -5px rgba(245, 158, 11, 0.04)';
-                        popup.style.borderRadius = '16px';
-                        popup.style.width = '350px';
-                        popup.style.maxWidth = '90vw';
-                    }
-                }
-            });
-        }
     }
 };
 
