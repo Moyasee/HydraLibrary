@@ -221,12 +221,12 @@
             "addedDate": "2025-05-29"
         },
         {
-            "title": "BadKiko | FreeTp.Org",
+            "title": "HydraSources | FreeTp.Org",
             "description": "This source contains games with online fixes from the FreeTP website for Hydra Launcher",
-            "url": "https://raw.githubusercontent.com/BadKiko/freetp-hydra-link/refs/heads/main/games.json",
+            "url": "https://hydrasources.su/freetp_games.json",
             "gamesCount": "2273",
             "status": [
-                "Abandoned",
+                "Safe For Use",
                 "Use At Your Own Risk"
             ],
             "addedDate": "2025-05-30"
